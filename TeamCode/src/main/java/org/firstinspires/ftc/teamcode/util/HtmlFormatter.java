@@ -200,7 +200,7 @@ public class HtmlFormatter implements Cloneable {
                 .replaceAll("\"", "&quot")
                 .replaceAll("'", "&apos;");
     }
-
+    
     public String format(String text) {
         StringBuilder start = new StringBuilder();
         StringBuilder end = new StringBuilder();

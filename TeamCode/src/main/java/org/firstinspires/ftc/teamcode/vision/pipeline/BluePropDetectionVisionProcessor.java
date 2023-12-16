@@ -20,20 +20,35 @@ public class BluePropDetectionVisionProcessor implements VisionProcessor {
 //    Telemetry telemetry;
 
     private TeamPropLocation output = TeamPropLocation.LEFT;
-
-    private static final Rect LEFT_RECTANGLE = new Rect(
-            new Point(0, 200),
-            new Point(200, 400)
-    );
-
+    
+    public static int CENTER_RECTANGLE_TOP_LEFT_X = 0;
+    public static int CENTER_RECTANGLE_TOP_LEFT_Y = 0;
+    public static int CENTER_RECTANGLE_BOTTOM_RIGHT_X = 0;
+    public static int CENTER_RECTANGLE_BOTTOM_RIGHT_Y = 0;
+    
+    public static int LEFT_RECTANGLE_TOP_LEFT_X = 0;
+    public static int LEFT_RECTANGLE_TOP_LEFT_Y = 0;
+    public static int LEFT_RECTANGLE_BOTTOM_RIGHT_X = 0;
+    public static int LEFT_RECTANGLE_BOTTOM_RIGHT_Y = 0;
+    
+    public static int RIGHT_RECTANGLE_TOP_LEFT_X = 0;
+    public static int RIGHT_RECTANGLE_TOP_LEFT_Y = 0;
+    public static int RIGHT_RECTANGLE_BOTTOM_RIGHT_X = 0;
+    public static int RIGHT_RECTANGLE_BOTTOM_RIGHT_Y = 0;
+    
     private static final Rect CENTER_RECTANGLE = new Rect(
-            new Point(200, 200),
-            new Point(400, 400)
+            new Point(CENTER_RECTANGLE_TOP_LEFT_X, CENTER_RECTANGLE_TOP_LEFT_Y),
+            new Point(CENTER_RECTANGLE_BOTTOM_RIGHT_X, CENTER_RECTANGLE_BOTTOM_RIGHT_Y)
     );
-
+    
+    private static final Rect LEFT_RECTANGLE = new Rect(
+            new Point(LEFT_RECTANGLE_TOP_LEFT_X, LEFT_RECTANGLE_TOP_LEFT_Y),
+            new Point(LEFT_RECTANGLE_BOTTOM_RIGHT_X, LEFT_RECTANGLE_BOTTOM_RIGHT_Y)
+    );
+    
     private static final Rect RIGHT_RECTANGLE = new Rect(
-            new Point(400, 200),
-            new Point(600, 400)
+            new Point(RIGHT_RECTANGLE_TOP_LEFT_X, RIGHT_RECTANGLE_TOP_LEFT_Y),
+            new Point(RIGHT_RECTANGLE_BOTTOM_RIGHT_X, RIGHT_RECTANGLE_BOTTOM_RIGHT_Y)
     );
 
     private double tolerance = 60;

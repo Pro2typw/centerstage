@@ -13,27 +13,27 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 @Config
 public class BluePropDetectionCvPipeline extends OpenCvPipeline {
-    public static int CENTER_RECTANGLE_TOP_LEFT_X = 0;
-    public static int CENTER_RECTANGLE_TOP_LEFT_Y = 0;
-    public static int CENTER_RECTANGLE_BOTTOM_RIGHT_X = 0;
-    public static int CENTER_RECTANGLE_BOTTOM_RIGHT_Y = 0;
-
-    public static int LEFT_RECTANGLE_TOP_LEFT_X = 0;
-    public static int LEFT_RECTANGLE_TOP_LEFT_Y = 0;
-    public static int LEFT_RECTANGLE_BOTTOM_RIGHT_X = 0;
-    public static int LEFT_RECTANGLE_BOTTOM_RIGHT_Y = 0;
-
-    public static int RIGHT_RECTANGLE_TOP_LEFT_X = 0;
-    public static int RIGHT_RECTANGLE_TOP_LEFT_Y = 0;
-    public static int RIGHT_RECTANGLE_BOTTOM_RIGHT_X = 0;
-    public static int RIGHT_RECTANGLE_BOTTOM_RIGHT_Y = 0;
-
     private Mat testMat = new Mat();
     private Mat finalMat = new Mat();
     private final Scalar rectColor = new Scalar(255, 0, 0);
 
     private TeamPropLocation output = TeamPropLocation.LEFT;
-
+    
+    public static int CENTER_RECTANGLE_TOP_LEFT_X = 0;
+    public static int CENTER_RECTANGLE_TOP_LEFT_Y = 0;
+    public static int CENTER_RECTANGLE_BOTTOM_RIGHT_X = 0;
+    public static int CENTER_RECTANGLE_BOTTOM_RIGHT_Y = 0;
+    
+    public static int LEFT_RECTANGLE_TOP_LEFT_X = 0;
+    public static int LEFT_RECTANGLE_TOP_LEFT_Y = 0;
+    public static int LEFT_RECTANGLE_BOTTOM_RIGHT_X = 0;
+    public static int LEFT_RECTANGLE_BOTTOM_RIGHT_Y = 0;
+    
+    public static int RIGHT_RECTANGLE_TOP_LEFT_X = 0;
+    public static int RIGHT_RECTANGLE_TOP_LEFT_Y = 0;
+    public static int RIGHT_RECTANGLE_BOTTOM_RIGHT_X = 0;
+    public static int RIGHT_RECTANGLE_BOTTOM_RIGHT_Y = 0;
+    
     private static final Rect CENTER_RECTANGLE = new Rect(
             new Point(CENTER_RECTANGLE_TOP_LEFT_X, CENTER_RECTANGLE_TOP_LEFT_Y),
             new Point(CENTER_RECTANGLE_BOTTOM_RIGHT_X, CENTER_RECTANGLE_BOTTOM_RIGHT_Y)
