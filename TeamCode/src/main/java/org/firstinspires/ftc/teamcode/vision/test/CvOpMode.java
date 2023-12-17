@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.vision.test;
 import android.util.Size;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -21,6 +22,7 @@ public class CvOpMode extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        MultipleTelemetry dashTelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         // TODO: Add pipeline here
         // TODO: Check if this works
@@ -46,12 +48,12 @@ public class CvOpMode extends LinearOpMode {
 
 
         while (opModeInInit()) {
-            telemetry.addData("Camera", webcamName.toString());
-            telemetry.addData("Theoretical Max FPS", cvCamera.getCurrentPipelineMaxFps());
-            telemetry.addData("Pipeline Time (ms)", cvCamera.getPipelineTimeMs());
-            telemetry.addData("Overhead Time (ms)", cvCamera.getOverheadTimeMs());
-            telemetry.addData("Total Frame Time (ms)", cvCamera.getTotalFrameTimeMs());
-            telemetry.update();
+            dashTelemetry.addData("Camera", webcamName.toString());
+            dashTelemetry.addData("Theoretical Max FPS", cvCamera.getCurrentPipelineMaxFps());
+            dashTelemetry.addData("Pipeline Time (ms)", cvCamera.getPipelineTimeMs());
+            dashTelemetry.addData("Overhead Time (ms)", cvCamera.getOverheadTimeMs());
+            dashTelemetry.addData("Total Frame Time (ms)", cvCamera.getTotalFrameTimeMs());
+            dashTelemetry.update();
         }
 
         waitForStart();

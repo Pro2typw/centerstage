@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.vision.pipeline.BluePropDetectionVisionProcessor;
+import org.firstinspires.ftc.teamcode.vision.pipeline.RedPropDetectionVisionProcessor;
 import org.firstinspires.ftc.teamcode.vision.util.CameraStreamProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.VisionProcessor;
@@ -17,14 +18,13 @@ import org.firstinspires.ftc.vision.VisionProcessor;
 public class VisionProcessorOpMode extends LinearOpMode {
 
     private VisionPortal portal;
-    MultipleTelemetry telemetry;
     @Override
     public void runOpMode() throws InterruptedException {
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        MultipleTelemetry dashTelemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         // TODO: Add pipeline here
         // TODO: Check if this works
-        VisionProcessor pipeline = new BluePropDetectionVisionProcessor();
+        VisionProcessor pipeline = new RedPropDetectionVisionProcessor();
         final CameraStreamProcessor processor = new CameraStreamProcessor(pipeline);
 
         portal = new VisionPortal.Builder()
@@ -36,9 +36,9 @@ public class VisionProcessorOpMode extends LinearOpMode {
         FtcDashboard.getInstance().startCameraStream(processor, 0);
 
         while(opModeInInit()) {
-            telemetry.addData("Camera State", portal.getCameraState());
-            telemetry.addData("FPS", portal.getFps());
-            telemetry.update();
+            dashTelemetry.addData("Camera State", portal.getCameraState());
+            dashTelemetry.addData("FPS", portal.getFps());
+            dashTelemetry.update();
         }
 
         waitForStart();
