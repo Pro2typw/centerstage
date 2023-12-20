@@ -46,10 +46,10 @@ public class Claw {
     }
     
     /**
-     * @param side yk what it means; just do not put {@code ClawSide.BOTH}.
+     * @param side do not put {@code ClawSide.BOTH}.
      */
     public ClawState getClawState(@NotNull ClawSide side) {
-        if (side == ClawSide.BOTH) throw new IllegalArgumentException("I said do not put ClawSide.BOTH, in the documentation, and you still put it \uD83D\uDC80.");
+        if (side == ClawSide.BOTH) throw new IllegalArgumentException("\uD83D\uDC80");
         return (side == ClawSide.LEFT) ? leftClawState : rightClawState;
     }
 }
