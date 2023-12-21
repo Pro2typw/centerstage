@@ -4,8 +4,11 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.vision.util.CenterstageAprilTagPose;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+
+import java.util.List;
 
 public class AprilTagDetectionPipeline {
     private AprilTagProcessor aprilTagProcessor;
@@ -27,16 +30,41 @@ public class AprilTagDetectionPipeline {
     
     /**
      *
-     * @param id the april tag's id
+     * @param id the wanted april tag's id
      */
-    public Object getAprilTagDetection(int id) {
+    public AprilTagDetection getAprilTagDetection(int id) {
         for(AprilTagDetection detection : aprilTagProcessor.getDetections()) {
             if(detection.id == id) return detection;
         }
         return null;
     }
     
-    public Pose2d localize(int id) {
+    public List<AprilTagDetection> getAprilTagDetections() {
+        return aprilTagProcessor.getDetections();
+    }
+    
+    public Pose2d localize(AprilTagDetection detection) {
+        Pose2d idLocation = getIDPose(detection.id);
         return new Pose2d();
+    }
+    
+    private Pose2d getIDPose(int id) {
+        switch(id) {
+            case 1:
+                return CenterstageAprilTagPose.ID1;
+            case 2:
+                return CenterstageAprilTagPose.ID2;
+            case 3:
+                return CenterstageAprilTagPose.ID3;
+            case 4:
+                return CenterstageAprilTagPose.ID4;
+            case 5:
+                return CenterstageAprilTagPose.ID5;
+            case 6:
+                return CenterstageAprilTagPose.ID6;
+                
+            default: throw new IllegalArgumentException("Given April Tag ID is invalid");
+            
+        }
     }
 }

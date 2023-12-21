@@ -23,7 +23,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.List;
 
 @TeleOp
-public class AprilTagDetectionPipeline extends LinearOpMode {
+public class AprilTagDetectionPipelineTest extends LinearOpMode {
 
     AprilTagProcessor aprilTagProcessor;
     VisionPortal portal;
