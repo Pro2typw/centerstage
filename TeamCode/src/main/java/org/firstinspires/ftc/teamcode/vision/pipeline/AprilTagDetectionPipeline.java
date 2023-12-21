@@ -32,7 +32,6 @@ public class AprilTagDetectionPipeline {
     public Object getAprilTagDetection(int id) {
         for(AprilTagDetection detection : aprilTagProcessor.getDetections()) {
             if(detection.id == id) return detection;
-            detection.ftcPose
         }
         return null;
     }
