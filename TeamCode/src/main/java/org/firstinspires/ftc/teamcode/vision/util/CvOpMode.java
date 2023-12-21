@@ -1,6 +1,4 @@
-package org.firstinspires.ftc.teamcode.vision.test;
-
-import android.util.Size;
+package org.firstinspires.ftc.teamcode.vision.util;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -9,13 +7,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.vision.pipeline.BluePropDetectionCvPipeline;
-import org.firstinspires.ftc.vision.VisionPortal;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-@TeleOp(group = "test")
+@TeleOp(group = "utility")
 public class CvOpMode extends LinearOpMode {
 
     WebcamName webcamName;

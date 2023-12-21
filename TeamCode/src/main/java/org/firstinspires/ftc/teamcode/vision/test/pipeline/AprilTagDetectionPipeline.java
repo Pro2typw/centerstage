@@ -6,20 +6,18 @@ import android.util.Size;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.gamepad.JustPressed;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.VisionPortalImpl;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-import org.firstinspires.ftc.vision.apriltag.AprilTagLibrary;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
@@ -47,29 +45,32 @@ public class AprilTagDetectionPipeline extends LinearOpMode {
                 .setLensIntrinsics(822.317f, 822.317f, 319.495f, 242.502f)
                 .build();
 
+        // todo test for fastest solver
+        aprilTagProcessor.setPoseSolver(AprilTagProcessor.PoseSolver.APRILTAG_BUILTIN);
+        
         portal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .setCameraResolution(new Size(640, 480))
                 .addProcessor(aprilTagProcessor)
                 .enableLiveView(true)
-                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
+                .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
                 .build();
-
-        portal.setProcessorEnabled(aprilTagProcessor, true);
-
-
-
+        
+        ExposureControl exposure = portal.getCameraControl(ExposureControl.class);
+//        exposure.setMode(ExposureControl.Mode.Manual);
+//        exposure.setExposure(15, TimeUnit.MILLISECONDS);
+        
+        GainControl gain = portal.getCameraControl(GainControl.class);
+//        gain.setGain(255);
+                
+                portal.setProcessorEnabled(aprilTagProcessor, true);
+        
         while (opModeInInit()) {
+            telemetry.addData("solve time", aprilTagProcessor.getPerTagAvgPoseSolveTime());
+            telemetry.addData("exposure control", exposure.isExposureSupported());
+            telemetry.addLine(String.format("Gain MIN-MAX: %6.2f - %6.2f", gain.getMinGain(), gain.getMaxGain()));
             List<AprilTagDetection> detections = aprilTagProcessor.getDetections();
             telemetry.addData("a", detections.size());
-
-            if(detections.size() != 0) {
-                AprilTagDetection detection = detections.get(0);
-                telemetry.addData("heading", detection.ftcPose.yaw);
-                if(gamepad1.a && !drive.isBusy()) {
-                    drive.turn(Math.toRadians(detection.ftcPose.yaw * .1));
-                }
-            }
 
             telemetry.update();
             drive.update();

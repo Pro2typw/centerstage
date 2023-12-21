@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.vision.test;
+package org.firstinspires.ftc.teamcode.vision.util;
 
 import android.util.Size;
 
@@ -10,15 +10,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.vision.pipeline.BluePropDetectionVisionProcessor;
-import org.firstinspires.ftc.teamcode.vision.pipeline.RedPropDetectionVisionProcessor;
-import org.firstinspires.ftc.teamcode.vision.util.CameraStreamProcessor;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.VisionProcessor;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
-@TeleOp(group = "test")
+@TeleOp(group = "utility")
 public class VisionProcessorOpMode extends LinearOpMode {
 
     private VisionPortal portal;
