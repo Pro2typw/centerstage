@@ -212,8 +212,8 @@ public class MecanumDrive extends com.acmerobotics.roadrunner.drive.MecanumDrive
         waitForIdle();
     }
     
-    public void turnPower(double pow) {
-        setMotorPowers();
+    public void turnWithPower(double pow) {
+        setMotorPowers(pow, pow, -pow, -pow);
     }
 
     public void followTrajectoryAsync(Trajectory trajectory) {

@@ -1,12 +1,13 @@
 package org.firstinspires.ftc.teamcode.util;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.control.PIDCoefficients;
 
 
 public class Constants {
 
     //todo config constants
-    @Config(value = "[]VisionConfig")
+    @Config(value = "[]VisionConstants")
     public static class Vision {
         public static int BLUE_CENTER_RECTANGLE_TOP_LEFT_X = 0;
         public static int BLUE_CENTER_RECTANGLE_TOP_LEFT_Y = 0;
@@ -41,15 +42,23 @@ public class Constants {
     }
     
     //todo config
+    @Config(value = "[]ClawConstants")
     public static class Claw {
-        public static String RIGHT_CLAW_MAP_NAME = ""; //todo config
-        public static String LEFT_CLAW_MAP_NAME = ""; //todo config
+        public final static String RIGHT_CLAW_MAP_NAME = ""; //todo config
+        public final static String LEFT_CLAW_MAP_NAME = ""; //todo config
         
-        public static int RIGHT_CLAW_OPEN_POSITION = 0;
-        public static int RIGHT_CLAW_CLOSE_POSITION = 0;
-        public static int LEFT_CLAW_OPEN_POSITION = 0;
-        public static int LEFT_CLAW_CLOSE_POSITION = 0;
-        
-        
+        public static int RIGHT_CLAW_OPEN_POSITION = 0; //todo config
+        public static int RIGHT_CLAW_CLOSE_POSITION = 0; //todo config
+        public static int LEFT_CLAW_OPEN_POSITION = 0; //todo config
+        public static int LEFT_CLAW_CLOSE_POSITION = 0; //todo config
     }
+    
+    @Config(value = "[]IMU")
+    public static class IMU {
+        public final static String IMU_MAP_NAME = "imu";
+        
+        public static PIDCoefficients HEADING_PID_COEFFICIENTS = new PIDCoefficients(0, 0, 0);  //todo config
+    }
+    
+    
 }
