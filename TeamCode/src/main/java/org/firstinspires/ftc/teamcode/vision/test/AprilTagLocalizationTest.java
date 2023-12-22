@@ -37,15 +37,16 @@ public class AprilTagLocalizationTest extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()) {
             List<AprilTagDetection> detections = processor.getAprilTagDetections();
+            telemetry.addData("Detections", detections.size());
             if(detections.size() != 0) {
                 for(AprilTagDetection detection : detections) {
                     Pose2d estPos = processor.localize(detection);
-                    tele.addLine("ID " + detection.metadata.id);
-                    tele.addLine(String.format("X(%6.2f) Y(%6.2f) θ(%6.2f)", estPos.getX(), estPos.getY(), estPos.getX()));
+                    telemetry.addLine("ID " + detection.metadata.id);
+                    telemetry.addLine(String.format("X(%6.2f) Y(%6.2f) θ(%6.2f)", estPos.getX(), estPos.getY(), estPos.getX()));
                 }
                 
             }
-            tele.update();
+            telemetry.update();
         }
     }
 }
