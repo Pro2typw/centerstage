@@ -4,6 +4,7 @@ import android.util.Size;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -12,8 +13,10 @@ import org.firstinspires.ftc.teamcode.vision.pipeline.AprilTagDetectionPipeline;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
+import java.util.List;
+
 @TeleOp(group = "test")
-public class AprilTagLocalization extends LinearOpMode {
+public class AprilTagLocalizationTest extends LinearOpMode {
     AprilTagDetectionPipeline processor;
     VisionPortal portal;
     
@@ -33,13 +36,16 @@ public class AprilTagLocalization extends LinearOpMode {
         
         waitForStart();
         while(opModeIsActive()) {
-            if(processor.getAprilTagDetections().size() != 0) {
-                AprilTagDetection detection = processor.getAprilTagDetections().get(0);
-                tele.addLine(String.format("XYZ %6.2f %6.2f %6.2f", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
-                tele.addLine(String.format("XYZ %6.2f %6.2f %6.2f", detection.rawPose.x, detection.rawPose.y, detection.rawPose.z));
+            List<AprilTagDetection> detections = processor.getAprilTagDetections();
+            if(detections.size() != 0) {
+                for(AprilTagDetection detection : detections) {
+                    Pose2d estPos = processor.localize(detection);
+                    tele.addLine("ID " + detection.metadata.id);
+                    tele.addLine(String.format("X(%6.2f) Y(%6.2f) θ(%6.2f)", estPos.getX(), estPos.getY(), estPos.getX()));
+                }
                 
             }
-            
+            tele.update();
         }
     }
 }

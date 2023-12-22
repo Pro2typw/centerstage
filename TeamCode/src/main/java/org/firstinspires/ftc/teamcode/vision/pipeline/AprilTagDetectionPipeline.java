@@ -45,7 +45,7 @@ public class AprilTagDetectionPipeline {
     
     public Pose2d localize(AprilTagDetection detection) {
         Pose2d idLocation = getIDPose(detection.id);
-        return new Pose2d();
+        return new Pose2d(idLocation.getX() - detection.ftcPose.x, idLocation.getY() - detection.ftcPose.y, Math.toRadians(idLocation.getHeading() - detection.ftcPose.bearing));
     }
     
     private Pose2d getIDPose(int id) {
