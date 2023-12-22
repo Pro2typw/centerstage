@@ -22,8 +22,6 @@ public class AprilTagLocalizationTest extends LinearOpMode {
     
     @Override
     public void runOpMode() throws InterruptedException {
-        MultipleTelemetry tele = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        
         processor = new AprilTagDetectionPipeline();
         
         portal = new VisionPortal.Builder()
