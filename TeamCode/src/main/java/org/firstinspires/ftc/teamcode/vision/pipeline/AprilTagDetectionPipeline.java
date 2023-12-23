@@ -20,6 +20,7 @@ public class AprilTagDetectionPipeline {
                 .setDrawTagOutline(true)
                 .setDrawTagID(true)
                 .setDrawCubeProjection(true)
+                .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
                 .setLensIntrinsics(822.317f, 822.317f, 319.495f, 242.502f)
                 .build();
     }
@@ -44,8 +45,7 @@ public class AprilTagDetectionPipeline {
     }
     
     public Pose2d localize(AprilTagDetection detection) {
-        Pose2d idLocation = getIDPose(detection.id);
-        return new Pose2d(idLocation.getX() - detection.ftcPose.x, idLocation.getY() - detection.ftcPose.y, Math.toRadians(idLocation.getHeading() - detection.ftcPose.bearing));
+        return getIDPose(detection.id).minus(new Pose2d(detection.ftcPose.x, detection.ftcPose.y, Math.toRadians(detection.ftcPose.bearing)));
     }
     
     private Pose2d getIDPose(int id) {

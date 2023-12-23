@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.vision.pipeline;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.teamcode.util.Constants;
@@ -17,8 +19,6 @@ public class BluePropDetectionVisionProcessor implements VisionProcessor {
     private Mat testMat = new Mat();
     private Mat finalMat = new Mat();
     private final Scalar rectColor = new Scalar(0, 0, 255);
-
-//    Telemetry telemetry;
 
     private TeamPropLocation output = TeamPropLocation.LEFT;
 
@@ -68,18 +68,32 @@ public class BluePropDetectionVisionProcessor implements VisionProcessor {
         else if(max == averagedCenterBox) output = TeamPropLocation.CENTER;
         else output = TeamPropLocation.RIGHT;
 
-        finalMat.copyTo(frame);
-        Imgproc.rectangle(frame, LEFT_RECTANGLE, rectColor);
-        Imgproc.rectangle(frame, CENTER_RECTANGLE, rectColor);
-        Imgproc.rectangle(frame, RIGHT_RECTANGLE, rectColor);
-
-        return frame;
+        return null;
     }
 
+    private android.graphics.Rect makeGraphicsRect(Rect rect, float scaleBmpPxToCanvasPx) {
+        int left = Math.round(rect.x * scaleBmpPxToCanvasPx);
+        int top = Math.round(rect.y * scaleBmpPxToCanvasPx);
+        int right = left + Math.round(rect.width * scaleBmpPxToCanvasPx);
+        int bottom = top + Math.round(rect.height * scaleBmpPxToCanvasPx);
+
+        return new android.graphics.Rect(left, top, right, bottom);
+    }
 
     @Override
     public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
+        Rect left = new Rect(Constants.Vision.BLUE_LEFT_RECTANGLE_TOP_LEFT_Y, Constants.Vision.BLUE_LEFT_RECTANGLE_TOP_LEFT_X, Constants.Vision.BLUE_LEFT_RECTANGLE_BOTTOM_RIGHT_Y, Constants.Vision.BLUE_LEFT_RECTANGLE_BOTTOM_RIGHT_X);
+        Rect center = new Rect(Constants.Vision.BLUE_CENTER_RECTANGLE_TOP_LEFT_Y, Constants.Vision.BLUE_CENTER_RECTANGLE_TOP_LEFT_X, Constants.Vision.BLUE_CENTER_RECTANGLE_BOTTOM_RIGHT_Y, Constants.Vision.BLUE_CENTER_RECTANGLE_BOTTOM_RIGHT_X);
+        Rect right = new Rect(Constants.Vision.BLUE_RIGHT_RECTANGLE_TOP_LEFT_Y, Constants.Vision.BLUE_RIGHT_RECTANGLE_TOP_LEFT_X, Constants.Vision.BLUE_RIGHT_RECTANGLE_BOTTOM_RIGHT_Y, Constants.Vision.BLUE_RIGHT_RECTANGLE_BOTTOM_RIGHT_X);
 
+        Paint rectPaint = new Paint();
+        rectPaint.setColor(Color.BLUE);
+        rectPaint.setStyle(Paint.Style.STROKE);
+        rectPaint.setStrokeWidth(scaleCanvasDensity * 4);
+
+        canvas.drawRect(makeGraphicsRect(left, scaleBmpPxToCanvasPx), rectPaint);
+        canvas.drawRect(makeGraphicsRect(center, scaleBmpPxToCanvasPx), rectPaint);
+        canvas.drawRect(makeGraphicsRect(right, scaleBmpPxToCanvasPx), rectPaint);
     }
 
     public TeamPropLocation getPropPosition(){
