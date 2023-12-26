@@ -200,8 +200,7 @@ public final class WPIMathUtil {
      * @param max Largest value before wrapping around to the smallest value
      * @return Whether or not the actual value is within the allowed tolerance
      */
-    public static boolean isNear(
-            double expected, double actual, double tolerance, double min, double max) {
+    public static boolean isNear(double expected, double actual, double tolerance, double min, double max) {
         if (tolerance < 0) {
             throw new IllegalArgumentException("Tolerance must be a non-negative number!");
         }
