@@ -14,7 +14,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
-@TeleOp(group = "utility")
+@TeleOp(group = "test")
 public class VisionProcessorOpMode extends LinearOpMode {
 
     private VisionPortal portal;

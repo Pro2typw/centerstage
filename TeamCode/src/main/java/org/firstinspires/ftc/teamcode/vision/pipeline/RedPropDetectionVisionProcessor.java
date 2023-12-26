@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.vision.pipeline;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.teamcode.util.Constants;
@@ -76,10 +78,29 @@ public class RedPropDetectionVisionProcessor implements VisionProcessor {
         return frame;
     }
 
+    private android.graphics.Rect makeGraphicsRect(Rect rect, float scaleBmpPxToCanvasPx) {
+        int left = Math.round(rect.x * scaleBmpPxToCanvasPx);
+        int top = Math.round(rect.y * scaleBmpPxToCanvasPx);
+        int right = left + Math.round(rect.width * scaleBmpPxToCanvasPx);
+        int bottom = top + Math.round(rect.height * scaleBmpPxToCanvasPx);
+
+        return new android.graphics.Rect(left, top, right, bottom);
+    }
 
     @Override
     public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
+        Rect left = new Rect(Constants.Vision.RED_LEFT_RECTANGLE_TOP_LEFT_Y, Constants.Vision.RED_LEFT_RECTANGLE_TOP_LEFT_X, Constants.Vision.RED_LEFT_RECTANGLE_BOTTOM_RIGHT_Y, Constants.Vision.RED_LEFT_RECTANGLE_BOTTOM_RIGHT_X);
+        Rect center = new Rect(Constants.Vision.RED_CENTER_RECTANGLE_TOP_LEFT_Y, Constants.Vision.RED_CENTER_RECTANGLE_TOP_LEFT_X, Constants.Vision.RED_CENTER_RECTANGLE_BOTTOM_RIGHT_Y, Constants.Vision.RED_CENTER_RECTANGLE_BOTTOM_RIGHT_X);
+        Rect right = new Rect(Constants.Vision.RED_RIGHT_RECTANGLE_TOP_LEFT_Y, Constants.Vision.RED_RIGHT_RECTANGLE_TOP_LEFT_X, Constants.Vision.RED_RIGHT_RECTANGLE_BOTTOM_RIGHT_Y, Constants.Vision.RED_RIGHT_RECTANGLE_BOTTOM_RIGHT_X);
 
+        Paint rectPaint = new Paint();
+        rectPaint.setColor(Color.RED);
+        rectPaint.setStyle(Paint.Style.STROKE);
+        rectPaint.setStrokeWidth(scaleCanvasDensity * 4);
+
+        canvas.drawRect(makeGraphicsRect(left, scaleBmpPxToCanvasPx), rectPaint);
+        canvas.drawRect(makeGraphicsRect(center, scaleBmpPxToCanvasPx), rectPaint);
+        canvas.drawRect(makeGraphicsRect(right, scaleBmpPxToCanvasPx), rectPaint);
     }
 
     public TeamPropLocation getPropPosition(){

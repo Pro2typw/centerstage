@@ -20,6 +20,9 @@ import com.acmerobotics.roadrunner.drive.DriveSignal;
 import com.acmerobotics.roadrunner.followers.HolonomicPIDVAFollower;
 import com.acmerobotics.roadrunner.followers.TrajectoryFollower;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.profile.MotionProfile;
+import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
+import com.acmerobotics.roadrunner.profile.MotionState;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.acmerobotics.roadrunner.trajectory.constraints.AngularVelocityConstraint;
@@ -60,23 +63,16 @@ import java.util.function.Function;
 public class MecanumDrive extends com.acmerobotics.roadrunner.drive.MecanumDrive {
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
-
     public static double LATERAL_MULTIPLIER = 1;
-
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
     public static double OMEGA_WEIGHT = 1;
-
     private TrajectorySequenceRunner trajectorySequenceRunner;
-
     private static final TrajectoryVelocityConstraint VEL_CONSTRAINT = getVelocityConstraint(MAX_VEL, MAX_ANG_VEL, TRACK_WIDTH);
     private static final TrajectoryAccelerationConstraint ACCEL_CONSTRAINT = getAccelerationConstraint(MAX_ACCEL);
-
     private TrajectoryFollower follower;
-
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
-
     private IMU imu;
     private VoltageSensor batteryVoltageSensor;
 
@@ -140,43 +136,6 @@ public class MecanumDrive extends com.acmerobotics.roadrunner.drive.MecanumDrive
                 follower, HEADING_PID, batteryVoltageSensor,
                 lastEncPositions, lastEncVels, lastTrackingEncPositions, lastTrackingEncVels
         );
-    }
-
-    public void setPowersByGamepadRobotCentric(double x, double y, double rx, Function<Double, Double> func) {
-        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-        double lf = func.apply((y + x + rx) / denominator);
-        double lb = func.apply((y - x + rx) / denominator);
-        double rb = func.apply((y + x - rx) / denominator);
-        double rf = func.apply((y - x - rx) / denominator);
-
-        leftFront.setPower(lf);
-        leftRear.setPower(lb);
-        rightRear.setPower(rb);
-        rightFront.setPower(rf);
-    }
-
-
-    public void setPowersByGamepadFieldCentric(double x, double y, double rx, Function<Double, Double> func) {
-        Orientation angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
-        double botHeading = angles.firstAngle;
-
-        double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
-        double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
-
-//        TODO: Counteract imperfect strafing
-        rotX = rotX * 1.1;
-        rotY = rotY * 1.1;
-
-        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
-        double frontLeftPower = func.apply((rotY + rotX + rx) / denominator);
-        double backLeftPower = func.apply((rotY - rotX + rx) / denominator);
-        double frontRightPower = func.apply((rotY - rotX - rx) / denominator);
-        double backRightPower = func.apply((rotY + rotX - rx) / denominator);
-
-        leftFront.setPower(frontLeftPower);
-        leftRear.setPower(backLeftPower);
-        rightRear.setPower(frontRightPower);
-        rightFront.setPower(backRightPower);
     }
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {

@@ -59,6 +59,16 @@ public class Constants {
         
         public static PIDCoefficients HEADING_PID_COEFFICIENTS = new PIDCoefficients(0, 0, 0);  //todo config
     }
+
+    @Config(value = "[]Hang")
+    public static class Hang {
+        public final static String HANG1_MAP_NAME = "hang1";
+        public final static String HANG2_MAP_NAME = "hang2";
+
+        public static int UP_POSITION = 0;
+        public static int DOWN_POSITION = 0;
+
+    }
     
     @Config(value = "[]Camera")
     public static class Camera {

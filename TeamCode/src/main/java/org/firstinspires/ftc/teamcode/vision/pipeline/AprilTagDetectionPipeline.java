@@ -20,6 +20,7 @@ public class AprilTagDetectionPipeline {
                 .setDrawTagOutline(true)
                 .setDrawTagID(true)
                 .setDrawCubeProjection(true)
+                .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
                 .setLensIntrinsics(822.317f, 822.317f, 319.495f, 242.502f)
                 .build();
     }
@@ -31,7 +32,6 @@ public class AprilTagDetectionPipeline {
     public List<AprilTagDetection> getAprilTagDetections() {
         return aprilTagProcessor.getDetections();
     }
-    
     public Pose2d localize() {
 //        Pose2d[] tagPoses = getIDPose(detection.id);
         List<AprilTagDetection> detections = getAprilTagDetections();
