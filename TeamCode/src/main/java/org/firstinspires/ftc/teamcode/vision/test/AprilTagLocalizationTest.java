@@ -11,9 +11,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.vision.pipeline.AprilTagDetectionPipeline;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-
-import java.util.List;
 
 @TeleOp(group = "test")
 public class AprilTagLocalizationTest extends LinearOpMode {
@@ -36,13 +33,9 @@ public class AprilTagLocalizationTest extends LinearOpMode {
         
         waitForStart();
         while(opModeIsActive()) {
-            List<AprilTagDetection> detections = processor.getAprilTagDetections();
-            if(detections.size() != 0) {
-                for(AprilTagDetection detection : detections) {
-                    Pose2d estPos = processor.localize(detection);
-                    tele.addLine("ID " + detection.metadata.id);
-                    tele.addLine(String.format("X(%6.2f) Y(%6.2f) θ(%6.2f)", estPos.getX(), estPos.getY(), estPos.getX()));
-                }
+            Pose2d estPos = processor.localize();
+            if(estPos != null) {
+                tele.addLine(String.format("X(%6.2f) Y(%6.2f) θ(%6.2f)", estPos.getX(), estPos.getY(), estPos.getX()));
                 
             }
             tele.update();

@@ -60,5 +60,10 @@ public class Constants {
         public static PIDCoefficients HEADING_PID_COEFFICIENTS = new PIDCoefficients(0, 0, 0);  //todo config
     }
     
+    @Config(value = "[]Camera")
+    public static class Camera {
+        public final static String CAMERA_MAP_NAME = "Webcam 1";
+    }
+    
     
 }
