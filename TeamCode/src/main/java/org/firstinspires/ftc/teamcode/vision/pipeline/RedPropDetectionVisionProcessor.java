@@ -6,7 +6,7 @@ import android.graphics.Paint;
 
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.teamcode.util.Constants;
-import org.firstinspires.ftc.teamcode.vision.util.TeamPropLocation;
+import org.firstinspires.ftc.teamcode.util.TeamPropLocation;
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;

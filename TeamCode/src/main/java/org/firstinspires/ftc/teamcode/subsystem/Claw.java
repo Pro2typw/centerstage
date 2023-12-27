@@ -21,7 +21,7 @@ public class Claw {
     
     private ClawState rightClawState, leftClawState;
     
-    public Claw(HardwareMap hardwareMap, ClawState state) {
+    public Claw(@NotNull HardwareMap hardwareMap, @NotNull ClawState state) {
         rightClaw = hardwareMap.get(Servo.class, Constants.Claw.RIGHT_CLAW_MAP_NAME);
         leftClaw = hardwareMap.get(Servo.class, Constants.Claw.LEFT_CLAW_MAP_NAME);
 

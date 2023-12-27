@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.util.Encoder;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Timer;
 import java.util.function.Function;
@@ -23,11 +24,11 @@ public class Robot {
 
     private IMU imu;
 
-    
+
     private Orientation orientation;
     private PIDFController headingPID;
     private boolean isResetToIMU;
-    
+
     public Robot(HardwareMap hardwareMap, Claw.ClawState clawState, Hang.HangState hangState) {
         claw = new Claw(hardwareMap, clawState);
         drive = new MecanumDrive(hardwareMap);
@@ -36,23 +37,12 @@ public class Robot {
         imu = new IMU(hardwareMap);
         headingPID = new PIDFController(HEADING_PID_COEFFICIENTS);
         headingPID.setOutputBounds(0, 1);
+        headingPID.setTargetPosition(0);
         isResetToIMU = false;
     }
 
-    public void setPowers(double x, double y, double rx, Function<Double, Double> func) {
-        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-        double lf = func.apply((y + x + rx) / denominator);
-        double lb = func.apply((y - x + rx) / denominator);
-        double rb = func.apply((y + x - rx) / denominator);
-        double rf = func.apply((y - x - rx) / denominator);
-
-        drive.setMotorPowers(lf, lb, rb, rf);
-    }
-
-    public void resetToIMU() {
-        isResetToIMU = true;
-        headingPID.setTargetPosition(0);
-        drive.turnWithPower(headingPID.update(imu.getCurrentAngularOrientation().firstAngle));
+    public void toggleResetToIMU() {
+        isResetToIMU = !isResetToIMU;
     }
     
     public void update() {
