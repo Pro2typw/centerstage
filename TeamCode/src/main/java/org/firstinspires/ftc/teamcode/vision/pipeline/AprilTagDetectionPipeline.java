@@ -38,22 +38,20 @@ public class AprilTagDetectionPipeline {
         
         if(detections.size() == 0) return null;
         
-        Pose2d[] currPoses = new Pose2d[detections.size()];
-        for(int i = 0; i < detections.size(); i++) {
-            AprilTagDetection detection = detections.get(i);
-            Pose2d tagPose = getIDPose(detection.id);
-            currPoses[i] = new Pose2d(tagPose.getX() - detection.ftcPose.x, tagPose.getY() - detection.ftcPose.y, Math.toRadians(Math.toDegrees(tagPose.getHeading()) - detection.ftcPose.bearing));
-        }
         double xSum = 0;
         double ySum = 0;
         double headingSum = 0;
         
-        for(Pose2d pose : currPoses) {
-            xSum += pose.getX();
-            ySum += pose.getY();
-            headingSum += Math.toDegrees(pose.getHeading());
+        for(int i = 0; i < detections.size(); i++) {
+            AprilTagDetection detection = detections.get(i);
+            Pose2d tagPose = getIDPose(detection.id);
+            
+            xSum += tagPose.getX() - detection.ftcPose.x;
+            ySum += tagPose.getY() - detection.ftcPose.y;
+            headingSum += Math.toRadians(Math.toDegrees(tagPose.getHeading()) - detection.ftcPose.bearing);
+            
         }
-        return new Pose2d(xSum / currPoses.length, ySum / currPoses.length, Math.toRadians(headingSum / currPoses.length));
+        return new Pose2d(xSum / detections.size(), ySum / detections.size(), Math.toRadians(headingSum / detections.size()));
     }
     
     private Pose2d getIDPose(int id) {
