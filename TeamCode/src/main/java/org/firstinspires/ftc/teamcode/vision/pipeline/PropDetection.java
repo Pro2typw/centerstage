@@ -5,9 +5,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
+import org.firstinspires.ftc.teamcode.opmode.util.AllianceColor;
 import org.firstinspires.ftc.teamcode.util.Constants;
 import org.firstinspires.ftc.teamcode.util.TeamPropLocation;
 import org.firstinspires.ftc.vision.VisionProcessor;
+import org.jetbrains.annotations.NotNull;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -15,33 +17,82 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
-public class BluePropDetectionVisionProcessor implements VisionProcessor {
+public class PropDetection implements VisionProcessor {
+
     private Mat testMat = new Mat();
     private Mat finalMat = new Mat();
-    private final Scalar rectColor = new Scalar(0, 0, 255);
 
     private TeamPropLocation output = TeamPropLocation.LEFT;
 
-    private static final Rect CENTER_RECTANGLE = new Rect(
-            new Point(Constants.Vision.BLUE_CENTER_RECTANGLE_TOP_LEFT_X, Constants.Vision.BLUE_CENTER_RECTANGLE_TOP_LEFT_Y),
-            new Point(Constants.Vision.BLUE_CENTER_RECTANGLE_BOTTOM_RIGHT_X, Constants.Vision.BLUE_CENTER_RECTANGLE_BOTTOM_RIGHT_Y)
-    );
+    private final Scalar rectColor;
 
-    private static final Rect LEFT_RECTANGLE = new Rect(
-            new Point(Constants.Vision.BLUE_LEFT_RECTANGLE_TOP_LEFT_X, Constants.Vision.BLUE_LEFT_RECTANGLE_TOP_LEFT_Y),
-            new Point(Constants.Vision.BLUE_LEFT_RECTANGLE_BOTTOM_RIGHT_X, Constants.Vision.BLUE_LEFT_RECTANGLE_BOTTOM_RIGHT_Y)
-    );
+    private final Rect CENTER_RECTANGLE;
 
-    private static final Rect RIGHT_RECTANGLE = new Rect(
-            new Point(Constants.Vision.BLUE_RIGHT_RECTANGLE_TOP_LEFT_X, Constants.Vision.BLUE_RIGHT_RECTANGLE_TOP_LEFT_Y),
-            new Point(Constants.Vision.BLUE_RIGHT_RECTANGLE_BOTTOM_RIGHT_X, Constants.Vision.BLUE_RIGHT_RECTANGLE_BOTTOM_RIGHT_Y)
-    );
+    private final Rect LEFT_RECTANGLE;
+    private final Rect RIGHT_RECTANGLE;
 
-    private double tolerance = 60;
-    private final Scalar selectedValue = new Scalar(106, 144, 186);
-    private double[] values = selectedValue.val;
-    private Scalar lower = new Scalar(values[0] - tolerance < 0? 0: values[0] - tolerance,values[1] - tolerance < 0? 0: values[1] - tolerance, values[2] - tolerance < 0? 0: values[2] - tolerance);
-    private Scalar upper = new Scalar(values[0] + tolerance > 255? 255: values[0] + tolerance,values[1] + tolerance > 255? 255: values[1] + tolerance, values[2] + tolerance > 255? 255: values[2] + tolerance);
+    private final double tolerance;
+    private final Scalar selectedValue;
+    private double[] values;
+    private Scalar lower;
+    private Scalar upper;
+
+
+    public PropDetection(@NotNull AllianceColor color) {
+        if(color == AllianceColor.BLUE) {
+
+            CENTER_RECTANGLE = new Rect(
+                    new Point(Constants.Vision.BLUE_CENTER_RECTANGLE_TOP_LEFT_X, Constants.Vision.BLUE_CENTER_RECTANGLE_TOP_LEFT_Y),
+                    new Point(Constants.Vision.BLUE_CENTER_RECTANGLE_BOTTOM_RIGHT_X, Constants.Vision.BLUE_CENTER_RECTANGLE_BOTTOM_RIGHT_Y)
+            );
+
+            LEFT_RECTANGLE = new Rect(
+                    new Point(Constants.Vision.BLUE_LEFT_RECTANGLE_TOP_LEFT_X, Constants.Vision.BLUE_LEFT_RECTANGLE_TOP_LEFT_Y),
+                    new Point(Constants.Vision.BLUE_LEFT_RECTANGLE_BOTTOM_RIGHT_X, Constants.Vision.BLUE_LEFT_RECTANGLE_BOTTOM_RIGHT_Y)
+            );
+
+            RIGHT_RECTANGLE = new Rect(
+                    new Point(Constants.Vision.BLUE_RIGHT_RECTANGLE_TOP_LEFT_X, Constants.Vision.BLUE_RIGHT_RECTANGLE_TOP_LEFT_Y),
+                    new Point(Constants.Vision.BLUE_RIGHT_RECTANGLE_BOTTOM_RIGHT_X, Constants.Vision.BLUE_RIGHT_RECTANGLE_BOTTOM_RIGHT_Y)
+            );
+
+            tolerance = 60;
+            selectedValue = new Scalar(106, 144, 186);
+
+            rectColor = new Scalar(0, 0, 255);
+        }
+        else {
+            CENTER_RECTANGLE = new Rect(
+                    new Point(Constants.Vision.RED_CENTER_RECTANGLE_TOP_LEFT_X, Constants.Vision.RED_CENTER_RECTANGLE_TOP_LEFT_Y),
+                    new Point(Constants.Vision.RED_CENTER_RECTANGLE_BOTTOM_RIGHT_X, Constants.Vision.RED_CENTER_RECTANGLE_BOTTOM_RIGHT_Y)
+            );
+
+            LEFT_RECTANGLE = new Rect(
+                    new Point(Constants.Vision.RED_LEFT_RECTANGLE_TOP_LEFT_X, Constants.Vision.RED_LEFT_RECTANGLE_TOP_LEFT_Y),
+                    new Point(Constants.Vision.RED_LEFT_RECTANGLE_BOTTOM_RIGHT_X, Constants.Vision.RED_LEFT_RECTANGLE_BOTTOM_RIGHT_Y)
+            );
+
+            RIGHT_RECTANGLE = new Rect(
+                    new Point(Constants.Vision.RED_RIGHT_RECTANGLE_TOP_LEFT_X, Constants.Vision.RED_RIGHT_RECTANGLE_TOP_LEFT_Y),
+                    new Point(Constants.Vision.RED_RIGHT_RECTANGLE_BOTTOM_RIGHT_X, Constants.Vision.RED_RIGHT_RECTANGLE_BOTTOM_RIGHT_Y)
+            );
+
+            tolerance = 60;
+            selectedValue = new Scalar(5, 185, 128);
+
+            rectColor = new Scalar(255, 0, 0);
+        }
+        values = selectedValue.val;
+        lower = new Scalar(
+                values[0] - tolerance < 0? 0: values[0] - tolerance,
+                values[1] - tolerance < 0? 0: values[1] - tolerance,
+                values[2] - tolerance < 0? 0: values[2] - tolerance);
+        upper = new Scalar(
+                values[0] + tolerance > 255? 255: values[0] + tolerance,
+                values[1] + tolerance > 255? 255: values[1] + tolerance,
+                values[2] + tolerance > 255? 255: values[2] + tolerance);
+
+    }
 
     @Override
     public void init(int width, int height, CameraCalibration calibration) {
