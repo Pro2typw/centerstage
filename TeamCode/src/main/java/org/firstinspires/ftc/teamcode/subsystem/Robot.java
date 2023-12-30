@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class Robot {
+    public Arm arm;
     public Claw claw;
     public MecanumDrive drive;
     public Hang hang;
@@ -28,6 +29,7 @@ public class Robot {
     private boolean isResetToIMU;
 
     public Robot(@NotNull HardwareMap hardwareMap, @NotNull Telemetry telemetry, @NotNull Claw.ClawState clawState, @NotNull Hang.HangState hangState, boolean dashboard) {
+        arm = new Arm(hardwareMap);
         claw = new Claw(hardwareMap, clawState);
         drive = new MecanumDrive(hardwareMap);
         hang = new Hang(hardwareMap, hangState);
@@ -58,12 +60,15 @@ public class Robot {
     }
 
     public void update() {
+
+
         if(isResetToIMU) {
             currentOrientation = imu.getCurrentAngularOrientation();
             double driveTurnPower = headingPID.update(currentOrientation.firstAngle); // todo config me
 
             drive.turnWithPower(driveTurnPower);
         }
+        arm.update();
     }
 
     public void getTelemetry() {

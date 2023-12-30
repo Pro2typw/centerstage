@@ -61,7 +61,7 @@ public class Constants {
 
     // todo config ig the entire file but ye
     @Config
-    public static class Extension {
+    public static class Arm {
         public final static String EXTENSION_MAP_NAME = "";
         public final static String ENCODER_MAP_NAME = "";
 
