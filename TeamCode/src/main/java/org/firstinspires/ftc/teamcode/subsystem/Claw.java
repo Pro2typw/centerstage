@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.util.Constants;
+import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
 import org.jetbrains.annotations.NotNull;
 
 public class Claw {
@@ -18,12 +19,16 @@ public class Claw {
     }
     
     private final Servo rightClaw, leftClaw;
-    
+    private final DistanceSensor rightSensor, leftSensor;
+
     private ClawState rightClawState, leftClawState;
     
     public Claw(@NotNull HardwareMap hardwareMap, @NotNull ClawState state) {
         rightClaw = hardwareMap.get(Servo.class, Constants.Claw.RIGHT_CLAW_MAP_NAME);
         leftClaw = hardwareMap.get(Servo.class, Constants.Claw.LEFT_CLAW_MAP_NAME);
+
+        rightSensor = hardwareMap.get(DistanceSensor.class, "..");
+        leftSensor = hardwareMap.get(DistanceSensor.class, "..");
 
         setClawState(ClawSide.BOTH, state);
     }
@@ -43,12 +48,10 @@ public class Claw {
                 break;
         }
     }
-    
-    /**
-     * @param side do not put {@code ClawSide.BOTH}.
-     */
+
     public ClawState getClawState(@NotNull ClawSide side) {
-        if (side == ClawSide.BOTH) throw new IllegalArgumentException("\uD83D\uDC80");
-        return (side == ClawSide.LEFT) ? leftClawState : rightClawState;
+        if(side == ClawSide.LEFT) return leftClawState;
+        else if(side == ClawSide.RIGHT) return  rightClawState;
+        else return leftClawState == rightClawState ? leftClawState : ClawState.CLOSE;
     }
 }

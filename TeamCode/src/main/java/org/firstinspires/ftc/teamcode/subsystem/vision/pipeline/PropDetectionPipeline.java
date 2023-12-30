@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.vision.pipeline;
+package org.firstinspires.ftc.teamcode.subsystem.vision.pipeline;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -6,7 +6,7 @@ import android.graphics.Paint;
 
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.teamcode.opmode.util.AllianceColor;
-import org.firstinspires.ftc.teamcode.util.Constants;
+import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
 import org.firstinspires.ftc.teamcode.util.TeamPropLocation;
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +17,7 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
-public class PropDetection implements VisionProcessor {
+public class PropDetectionPipeline implements VisionProcessor {
 
     private Mat testMat = new Mat();
     private Mat finalMat = new Mat();
@@ -38,7 +38,7 @@ public class PropDetection implements VisionProcessor {
     private Scalar upper;
 
 
-    public PropDetection(@NotNull AllianceColor color) {
+    public PropDetectionPipeline(@NotNull AllianceColor color) {
         if(color == AllianceColor.BLUE) {
 
             CENTER_RECTANGLE = new Rect(

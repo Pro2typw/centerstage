@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.vision.util;
+package org.firstinspires.ftc.teamcode.subsystem.vision.util;
 
 import android.util.Size;
 

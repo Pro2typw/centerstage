@@ -17,6 +17,7 @@ public class TrajectorySequencer {
         double colorMultiplier = color == AllianceColor.BLUE ? 1 : -1;
         double sideMultiplier = side == AllianceSide.BACKDROP ? 1 : -1;
 
+        // add trajs...
 
         return hashmap;
     }

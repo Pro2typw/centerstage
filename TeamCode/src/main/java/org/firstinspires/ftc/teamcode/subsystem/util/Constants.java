@@ -1,7 +1,8 @@
-package org.firstinspires.ftc.teamcode.util;
+package org.firstinspires.ftc.teamcode.subsystem.util;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 
 public class Constants {
@@ -40,40 +41,55 @@ public class Constants {
         public static int RED_RIGHT_RECTANGLE_BOTTOM_RIGHT_X = 0;
         public static int RED_RIGHT_RECTANGLE_BOTTOM_RIGHT_Y = 0;
     }
-    
+
+    @Config(value = "[]Camera")
+    public static class Camera {
+        public final static String CAMERA_MAP_NAME = "Webcam 1";
+    }
+
     //todo config
     @Config(value = "[]ClawConstants")
     public static class Claw {
-        public final static String RIGHT_CLAW_MAP_NAME = ""; //todo config
-        public final static String LEFT_CLAW_MAP_NAME = ""; //todo config
+        public final static String RIGHT_CLAW_MAP_NAME = "";
+        public final static String LEFT_CLAW_MAP_NAME = "";
         
-        public static int RIGHT_CLAW_OPEN_POSITION = 0; //todo config
-        public static int RIGHT_CLAW_CLOSE_POSITION = 0; //todo config
-        public static int LEFT_CLAW_OPEN_POSITION = 0; //todo config
-        public static int LEFT_CLAW_CLOSE_POSITION = 0; //todo config
+        public static int RIGHT_CLAW_OPEN_POSITION = 0;
+        public static int RIGHT_CLAW_CLOSE_POSITION = 0;
+        public static int LEFT_CLAW_OPEN_POSITION = 0;
+        public static int LEFT_CLAW_CLOSE_POSITION = 0;
     }
-    
+
+    // todo config ig the entire file but ye
+    @Config
+    public static class Extension {
+        public final static String EXTENSION_MAP_NAME = "";
+        public final static String ENCODER_MAP_NAME = "";
+
+        public static PIDCoefficients PID_CCOEFFICIENTS = new PIDCoefficients(0, 0, 0);
+
+        public static int MIN_POSITION = 0;
+        public static int MAX_POSITION = 0;
+    }
+
+    // todo
+    @Config(value = "[]Hang")
+    public static class Hang {
+        public final static String LEFT_HANG_MAP_NAME = "hang1";
+        public final static String RIGHT_HANG_MAP_NAME = "hang2";
+
+        public static int UP_POSITION = 0;
+        public static int DOWN_POSITION = 0;
+
+        public static PIDFCoefficients LEFT_HANG_PID_COEFFICIENTS = new PIDFCoefficients(0, 0, 0, 0);
+        public static PIDFCoefficients RIGHT_HANG_PID_COEFFICIENTS = new PIDFCoefficients(0, 0, 0, 0);
+
+    }
+
     @Config(value = "[]IMU")
     public static class IMU {
         public final static String IMU_MAP_NAME = "imu";
         
         public static PIDCoefficients HEADING_PID_COEFFICIENTS = new PIDCoefficients(0, 0, 0);  //todo config
     }
-
-    @Config(value = "[]Hang")
-    public static class Hang {
-        public final static String HANG1_MAP_NAME = "hang1";
-        public final static String HANG2_MAP_NAME = "hang2";
-
-        public static int UP_POSITION = 0;
-        public static int DOWN_POSITION = 0;
-
-    }
-    
-    @Config(value = "[]Camera")
-    public static class Camera {
-        public final static String CAMERA_MAP_NAME = "Webcam 1";
-    }
-    
     
 }

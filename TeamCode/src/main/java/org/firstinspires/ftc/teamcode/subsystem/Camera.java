@@ -10,7 +10,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.VisionProcessor;
 
 public class Camera extends VisionPortal {
-    VisionPortal portal;
+    private VisionPortal portal;
     public Camera(HardwareMap hardwareMap, VisionProcessor ...processors) {
         portal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
