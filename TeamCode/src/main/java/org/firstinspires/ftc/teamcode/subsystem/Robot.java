@@ -21,7 +21,7 @@ public class Robot {
     public MecanumDrive drive;
     public Hang hang;
     public List<LynxModule> lynxModules;
-    private Telemetry telemetry;
+    public Telemetry telemetry;
 
     private IMU imu;
     private Orientation currentOrientation;
@@ -53,6 +53,9 @@ public class Robot {
         isResetToIMU = !isResetToIMU;
     }
 
+    /**
+     * call this first in the loop
+     */
     public void clearCache() {
         for (LynxModule module : lynxModules) {
             module.clearBulkCache();
@@ -76,11 +79,10 @@ public class Robot {
         telemetry.addData("Right Claw", claw.getClawState(Claw.ClawSide.RIGHT));
         telemetry.addData("Hang", hang.getState());
         telemetry.addData("Heading", currentOrientation.firstAngle);
+        telemetry.addData("Current Extension", arm.getCurrentPosition(Arm.ArmParts.EXTENSION));
+        telemetry.addData("Current Pivot", arm.getCurrentPosition(Arm.ArmParts.PIVOT));
 
         //...
     }
 
-    public void updateTelemetry() {
-        telemetry.update();
-    }
 }
