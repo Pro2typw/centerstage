@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystem;
 
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
+import com.acmerobotics.roadrunner.profile.MotionProfile;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -41,7 +42,6 @@ public class Arm {
 
         differenceController.setOutputBounds(0, 1);
         averageController.setOutputBounds(0, 1);
-
     }
 
     public void setTargetPosition(@NotNull ArmParts part, @NotNull int targetPosition) {
