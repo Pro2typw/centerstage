@@ -31,7 +31,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.vision.util;
+package org.firstinspires.ftc.teamcode.subsystem.vision.util;
 
 import android.util.Size;
 

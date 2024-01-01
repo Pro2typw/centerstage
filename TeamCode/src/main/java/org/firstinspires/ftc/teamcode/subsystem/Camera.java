@@ -9,8 +9,8 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.CameraC
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.VisionProcessor;
 
-public class Camera extends VisionPortal {
-    VisionPortal portal;
+public class Camera {
+    private VisionPortal portal;
     public Camera(HardwareMap hardwareMap, VisionProcessor ...processors) {
         portal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
@@ -20,55 +20,56 @@ public class Camera extends VisionPortal {
                 .addProcessors(processors)
                 .build();
     }
-    
+
+
     public void setProcessorEnabled(VisionProcessor processor, boolean enabled) {
         portal.setProcessorEnabled(processor, enabled);
     }
-    
+
     public boolean getProcessorEnabled(VisionProcessor processor) {
         return portal.getProcessorEnabled(processor);
     }
-    
+
     public VisionPortal.CameraState getCameraState() {
         return portal.getCameraState();
     }
-    
+
     public void saveNextFrameRaw(String filename) {
         portal.saveNextFrameRaw(filename);
     }
-    
+
     public void stopStreaming() {
         portal.stopStreaming();
     }
-    
+
     public void resumeStreaming() {
         portal.resumeStreaming();
     }
-    
+
     public void stopLiveView() {
         portal.stopLiveView();
     }
-    
+
     public void resumeLiveView() {
         portal.stopLiveView();
     }
-    
+
     public float getFps() {
         return portal.getFps();
     }
-    
+
     public <T extends CameraControl> T getCameraControl(Class<T> controlType) {
         return portal.getCameraControl(controlType);
     }
-    
+
     public void setActiveCamera(WebcamName webcamName) {
         portal.setActiveCamera(webcamName);
     }
-    
+
     public WebcamName getActiveCamera() {
         return portal.getActiveCamera();
     }
-    
+
     public void close() {
         portal.close();
     }

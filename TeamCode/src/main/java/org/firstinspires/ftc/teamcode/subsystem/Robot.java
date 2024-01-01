@@ -1,39 +1,47 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
-import static org.firstinspires.ftc.teamcode.util.Constants.IMU.HEADING_PID_COEFFICIENTS;
+import static org.firstinspires.ftc.teamcode.subsystem.util.Constants.IMU.HEADING_PID_COEFFICIENTS;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.control.PIDFController;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
-import org.firstinspires.ftc.teamcode.util.Encoder;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Timer;
-import java.util.function.Function;
+import java.util.List;
 
-
-/**
- * Must call {@code update()} for everything to work
- */
 public class Robot {
+    public Arm arm;
     public Claw claw;
     public MecanumDrive drive;
     public Hang hang;
+    public List<LynxModule> lynxModules;
+    public Telemetry telemetry;
 
     private IMU imu;
-
-
-    private Orientation orientation;
+    private Orientation currentOrientation;
     private PIDFController headingPID;
     private boolean isResetToIMU;
 
-    public Robot(HardwareMap hardwareMap, Claw.ClawState clawState, Hang.HangState hangState) {
+    public Robot(@NotNull HardwareMap hardwareMap, @NotNull Telemetry telemetry, @NotNull Claw.ClawState clawState, @NotNull Hang.HangState hangState, boolean dashboard) {
+        arm = new Arm(hardwareMap);
         claw = new Claw(hardwareMap, clawState);
         drive = new MecanumDrive(hardwareMap);
         hang = new Hang(hardwareMap, hangState);
-        
+
+        lynxModules = hardwareMap.getAll(LynxModule.class);
+        for(LynxModule module : lynxModules) {
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+        }
+
+        if(dashboard) this.telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        else this.telemetry = telemetry;
+
         imu = new IMU(hardwareMap);
         headingPID = new PIDFController(HEADING_PID_COEFFICIENTS);
         headingPID.setOutputBounds(0, 1);
@@ -44,10 +52,37 @@ public class Robot {
     public void toggleResetToIMU() {
         isResetToIMU = !isResetToIMU;
     }
-    
-    public void update() {
-        if(isResetToIMU) {
-            drive.turnWithPower(headingPID.update(imu.getCurrentAngularOrientation().firstAngle));
+
+    /**
+     * call this first in the loop
+     */
+    public void clearCache() {
+        for (LynxModule module : lynxModules) {
+            module.clearBulkCache();
         }
     }
+
+    public void update() {
+
+
+        if(isResetToIMU) {
+            currentOrientation = imu.getCurrentAngularOrientation();
+            double driveTurnPower = headingPID.update(currentOrientation.firstAngle); // todo config me
+
+            drive.turnWithPower(driveTurnPower);
+        }
+        arm.update();
+    }
+
+    public void getTelemetry() {
+        telemetry.addData("Left Claw", claw.getClawState(Claw.ClawSide.LEFT));
+        telemetry.addData("Right Claw", claw.getClawState(Claw.ClawSide.RIGHT));
+        telemetry.addData("Hang", hang.getState());
+        telemetry.addData("Heading", currentOrientation.firstAngle);
+        telemetry.addData("Current Extension", arm.getCurrentPosition(Arm.ArmParts.EXTENSION));
+        telemetry.addData("Current Pivot", arm.getCurrentPosition(Arm.ArmParts.PIVOT));
+
+        //...
+    }
+
 }

@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.vision.pipeline;
+package org.firstinspires.ftc.teamcode.subsystem.vision.pipeline;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.vision.util.CenterstageAprilTagPose;
+import org.firstinspires.ftc.teamcode.subsystem.vision.util.CenterstageAprilTagPose;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
