@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystem.util;
 
-import com.ThermalEquilibrium.homeostasis.Filters.FilterAlgorithms.LowPassFilter;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.hardware.motors.Motor.Encoder;
 import com.qualcomm.hardware.lynx.LynxModule;

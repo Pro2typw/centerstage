@@ -16,7 +16,7 @@ public class Wrist {
     private final ServoEx servo;
     private double position;
 
-    public Wrist(@NotNull HardwareMap hardwareMap, @NotNull double position) {
+    public Wrist(@NotNull HardwareMap hardwareMap) {
         servo = hardwareMap.get(ServoEx.class, "");
 
         this.position = position;
@@ -32,8 +32,7 @@ public class Wrist {
     }
 
     // todo conversions (maybe)
-    public double angleToRadian(double angRad) {
-
+    public double angleToPos(double angRad) {
         return angRad;
     }
 }

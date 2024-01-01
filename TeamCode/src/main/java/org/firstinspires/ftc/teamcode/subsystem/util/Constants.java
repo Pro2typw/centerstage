@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystem.util;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
+import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 
@@ -62,13 +63,17 @@ public class Constants {
     // todo config ig the entire file but ye
     @Config
     public static class Arm {
-        public final static String EXTENSION_MAP_NAME = "";
-        public final static String ENCODER_MAP_NAME = "";
+        public final static String MOTOR1_MAP_NAME = "";
+        public final static String MOTOR2_MAP_NAME = "";
 
-        public static PIDCoefficients PID_CCOEFFICIENTS = new PIDCoefficients(0, 0, 0);
+        public static PIDCoefficients DIFFERENCE_PID_COEFFICIENTS = new PIDCoefficients(0, 0, 0);
+        public static PIDCoefficients AVERAGE_PID_COEFFICIENTS = new PIDCoefficients(0, 0, 0);
+        public static double GRAVITY_FEEDFORWARD_GAIN = 0;
 
-        public static int MIN_POSITION = 0;
-        public static int MAX_POSITION = 0;
+        public static int targetPivotPosition = 0;
+        public static int targetExtensionPosition = 0;
+
+
     }
 
     // todo

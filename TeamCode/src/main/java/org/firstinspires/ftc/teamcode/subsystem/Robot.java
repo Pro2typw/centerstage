@@ -20,6 +20,7 @@ public class Robot {
     public Claw claw;
     public MecanumDrive drive;
     public Hang hang;
+    public Wrist wrist;
     public List<LynxModule> lynxModules;
     public Telemetry telemetry;
 
@@ -33,6 +34,7 @@ public class Robot {
         claw = new Claw(hardwareMap, clawState);
         drive = new MecanumDrive(hardwareMap);
         hang = new Hang(hardwareMap, hangState);
+        wrist = new Wrist(hardwareMap);
 
         lynxModules = hardwareMap.getAll(LynxModule.class);
         for(LynxModule module : lynxModules) {
@@ -63,14 +65,13 @@ public class Robot {
     }
 
     public void update() {
-
-
         if(isResetToIMU) {
             currentOrientation = imu.getCurrentAngularOrientation();
             double driveTurnPower = headingPID.update(currentOrientation.firstAngle); // todo config me
 
             drive.turnWithPower(driveTurnPower);
         }
+
         arm.update();
     }
 
@@ -79,8 +80,8 @@ public class Robot {
         telemetry.addData("Right Claw", claw.getClawState(Claw.ClawSide.RIGHT));
         telemetry.addData("Hang", hang.getState());
         telemetry.addData("Heading", currentOrientation.firstAngle);
-        telemetry.addData("Current Extension", arm.getCurrentPosition(Arm.ArmParts.EXTENSION));
-        telemetry.addData("Current Pivot", arm.getCurrentPosition(Arm.ArmParts.PIVOT));
+        telemetry.addData("Current Extension", arm.getExtensionCurrentPosition());
+        telemetry.addData("Current Pivot", arm.getPivotCurrentPosition());
 
         //...
     }

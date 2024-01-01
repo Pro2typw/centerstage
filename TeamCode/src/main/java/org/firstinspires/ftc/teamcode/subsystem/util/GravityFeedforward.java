@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.subsystem.util;
 
 
-public class    GravityFeedforward {
+public class GravityFeedforward {
 
     double gain;
 

@@ -1,20 +1,17 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
-import com.acmerobotics.roadrunner.control.PIDFController;
 import com.acmerobotics.roadrunner.profile.MotionProfile;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
 import org.firstinspires.ftc.teamcode.subsystem.util.GravityFeedforward;
+import com.acmerobotics.roadrunner.control.PIDFController;
 import org.jetbrains.annotations.NotNull;
 
 public class Arm {
-    public static enum ArmParts {
-        EXTENSION,
-        PIVOT
-    }
 
     private final DcMotorEx motor1, motor2;
 
@@ -27,38 +24,48 @@ public class Arm {
     private int motor1Position, motor2Position;
 
     public Arm(HardwareMap hardwareMap) {
-        motor1 = hardwareMap.get(DcMotorEx.class, "");
-        motor2 = hardwareMap.get(DcMotorEx.class, "");
+        motor1 = hardwareMap.get(DcMotorEx.class, Constants.Arm.MOTOR1_MAP_NAME);
+        motor2 = hardwareMap.get(DcMotorEx.class, Constants.Arm.MOTOR2_MAP_NAME);
 
         for(DcMotorEx motor : new DcMotorEx[]{motor1, motor2}) {
             motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
-        // todo config and properly add it to constatnsa and shit
-        differenceController = new PIDFController(new PIDCoefficients(0, 0,0));
-        averageController = new PIDFController(new PIDCoefficients(0, 0, 0 ));
-        gravityFeedforward = new GravityFeedforward(0);
+        differenceController = new PIDFController(Constants.Arm.AVERAGE_PID_COEFFICIENTS);
+        averageController = new PIDFController(Constants.Arm.DIFFERENCE_PID_COEFFICIENTS);
+        gravityFeedforward = new GravityFeedforward(Constants.Arm.GRAVITY_FEEDFORWARD_GAIN);
 
         differenceController.setOutputBounds(0, 1);
         averageController.setOutputBounds(0, 1);
     }
 
-    public void setTargetPosition(@NotNull ArmParts part, @NotNull int targetPosition) {
-        if(part == ArmParts.EXTENSION) extensionTargetPosition = targetPosition;
-        else pivotTargetPosition = targetPosition;
-
+    public void setExtensionTargetPosition(@NotNull int targetPosition) {
+        extensionTargetPosition = targetPosition;
         differenceController.setTargetPosition(extensionTargetPosition);
+    }
+
+    public void setPivotTargetPosition(@NotNull int targetPosition) {
+        pivotTargetPosition = targetPosition;
         averageController.setTargetPosition(pivotTargetPosition);
     }
 
-    public int getTargetPosition(@NotNull ArmParts part) {
-        return part == ArmParts.EXTENSION ? extensionTargetPosition : pivotTargetPosition;
+    public int getExtensionTargetPosition() {
+        return extensionTargetPosition;
     }
 
-    public int getCurrentPosition(@NotNull ArmParts part) {
-        return part == ArmParts.EXTENSION ? motor1Position - motor2Position : (motor1Position + motor2Position)/2;
+    public int getPivotTargetPosition() {
+        return pivotTargetPosition;
     }
+
+    public int getPivotCurrentPosition() {
+        return (motor1Position + motor2Position)/2;
+    }
+
+    public int getExtensionCurrentPosition() {
+        return  motor1Position - motor2Position;
+    }
+
 
     public void update() {
         motor1Position = motor1.getCurrentPosition();
@@ -78,13 +85,20 @@ public class Arm {
         motor2.setPower(power2);
     }
 
-    // do some conversion
+    // todo do some conversion
     public static double ticksToMeters(double ticks) {
         return ticks;
     }
 
-    // do some conversion
+    public static int metersToTicks(double meters) {
+        return (int) meters;
+    }
+
     public static double ticksToRadians(double ticks) {
         return ticks;
+    }
+
+    public static double radiansToTicks(double radians) {
+        return (int) radians;
     }
 }
