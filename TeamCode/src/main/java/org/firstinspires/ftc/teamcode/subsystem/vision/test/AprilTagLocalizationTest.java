@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.subsystem.IMU;
 import org.firstinspires.ftc.teamcode.subsystem.vision.pipeline.AprilTagDetectionPipeline;
 import org.firstinspires.ftc.vision.VisionPortal;
 
@@ -20,7 +21,8 @@ public class AprilTagLocalizationTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         MultipleTelemetry tele = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        
+        IMU imu = new IMU(hardwareMap);
+        imu.resetAngularOrientation();
         processor = new AprilTagDetectionPipeline();
         
         portal = new VisionPortal.Builder()
@@ -33,7 +35,7 @@ public class AprilTagLocalizationTest extends LinearOpMode {
         
         waitForStart();
         while(opModeIsActive()) {
-            Pose2d estPos = processor.localize();
+            Pose2d estPos = processor.localize(imu.getCurrentAngularOrientation().firstAngle);
             if(estPos != null) {
                 tele.addLine(String.format("X(%6.2f) Y(%6.2f) θ(%6.2f)", estPos.getX(), estPos.getY(), estPos.getX()));
                 

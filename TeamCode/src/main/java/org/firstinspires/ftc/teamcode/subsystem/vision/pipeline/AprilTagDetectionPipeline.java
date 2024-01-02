@@ -2,9 +2,10 @@ package org.firstinspires.ftc.teamcode.subsystem.vision.pipeline;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.subsystem.vision.util.CenterstageAprilTagPose;
+import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
@@ -32,7 +33,7 @@ public class AprilTagDetectionPipeline {
     public List<AprilTagDetection> getAprilTagDetections() {
         return aprilTagProcessor.getDetections();
     }
-    public Pose2d localize() {
+    public Pose2d localize(double heading) {
 //        Pose2d[] tagPoses = getIDPose(detection.id);
         List<AprilTagDetection> detections = getAprilTagDetections();
         
@@ -44,33 +45,21 @@ public class AprilTagDetectionPipeline {
         
         for(int i = 0; i < detections.size(); i++) {
             AprilTagDetection detection = detections.get(i);
-            Pose2d tagPose = getIDPose(detection.id);
+            VectorF tagPosition = detection.metadata.fieldPosition;
+            double xRelative = detection.ftcPose.x;
+            double yRelative = detection.ftcPose.y;
             
-            xSum += tagPose.getX() - detection.ftcPose.x;
-            ySum += tagPose.getY() - detection.ftcPose.y;
-            headingSum += Math.toRadians(Math.toDegrees(tagPose.getHeading()) - detection.ftcPose.bearing);
+            double xAbsolute = xRelative * Math.sin(Math.toRadians(heading)) + yRelative * Math.cos(Math.toRadians(heading));
+            double yAbsolute = yRelative * Math.sin(Math.toRadians(heading)) - xRelative * Math.cos(Math.toRadians(heading));
             
-        }
-        return new Pose2d(xSum / detections.size(), ySum / detections.size(), Math.toRadians(headingSum / detections.size()));
-    }
-    
-    private Pose2d getIDPose(int id) {
-        switch(id) {
-            case 1:
-                return CenterstageAprilTagPose.ID1;
-            case 2:
-                return CenterstageAprilTagPose.ID2;
-            case 3:
-                return CenterstageAprilTagPose.ID3;
-            case 4:
-                return CenterstageAprilTagPose.ID4;
-            case 5:
-                return CenterstageAprilTagPose.ID5;
-            case 6:
-                return CenterstageAprilTagPose.ID6;
-                
-            default: throw new IllegalArgumentException("Given April Tag ID is invalid");
+            Pose2d pose = new Pose2d(
+                    tagPosition.get(0) - xAbsolute - Constants.Camera.X_OFFSET,
+                    tagPosition.get(1) - yAbsolute - Constants.Camera.Y_OFFSET,
+                    heading
+            );
+            
             
         }
+        return null; //  toodo change
     }
 }

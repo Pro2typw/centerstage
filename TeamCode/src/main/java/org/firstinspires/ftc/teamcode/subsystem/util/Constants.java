@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.subsystem.util;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
-import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 
@@ -46,6 +45,9 @@ public class Constants {
     @Config(value = "[]Camera")
     public static class Camera {
         public final static String CAMERA_MAP_NAME = "Webcam 1";
+        
+        public final static double X_OFFSET = 0;
+        public final static double Y_OFFSET = 0;
     }
 
     //todo config
