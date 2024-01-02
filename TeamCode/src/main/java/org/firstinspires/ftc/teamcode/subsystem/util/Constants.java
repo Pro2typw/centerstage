@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 public class Constants {
 
     //todo config constants
-    @Config(value = "[]VisionConstants")
+    @Config(value = "[]Vision Constants")
     public static class Vision {
         public static int BLUE_CENTER_RECTANGLE_TOP_LEFT_X = 0;
         public static int BLUE_CENTER_RECTANGLE_TOP_LEFT_Y = 0;
@@ -42,7 +42,7 @@ public class Constants {
         public static int RED_RIGHT_RECTANGLE_BOTTOM_RIGHT_Y = 0;
     }
 
-    @Config(value = "[]Camera")
+    @Config(value = "[]Camera Constants")
     public static class Camera {
         public final static String CAMERA_MAP_NAME = "Webcam 1";
         
@@ -51,7 +51,7 @@ public class Constants {
     }
 
     //todo config
-    @Config(value = "[]ClawConstants")
+    @Config(value = "[]Claw Constants")
     public static class Claw {
         public final static String RIGHT_CLAW_MAP_NAME = "";
         public final static String LEFT_CLAW_MAP_NAME = "";
@@ -63,7 +63,7 @@ public class Constants {
     }
 
     // todo config ig the entire file but ye
-    @Config
+    @Config(value = "[]Arm Constants")
     public static class Arm {
         public final static String MOTOR1_MAP_NAME = "";
         public final static String MOTOR2_MAP_NAME = "";
@@ -79,7 +79,7 @@ public class Constants {
     }
 
     // todo
-    @Config(value = "[]Hang")
+    @Config(value = "[]Hang Constants")
     public static class Hang {
         public final static String LEFT_HANG_MAP_NAME = "hang1";
         public final static String RIGHT_HANG_MAP_NAME = "hang2";
@@ -92,11 +92,18 @@ public class Constants {
 
     }
 
-    @Config(value = "[]IMU")
+    @Config(value = "[]IMU Constants")
     public static class IMU {
         public final static String IMU_MAP_NAME = "imu";
         
         public static PIDCoefficients HEADING_PID_COEFFICIENTS = new PIDCoefficients(0, 0, 0);  //todo config
+    }
+    
+    // todo config
+    @Config(value = "[]Wrist Constants")
+    public static class Wrist {
+        public final static String WRIST_MAP_NAME = "";
+        
     }
     
 }

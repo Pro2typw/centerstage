@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.justbetter.actuator.CachingServo;
 import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,14 +19,14 @@ public class Claw {
         BOTH
     }
     
-    private final Servo rightClaw, leftClaw;
+    private final CachingServo rightClaw, leftClaw;
     private final DistanceSensor rightSensor, leftSensor;
 
     private ClawState rightClawState, leftClawState;
     
     public Claw(@NotNull HardwareMap hardwareMap, @NotNull ClawState state) {
-        rightClaw = hardwareMap.get(Servo.class, Constants.Claw.RIGHT_CLAW_MAP_NAME);
-        leftClaw = hardwareMap.get(Servo.class, Constants.Claw.LEFT_CLAW_MAP_NAME);
+        rightClaw = new CachingServo(hardwareMap.get(Servo.class, Constants.Claw.RIGHT_CLAW_MAP_NAME));
+        leftClaw = new CachingServo(hardwareMap.get(Servo.class, Constants.Claw.LEFT_CLAW_MAP_NAME));
 
         rightSensor = hardwareMap.get(DistanceSensor.class, "..");
         leftSensor = hardwareMap.get(DistanceSensor.class, "..");

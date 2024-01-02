@@ -1,19 +1,18 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
-import com.acmerobotics.roadrunner.control.PIDCoefficients;
-import com.acmerobotics.roadrunner.profile.MotionProfile;
+import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.justbetter.actuator.CachingDcMotorEX;
 import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
 import org.firstinspires.ftc.teamcode.subsystem.util.GravityFeedforward;
-import com.acmerobotics.roadrunner.control.PIDFController;
 import org.jetbrains.annotations.NotNull;
 
 public class Arm {
 
-    private final DcMotorEx motor1, motor2;
+    private final CachingDcMotorEX motor1, motor2;
 
     // todo figure out whether difference is extension or vice versa
     private final PIDFController differenceController, averageController;
@@ -24,8 +23,8 @@ public class Arm {
     private int motor1Position, motor2Position;
 
     public Arm(HardwareMap hardwareMap) {
-        motor1 = hardwareMap.get(DcMotorEx.class, Constants.Arm.MOTOR1_MAP_NAME);
-        motor2 = hardwareMap.get(DcMotorEx.class, Constants.Arm.MOTOR2_MAP_NAME);
+        motor1 = new CachingDcMotorEX(hardwareMap.get(DcMotorEx.class, Constants.Arm.MOTOR1_MAP_NAME));
+        motor2 = new CachingDcMotorEX(hardwareMap.get(DcMotorEx.class, Constants.Arm.MOTOR2_MAP_NAME));
 
         for(DcMotorEx motor : new DcMotorEx[]{motor1, motor2}) {
             motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

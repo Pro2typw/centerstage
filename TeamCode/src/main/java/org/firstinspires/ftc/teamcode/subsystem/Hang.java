@@ -4,8 +4,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.justbetter.actuator.CachingDcMotorEX;
+import org.firstinspires.ftc.teamcode.subsystem.util.CachingMultiMotor;
 import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
-import org.firstinspires.ftc.teamcode.subsystem.util.MultiMotor;
 import org.jetbrains.annotations.NotNull;
 
 public class Hang {
@@ -14,23 +15,22 @@ public class Hang {
         DOWN
     }
 
-    private final MultiMotor hang;
+    private final CachingMultiMotor hang;
     private HangState state;
 
     public Hang(@NotNull HardwareMap hardwareMap, @NotNull HangState state) {
-        DcMotorEx leftHang = hardwareMap.get(DcMotorEx.class, Constants.Hang.LEFT_HANG_MAP_NAME);
-        DcMotorEx rightHang = hardwareMap.get(DcMotorEx.class, Constants.Hang.RIGHT_HANG_MAP_NAME);
+        CachingDcMotorEX leftHang = new CachingDcMotorEX(hardwareMap.get(DcMotorEx.class, Constants.Hang.LEFT_HANG_MAP_NAME));
+        CachingDcMotorEX rightHang = new CachingDcMotorEX(hardwareMap.get(DcMotorEx.class, Constants.Hang.RIGHT_HANG_MAP_NAME));
+        
+        hang = new CachingMultiMotor(leftHang, rightHang);
 
         leftHang.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, Constants.Hang.LEFT_HANG_PID_COEFFICIENTS);
         rightHang.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, Constants.Hang.RIGHT_HANG_PID_COEFFICIENTS);
-
-
-        hang = new MultiMotor(leftHang, rightHang);
-
+        
         hang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         hang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         hang.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        
         setState(state);
     }
 

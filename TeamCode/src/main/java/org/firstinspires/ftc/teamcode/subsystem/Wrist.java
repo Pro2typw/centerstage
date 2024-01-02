@@ -1,25 +1,18 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
-import com.acmerobotics.roadrunner.profile.MotionProfile;
-import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
-import com.acmerobotics.roadrunner.profile.MotionState;
-import com.arcrobotics.ftclib.hardware.ServoEx;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.acmerobotics.roadrunner.control.PIDCoefficients;
-import com.acmerobotics.roadrunner.control.PIDFController;
+import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.justbetter.actuator.CachingServo;
+import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
 import org.jetbrains.annotations.NotNull;
 
 public class Wrist {
-    private final ServoEx servo;
+    private final CachingServo servo;
     private double position;
 
     public Wrist(@NotNull HardwareMap hardwareMap) {
-        servo = hardwareMap.get(ServoEx.class, "");
-
-        this.position = position;
+        servo = new CachingServo(hardwareMap.get(Servo.class, Constants.Wrist.WRIST_MAP_NAME));
     }
 
     public double getPosition() {
