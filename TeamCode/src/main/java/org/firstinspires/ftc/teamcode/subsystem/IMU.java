@@ -10,24 +10,26 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
 
 public class IMU {
-    
+
     private final BNO055IMU imu;
     private Orientation zeroHeading;
-    
+    private Orientation customOrientation = new Orientation();
+
     public IMU(HardwareMap hardwareMap) {
         imu = hardwareMap.get(BNO055IMU.class, Constants.IMU.IMU_MAP_NAME);
-        
+
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         imu.initialize(parameters);
-        
+
         zeroHeading = imu.getAngularOrientation();
+
     }
-    
+
     public void resetAngularOrientation() {
         zeroHeading = imu.getAngularOrientation();
     }
-    
+
     public Orientation getCurrentAngularOrientation() {
         Orientation currOrientation = imu.getAngularOrientation();
         return new Orientation(
@@ -39,5 +41,5 @@ public class IMU {
                 currOrientation.thirdAngle - zeroHeading.thirdAngle,
                 currOrientation.acquisitionTime);
     }
-    
+
 }

@@ -77,7 +77,7 @@ public class AprilTagLocalizationTest extends LinearOpMode {
             }
 
 
-            Pose2d estPos = processor.localize(tele, imu.getCurrentAngularOrientation().firstAngle);
+            Pose2d estPos = processor.localize(tele, Math.toRadians(imu.getCurrentAngularOrientation().firstAngle));
             if(estPos != null) {
                 tele.addLine(String.format("X(%6.2f) Y(%6.2f) θ(%6.2f)", estPos.getX(), estPos.getY(), imu.getCurrentAngularOrientation().firstAngle));
 

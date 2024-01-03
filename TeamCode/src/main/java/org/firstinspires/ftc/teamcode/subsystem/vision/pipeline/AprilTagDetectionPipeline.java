@@ -46,15 +46,15 @@ public class AprilTagDetectionPipeline {
             double tagHeading = quaternionToHeading(detection.metadata.fieldOrientation);
 
             double x = detection.ftcPose.x - Constants.Camera.X_OFFSET;
-            double y = detection.ftcPose.x - Constants.Camera.X_OFFSET;
+            double y = detection.ftcPose.y - Constants.Camera.Y_OFFSET;
 
-            headingRad = -headingRad;
+//            headingRad = -headingRad;
 
             double x2 = x * Math.cos(headingRad) + y * Math.sin(headingRad);
             double y2 = x * -Math.sin(headingRad) + y * Math.cos(headingRad);
 
-            double absX = tagPos.getX() + y2;
-            double absY = tagPos.getY() - x2;
+            double absX = tagPos.getX() - y2;
+            double absY = tagPos.getY() + x2;
 
             telemetry.addLine("( " + absX + ", " + absY + " )");
 
