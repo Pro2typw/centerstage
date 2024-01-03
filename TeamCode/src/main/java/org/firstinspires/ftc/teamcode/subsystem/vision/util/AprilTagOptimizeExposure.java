@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.teamcode.subsystem.vision.util;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -87,38 +89,39 @@ public class AprilTagOptimizeExposure extends LinearOpMode
     boolean lastGainDn = false;
     @Override public void runOpMode()
     {
+        MultipleTelemetry telemetry1 = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         // Initialize the Apriltag Detection process
         initAprilTag();
 
         // Establish Min and Max Gains and Exposure.  Then set a low exposure with high gain
-        getCameraSetting();
+        getCameraSetting(telemetry1);
         myExposure = Math.min(5, minExposure);
         myGain = maxGain;
-        setManualExposure(myExposure, myGain);
+        setManualExposure(myExposure, myGain, telemetry1);
 
         // Wait for the match to begin.
-        telemetry.addData("Camera preview on/off", "3 dots, Camera Stream");
-        telemetry.addData(">", "Touch Play to start OpMode");
-        telemetry.update();
+        telemetry1.addData("Camera preview on/off", "3 dots, Camera Stream");
+        telemetry1.addData(">", "Touch Play to start OpMode");
+        telemetry1.update();
         waitForStart();
 
         while (opModeIsActive())
         {
-            telemetry.addLine("Find lowest Exposure that gives reliable detection.");
-            telemetry.addLine("Use Left bump/trig to adjust Exposure.");
-            telemetry.addLine("Use Right bump/trig to adjust Gain.\n");
+            telemetry1.addLine("Find lowest Exposure that gives reliable detection.");
+            telemetry1.addLine("Use Left bump/trig to adjust Exposure.");
+            telemetry1.addLine("Use Right bump/trig to adjust Gain.\n");
 
             // Display how many Tags Detected
             List<AprilTagDetection> currentDetections = aprilTag.getDetections();
             int numTags = currentDetections.size();
             if (numTags > 0 )
-                telemetry.addData("Tag", "####### %d Detected  ######", currentDetections.size());
+                telemetry1.addData("Tag", "####### %d Detected  ######", currentDetections.size());
             else
-                telemetry.addData("Tag", "----------- none - ----------");
+                telemetry1.addData("Tag", "----------- none - ----------");
 
-            telemetry.addData("Exposure","%d  (%d - %d)", myExposure, minExposure, maxExposure);
-            telemetry.addData("Gain","%d  (%d - %d)", myGain, minGain, maxGain);
-            telemetry.update();
+            telemetry1.addData("Exposure","%d  (%d - %d)", myExposure, minExposure, maxExposure);
+            telemetry1.addData("Gain","%d  (%d - %d)", myGain, minGain, maxGain);
+            telemetry1.update();
 
             // check to see if we need to change exposure or gain.
             thisExpUp = gamepad1.left_bumper;
@@ -129,19 +132,19 @@ public class AprilTagOptimizeExposure extends LinearOpMode
             // look for clicks to change exposure
             if (thisExpUp && !lastExpUp) {
                 myExposure = Range.clip(myExposure + 1, minExposure, maxExposure);
-                setManualExposure(myExposure, myGain);
+                setManualExposure(myExposure, myGain, telemetry1);
             } else if (thisExpDn && !lastExpDn) {
                 myExposure = Range.clip(myExposure - 1, minExposure, maxExposure);
-                setManualExposure(myExposure, myGain);
+                setManualExposure(myExposure, myGain, telemetry1);
             }
 
             // look for clicks to change the gain
             if (thisGainUp && !lastGainUp) {
                 myGain = Range.clip(myGain + 1, minGain, maxGain );
-                setManualExposure(myExposure, myGain);
+                setManualExposure(myExposure, myGain, telemetry1);
             } else if (thisGainDn && !lastGainDn) {
                 myGain = Range.clip(myGain - 1, minGain, maxGain );
-                setManualExposure(myExposure, myGain);
+                setManualExposure(myExposure, myGain, telemetry1);
             }
 
             lastExpUp = thisExpUp;
@@ -159,6 +162,8 @@ public class AprilTagOptimizeExposure extends LinearOpMode
     private void initAprilTag() {
         // Create the AprilTag processor by using a builder.
         aprilTag = new AprilTagProcessor.Builder().build();
+        CameraStreamProcessor streamProcessor = new CameraStreamProcessor(aprilTag);
+        FtcDashboard.getInstance().startCameraStream(streamProcessor, 0);
 
         // Create the WEBCAM vision portal by using a builder.
         visionPortal = new VisionPortal.Builder()
@@ -172,7 +177,7 @@ public class AprilTagOptimizeExposure extends LinearOpMode
         Can only be called AFTER calling initAprilTag();
         Returns true if controls are set.
      */
-    private boolean    setManualExposure(int exposureMS, int gain) {
+    private boolean setManualExposure(int exposureMS, int gain, MultipleTelemetry telemetry1) {
         // Ensure Vision Portal has been setup.
         if (visionPortal == null) {
             return false;
@@ -180,13 +185,13 @@ public class AprilTagOptimizeExposure extends LinearOpMode
 
         // Wait for the camera to be open
         if (visionPortal.getCameraState() != VisionPortal.CameraState.STREAMING) {
-            telemetry.addData("Camera", "Waiting");
-            telemetry.update();
+            telemetry1.addData("Camera", "Waiting");
+            telemetry1.update();
             while (!isStopRequested() && (visionPortal.getCameraState() != VisionPortal.CameraState.STREAMING)) {
                 sleep(20);
             }
-            telemetry.addData("Camera", "Ready");
-            telemetry.update();
+            telemetry1.addData("Camera", "Ready");
+            telemetry1.update();
         }
 
         // Set camera controls unless we are stopping.
@@ -215,7 +220,7 @@ public class AprilTagOptimizeExposure extends LinearOpMode
         Read this camera's minimum and maximum Exposure and Gain settings.
         Can only be called AFTER calling initAprilTag();
      */
-    private void getCameraSetting() {
+    private void getCameraSetting(MultipleTelemetry telemetry1) {
         // Ensure Vision Portal has been setup.
         if (visionPortal == null) {
             return;
@@ -223,13 +228,13 @@ public class AprilTagOptimizeExposure extends LinearOpMode
 
         // Wait for the camera to be open
         if (visionPortal.getCameraState() != VisionPortal.CameraState.STREAMING) {
-            telemetry.addData("Camera", "Waiting");
-            telemetry.update();
+            telemetry1.addData("Camera", "Waiting");
+            telemetry1.update();
             while (!isStopRequested() && (visionPortal.getCameraState() != VisionPortal.CameraState.STREAMING)) {
                 sleep(20);
             }
-            telemetry.addData("Camera", "Ready");
-            telemetry.update();
+            telemetry1.addData("Camera", "Ready");
+            telemetry1.update();
         }
 
         // Get camera control values unless we are stopping.
