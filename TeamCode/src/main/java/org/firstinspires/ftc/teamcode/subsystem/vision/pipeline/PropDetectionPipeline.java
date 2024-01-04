@@ -37,6 +37,11 @@ public class PropDetectionPipeline implements VisionProcessor {
     private Scalar lower;
     private Scalar upper;
 
+    double averagedLeftBox = 0;
+    double averagedCenterBox = 0;
+    double averagedRightBox = 0;
+
+
 
     public PropDetectionPipeline(@NotNull AllianceColor color) {
         if(color == AllianceColor.BLUE) {
@@ -110,9 +115,9 @@ public class PropDetectionPipeline implements VisionProcessor {
         double centerBox = Core.sumElems(finalMat.submat(CENTER_RECTANGLE)).val[0];
         double rightBox = Core.sumElems(finalMat.submat(RIGHT_RECTANGLE)).val[0];
 
-        double averagedLeftBox = leftBox / LEFT_RECTANGLE.area() / 255;
-        double averagedCenterBox = centerBox / RIGHT_RECTANGLE.area() / 255;
-        double averagedRightBox = rightBox / RIGHT_RECTANGLE.area() / 255;
+        averagedLeftBox = leftBox / LEFT_RECTANGLE.area() / 255;
+        averagedCenterBox = centerBox / RIGHT_RECTANGLE.area() / 255;
+        averagedRightBox = rightBox / RIGHT_RECTANGLE.area() / 255;
 
         double max = Math.max(Math.max(averagedLeftBox, averagedCenterBox), averagedRightBox);
         if(max == averagedLeftBox) output = TeamPropLocation.LEFT;
@@ -120,6 +125,10 @@ public class PropDetectionPipeline implements VisionProcessor {
         else output = TeamPropLocation.RIGHT;
 
         return null;
+    }
+
+    public double[] getBoxAreas() {
+        return new double[] {averagedLeftBox, averagedCenterBox, averagedRightBox};
     }
 
     private android.graphics.Rect makeGraphicsRect(Rect rect, float scaleBmpPxToCanvasPx) {

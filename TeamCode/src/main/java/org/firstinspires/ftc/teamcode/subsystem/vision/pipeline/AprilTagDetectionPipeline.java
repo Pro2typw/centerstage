@@ -33,7 +33,7 @@ public class AprilTagDetectionPipeline {
     public List<AprilTagDetection> getAprilTagDetections() {
         return aprilTagProcessor.getDetections();
     }
-    public Pose2d localize(Telemetry telemetry, double headingRad) {
+    public Pose2d localize(double headingRad) {
         List<AprilTagDetection> detections = getAprilTagDetections();
 
         if(detections.size() == 0) return null;
@@ -55,8 +55,6 @@ public class AprilTagDetectionPipeline {
 
             double absX = tagPos.getX() - y2;
             double absY = tagPos.getY() + x2;
-
-            telemetry.addLine("( " + absX + ", " + absY + " )");
 
             xSum += absX;
             ySum += absY;

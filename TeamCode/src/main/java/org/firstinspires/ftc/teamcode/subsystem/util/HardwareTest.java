@@ -8,6 +8,7 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.lynx.LynxNackException;
 import com.qualcomm.hardware.lynx.LynxServoController;
 import com.qualcomm.hardware.lynx.commands.core.LynxGetADCCommand;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.AnalogInput;
@@ -24,6 +25,7 @@ import org.firstinspires.ftc.teamcode.util.TelemetryUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+@Disabled
 @Config
 @TeleOp(group = "test")
 public class HardwareTest extends LinearOpMode {

@@ -5,6 +5,7 @@ import android.util.Size;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -19,6 +20,7 @@ import org.firstinspires.inspection.GamepadInspection;
 
 import java.util.concurrent.TimeUnit;
 
+@Disabled
 @TeleOp(group = "test")
 public class AprilTagLocalizationTest extends LinearOpMode {
     AprilTagDetectionPipeline processor;
@@ -77,7 +79,7 @@ public class AprilTagLocalizationTest extends LinearOpMode {
             }
 
 
-            Pose2d estPos = processor.localize(tele, Math.toRadians(imu.getCurrentAngularOrientation().firstAngle));
+            Pose2d estPos = processor.localize(Math.toRadians(imu.getCurrentAngularOrientation().firstAngle));
             if(estPos != null) {
                 tele.addLine(String.format("X(%6.2f) Y(%6.2f) θ(%6.2f)", estPos.getX(), estPos.getY(), imu.getCurrentAngularOrientation().firstAngle));
 

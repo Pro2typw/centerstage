@@ -10,15 +10,15 @@ public class Constants {
     //todo config constants
     @Config(value = "[]Vision Constants")
     public static class Vision {
-        public static int BLUE_CENTER_RECTANGLE_TOP_LEFT_X = 0;
-        public static int BLUE_CENTER_RECTANGLE_TOP_LEFT_Y = 0;
-        public static int BLUE_CENTER_RECTANGLE_BOTTOM_RIGHT_X = 300;
+        public static int BLUE_CENTER_RECTANGLE_TOP_LEFT_X = 260;
+        public static int BLUE_CENTER_RECTANGLE_TOP_LEFT_Y = 300;
+        public static int BLUE_CENTER_RECTANGLE_BOTTOM_RIGHT_X = 100;
         public static int BLUE_CENTER_RECTANGLE_BOTTOM_RIGHT_Y = 300;
 
-        public static int BLUE_LEFT_RECTANGLE_TOP_LEFT_X = 0;
+        public static int BLUE_LEFT_RECTANGLE_TOP_LEFT_X = 270;
         public static int BLUE_LEFT_RECTANGLE_TOP_LEFT_Y = 0;
-        public static int BLUE_LEFT_RECTANGLE_BOTTOM_RIGHT_X = 0;
-        public static int BLUE_LEFT_RECTANGLE_BOTTOM_RIGHT_Y = 0;
+        public static int BLUE_LEFT_RECTANGLE_BOTTOM_RIGHT_X = 200;
+        public static int BLUE_LEFT_RECTANGLE_BOTTOM_RIGHT_Y = 270;
 
         public static int BLUE_RIGHT_RECTANGLE_TOP_LEFT_X = 0;
         public static int BLUE_RIGHT_RECTANGLE_TOP_LEFT_Y = 0;
