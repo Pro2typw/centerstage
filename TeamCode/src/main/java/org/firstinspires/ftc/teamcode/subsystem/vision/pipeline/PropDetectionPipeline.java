@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
-import org.firstinspires.ftc.teamcode.opmode.util.AllianceColor;
+import org.firstinspires.ftc.teamcode.subsystem.util.AllianceColor;
 import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
 import org.firstinspires.ftc.teamcode.util.TeamPropLocation;
 import org.firstinspires.ftc.vision.VisionProcessor;

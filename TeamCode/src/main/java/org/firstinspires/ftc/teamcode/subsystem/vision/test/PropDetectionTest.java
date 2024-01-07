@@ -4,12 +4,10 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode.opmode.util.AllianceColor;
+import org.firstinspires.ftc.teamcode.subsystem.util.AllianceColor;
 import org.firstinspires.ftc.teamcode.subsystem.Camera;
 import org.firstinspires.ftc.teamcode.subsystem.vision.pipeline.PropDetectionPipeline;
-import org.firstinspires.ftc.teamcode.subsystem.vision.util.CameraStreamProcessor;
 import org.firstinspires.ftc.teamcode.util.gamepad.JustPressed;
 import org.firstinspires.ftc.vision.VisionPortal;
 

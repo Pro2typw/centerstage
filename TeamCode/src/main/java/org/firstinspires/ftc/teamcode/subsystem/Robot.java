@@ -11,6 +11,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
+import org.firstinspires.ftc.teamcode.subsystem.vision.pipeline.AprilTagDetectionPipeline;
+import org.firstinspires.ftc.teamcode.subsystem.vision.pipeline.PropDetectionPipeline;
+import org.firstinspires.ftc.teamcode.subsystem.util.AllianceColor;
+import org.firstinspires.ftc.vision.VisionProcessor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -21,6 +25,9 @@ public class Robot {
     public MecanumDrive drive;
     public Hang hang;
     public Wrist wrist;
+    public Camera camera;
+    public AprilTagDetectionPipeline apriltagDetectionPipeline;
+    public PropDetectionPipeline propDetectionPipeline;
     public List<LynxModule> lynxModules;
     public Telemetry telemetry;
 
@@ -51,6 +58,13 @@ public class Robot {
         isResetToIMU = false;
     }
 
+    public Robot(@NotNull HardwareMap hardwareMap, @NotNull Telemetry telemetry, @NotNull Claw.ClawState clawState, @NotNull Hang.HangState hangState, boolean dashboard, AllianceColor color) {
+        this(hardwareMap, telemetry, clawState, hangState, dashboard);
+        apriltagDetectionPipeline = new AprilTagDetectionPipeline();
+        propDetectionPipeline = new PropDetectionPipeline(color);
+        camera = new Camera(hardwareMap, apriltagDetectionPipeline.getAprilTagProcessor(), propDetectionPipeline);
+    }
+
     public void toggleResetToIMU() {
         isResetToIMU = !isResetToIMU;
     }
@@ -72,6 +86,7 @@ public class Robot {
             drive.turnWithPower(driveTurnPower);
         }
 
+        drive.update();
         arm.update();
     }
 

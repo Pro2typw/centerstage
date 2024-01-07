@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.subsystem.Claw;
 import org.firstinspires.ftc.teamcode.subsystem.Hang;
 import org.firstinspires.ftc.teamcode.subsystem.Robot;
+import org.firstinspires.ftc.teamcode.subsystem.util.AllianceColor;
 import org.firstinspires.ftc.teamcode.util.HtmlFormatter;
 import org.firstinspires.ftc.teamcode.util.LoopRateTracker;
 import org.firstinspires.ftc.teamcode.util.gamepad.JustPressed;
@@ -14,7 +15,7 @@ public class LM3 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         LoopRateTracker loopRateTracker;
-        Robot robot = new Robot(hardwareMap, telemetry, Claw.ClawState.OPEN, Hang.HangState.DOWN, true);
+        Robot robot = new Robot(hardwareMap, telemetry, Claw.ClawState.OPEN, Hang.HangState.DOWN, true, AllianceColor.BLUE);
         JustPressed gp1 = new JustPressed(gamepad1);
         JustPressed gp2 = new JustPressed(gamepad2);
 
@@ -34,6 +35,15 @@ public class LM3 extends LinearOpMode {
             robot.getTelemetry();
             robot.telemetry.addData(new HtmlFormatter().textColor("red").format("LoopRate"), loopRateTracker.getLoopTime() + "ms");
             robot.telemetry.update();
+
+            gp1.update();
+            gp2.update();
         }
     }
 }
+
+/*
+    Controls:
+    *
+
+*/
