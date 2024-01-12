@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.opmode.util;
 
-import com.acmerobotics.roadrunner.drive.Drive;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-
 import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
+import org.firstinspires.ftc.teamcode.subsystem.util.AllianceColor;
+import org.firstinspires.ftc.teamcode.subsystem.util.AllianceSide;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.util.TeamPropLocation;
 
 import java.util.HashMap;

@@ -84,6 +84,10 @@ public class Arm {
         motor2.setPower(power2);
     }
 
+    public static double backdropYtoX(double y) {
+        return y / Math.sqrt(3);
+    }
+
     // todo do some conversion
     public static double ticksToMeters(double ticks) {
         return ticks;
