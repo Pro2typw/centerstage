@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystem.util;
 
 import android.annotation.SuppressLint;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.lynx.LynxDcMotorController;
 import com.qualcomm.hardware.lynx.LynxModule;

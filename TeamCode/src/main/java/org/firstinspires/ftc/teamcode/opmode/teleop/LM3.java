@@ -20,6 +20,10 @@ public class LM3 extends LinearOpMode {
 
         double power = 4;
 
+        do {
+            robot.update();
+        } while (opModeInInit());
+
         waitForStart();
 
         loopRateTracker = new LoopRateTracker();

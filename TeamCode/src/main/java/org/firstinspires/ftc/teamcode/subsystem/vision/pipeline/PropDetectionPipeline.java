@@ -24,8 +24,6 @@ public class PropDetectionPipeline implements VisionProcessor {
 
     private TeamPropLocation output = TeamPropLocation.LEFT;
 
-    private final Scalar rectColor;
-
     private final Rect CENTER_RECTANGLE;
 
     private final Rect LEFT_RECTANGLE;
@@ -63,8 +61,6 @@ public class PropDetectionPipeline implements VisionProcessor {
 
             tolerance = 60;
             selectedValue = new Scalar(106, 144, 186);
-
-            rectColor = new Scalar(0, 0, 255);
         }
         else {
             CENTER_RECTANGLE = new Rect(
@@ -84,8 +80,6 @@ public class PropDetectionPipeline implements VisionProcessor {
 
             tolerance = 60;
             selectedValue = new Scalar(5, 185, 128);
-
-            rectColor = new Scalar(255, 0, 0);
         }
         values = selectedValue.val;
         lower = new Scalar(

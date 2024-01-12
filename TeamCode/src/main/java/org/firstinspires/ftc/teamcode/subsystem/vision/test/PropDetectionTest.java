@@ -30,27 +30,20 @@ public class PropDetectionTest extends LinearOpMode {
         while (opModeInInit()) {
             camera.setProcessorEnabled(propDetectionPipeline, true);
 
-            if(gp.a()) {
-                propDetectionPipeline = new PropDetectionPipeline(AllianceColor.BLUE);
-                camera = new Camera(hardwareMap, propDetectionPipeline);
-                while (camera.getCameraState() != VisionPortal.CameraState.STREAMING) {
-                    tele.addLine(camera.getCameraState().toString());
-                    tele.update();
-                    sleep(20);
-                }
-                camera.setProcessorEnabled(propDetectionPipeline, true);
-            }
-
-            double[] boxpercents = propDetectionPipeline.getBoxAreas();
+            double[] percents = propDetectionPipeline.getBoxAreas();
             tele.addData("Location", propDetectionPipeline.getPropPosition());
-            tele.addData("Left Square %", boxpercents[0]);
-            tele.addData("Center Square %", boxpercents[1]);
-            tele.addData("Right Square %", boxpercents[2]);
+            tele.addData("Left Square %", percents[0]);
+            tele.addData("Center Square %", percents[1]);
+            tele.addData("Right Square %", percents[2]);
 
             tele.update();
             gp.update();
         }
 
         waitForStart();
+        while(opModeIsActive()) {
+            tele.addLine("Restart program and don't go past the init mode");
+            tele.update();
+        }
     }
 }

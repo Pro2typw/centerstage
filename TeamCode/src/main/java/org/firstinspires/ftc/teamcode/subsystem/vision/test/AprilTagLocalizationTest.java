@@ -91,5 +91,10 @@ public class AprilTagLocalizationTest extends LinearOpMode {
 
 
         waitForStart();
+
+        while(opModeIsActive()) {
+            tele.addLine("Restart program and don't go past the init mode");
+            tele.update();
+        }
     }
 }
