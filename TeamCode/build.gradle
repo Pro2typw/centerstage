@@ -37,5 +37,7 @@ dependencies {
     implementation 'org.openftc:apriltag:2.0.0'
 
     implementation 'org.ftclib.ftclib:core:2.0.1'
+
+    implementation 'com.github.Eeshwar-Krishnan:PhotonFTC:v3.0.0-ALPHA'
 }
 

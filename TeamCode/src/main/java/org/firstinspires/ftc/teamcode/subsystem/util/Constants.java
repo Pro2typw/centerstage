@@ -81,14 +81,12 @@ public class Constants {
     // todo
     @Config(value = "[]Hang Constants")
     public static class Hang {
-        public final static String LEFT_HANG_MAP_NAME = "hang1";
-        public final static String RIGHT_HANG_MAP_NAME = "hang2";
+        public final static String LEFT_HANG_MAP_NAME = "left hang";
+        public final static String RIGHT_HANG_MAP_NAME = "right hang";
 
+        public static int INIT_POSITION = 0;
         public static int UP_POSITION = 0;
         public static int DOWN_POSITION = 0;
-
-        public static PIDFCoefficients LEFT_HANG_PID_COEFFICIENTS = new PIDFCoefficients(0, 0, 0, 0);
-        public static PIDFCoefficients RIGHT_HANG_PID_COEFFICIENTS = new PIDFCoefficients(0, 0, 0, 0);
 
     }
 

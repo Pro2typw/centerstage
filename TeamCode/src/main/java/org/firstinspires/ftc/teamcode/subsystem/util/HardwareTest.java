@@ -24,7 +24,6 @@ import org.firstinspires.ftc.teamcode.util.TelemetryUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-@Disabled
 @Config
 @TeleOp(group = "test")
 public class HardwareTest extends LinearOpMode {
