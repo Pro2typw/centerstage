@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
+import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -15,8 +17,9 @@ public class Arm {
     private final CachingDcMotorEX motor1, motor2;
 
     // todo figure out whether difference is extension or vice versa
-    private final PIDFController differenceController, averageController;
-    private final GravityFeedforward gravityFeedforward;
+    private final PIDController differenceController, averageController;
+
+    private GravityFeedforward gravityFeedforward;
 
     private int extensionTargetPosition = 0;
     private int pivotTargetPosition = 0;
@@ -31,22 +34,29 @@ public class Arm {
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
 
-        differenceController = new PIDFController(Constants.Arm.AVERAGE_PID_COEFFICIENTS);
-        averageController = new PIDFController(Constants.Arm.DIFFERENCE_PID_COEFFICIENTS);
+        differenceController = new PIDController(Constants.Arm.AVERAGE_PID_COEFFICIENTS.kP, Constants.Arm.AVERAGE_PID_COEFFICIENTS.kI, Constants.Arm.AVERAGE_PID_COEFFICIENTS.kD);
+        averageController = new PIDController(Constants.Arm.DIFFERENCE_PID_COEFFICIENTS.kP, Constants.Arm.DIFFERENCE_PID_COEFFICIENTS.kI, Constants.Arm.DIFFERENCE_PID_COEFFICIENTS.kD);
         gravityFeedforward = new GravityFeedforward(Constants.Arm.GRAVITY_FEEDFORWARD_GAIN);
+    }
 
-        differenceController.setOutputBounds(0, 1);
-        averageController.setOutputBounds(0, 1);
+    public void setGravityFeedforward(@NotNull double gain) {
+        gravityFeedforward = new GravityFeedforward(gain);
+    }
+
+    public void setDifferenceControllerPID(@NotNull PIDCoefficients pid) {
+        differenceController.setPID(pid.kP, pid.kI, pid.kD);
+    }
+
+    public void setAverageControllerPID(@NotNull PIDCoefficients pid) {
+        averageController.setPID(pid.kP, pid.kI, pid.kD);
     }
 
     public void setExtensionTargetPosition(@NotNull int targetPosition) {
         extensionTargetPosition = targetPosition;
-        differenceController.setTargetPosition(extensionTargetPosition);
     }
 
     public void setPivotTargetPosition(@NotNull int targetPosition) {
         pivotTargetPosition = targetPosition;
-        averageController.setTargetPosition(pivotTargetPosition);
     }
 
     public int getExtensionTargetPosition() {
@@ -73,8 +83,8 @@ public class Arm {
         double difference = motor1Position - motor2Position; // todo figure out if this is reversed
         double average = (double) (motor1Position + motor2Position) / 2.0;
 
-        double differencePower = differenceController.update(difference);
-        double averagePower = averageController.update(average);
+        double differencePower = differenceController.calculate(difference, extensionTargetPosition);
+        double averagePower = averageController.calculate(average, extensionTargetPosition);
         double gravityPower = gravityFeedforward.calculate(ticksToMeters(difference), ticksToRadians(average));
 
         double power1 = differencePower + averagePower + gravityPower;

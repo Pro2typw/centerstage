@@ -53,13 +53,13 @@ public class Constants {
     //todo config
     @Config(value = "[]Claw Constants")
     public static class Claw {
-        public final static String RIGHT_CLAW_MAP_NAME = "";
-        public final static String LEFT_CLAW_MAP_NAME = "";
+        public final static String RIGHT_CLAW_MAP_NAME = "right claw"; // named from facing the back of the claw (not thw way it opens but the other way
+        public final static String LEFT_CLAW_MAP_NAME = "left claw"; // named from facing the back of the claw (not thw way it opens but the other way
         
-        public static int RIGHT_CLAW_OPEN_POSITION = 0;
-        public static int RIGHT_CLAW_CLOSE_POSITION = 0;
-        public static int LEFT_CLAW_OPEN_POSITION = 0;
-        public static int LEFT_CLAW_CLOSE_POSITION = 0;
+        public static double RIGHT_CLAW_OPEN_POSITION = .4;
+        public static double RIGHT_CLAW_CLOSE_POSITION = .2;
+        public static double LEFT_CLAW_OPEN_POSITION = .3;
+        public static double LEFT_CLAW_CLOSE_POSITION = .47;
     }
 
     // todo config ig the entire file but ye
