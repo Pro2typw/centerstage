@@ -85,7 +85,7 @@ public class Arm {
 
         double differencePower = differenceController.calculate(difference, extensionTargetPosition);
         double averagePower = averageController.calculate(average, extensionTargetPosition);
-        double gravityPower = gravityFeedforward.calculate(ticksToMeters(difference), ticksToRadians(average));
+        double gravityPower = gravityFeedforward.calculate(ticksToMilimeters(difference), Math.toRadians(ticksToDegrees(average)));
 
         double power1 = differencePower + averagePower + gravityPower;
         double power2 = -differencePower + averagePower - gravityPower;
@@ -98,20 +98,19 @@ public class Arm {
         return y / Math.sqrt(3);
     }
 
-    // todo do some conversion
-    public static double ticksToMeters(double ticks) {
-        return ticks;
+    public static double ticksToMilimeters(double ticks) {
+        return ticks / 8.94468118871;
     }
 
-    public static int metersToTicks(double meters) {
-        return (int) meters;
+    public static int milimetersToTicks(double milimeters) {
+        return (int) (8.94468118871 * milimeters);
     }
 
-    public static double ticksToRadians(double ticks) {
-        return ticks;
+    public static double ticksToDegrees(double ticks) {
+        return ticks / 4.4807486631;
     }
 
-    public static double radiansToTicks(double radians) {
-        return (int) radians;
+    public static double degreesToTicks(double degrees) {
+        return (int) (degrees * 4.4807486631);
     }
 }
