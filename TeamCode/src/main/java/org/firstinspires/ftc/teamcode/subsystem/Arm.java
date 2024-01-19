@@ -16,7 +16,6 @@ public class Arm {
 
     private final CachingDcMotorEX motor1, motor2;
 
-    // todo figure out whether difference is extension or vice versa
     private final PIDController differenceController, averageController;
 
     private GravityFeedforward gravityFeedforward;
@@ -25,6 +24,8 @@ public class Arm {
     private int pivotTargetPosition = 0;
     private int motor1Position, motor2Position;
 
+    private double difference, average, differencePower, averagePower, gravityPower;
+
     public Arm(HardwareMap hardwareMap) {
         motor1 = new CachingDcMotorEX(hardwareMap.get(DcMotorEx.class, Constants.Arm.MOTOR1_MAP_NAME));
         motor2 = new CachingDcMotorEX(hardwareMap.get(DcMotorEx.class, Constants.Arm.MOTOR2_MAP_NAME));
@@ -32,6 +33,7 @@ public class Arm {
         for(DcMotorEx motor : new DcMotorEx[]{motor1, motor2}) {
             motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         }
 
         differenceController = new PIDController(Constants.Arm.AVERAGE_PID_COEFFICIENTS.kP, Constants.Arm.AVERAGE_PID_COEFFICIENTS.kI, Constants.Arm.AVERAGE_PID_COEFFICIENTS.kD);
@@ -40,7 +42,7 @@ public class Arm {
     }
 
     public void setGravityFeedforward(@NotNull double gain) {
-        gravityFeedforward = new GravityFeedforward(gain);
+        gravityFeedforward.setGain(gain);
     }
 
     public void setDifferenceControllerPID(@NotNull PIDCoefficients pid) {
@@ -75,17 +77,20 @@ public class Arm {
         return  motor1Position - motor2Position;
     }
 
+    public double getGravityFFPower() {
+        return gravityPower;
+    }
 
     public void update() {
         motor1Position = motor1.getCurrentPosition();
         motor2Position = motor2.getCurrentPosition();
 
-        double difference = motor1Position - motor2Position; // todo figure out if this is reversed
-        double average = (double) (motor1Position + motor2Position) / 2.0;
+        difference = motor1Position - motor2Position; // todo figure out if this is reversed
+        average = (double) (motor1Position + motor2Position) / 2.0;
 
-        double differencePower = differenceController.calculate(difference, extensionTargetPosition);
-        double averagePower = averageController.calculate(average, extensionTargetPosition);
-        double gravityPower = gravityFeedforward.calculate(ticksToMilimeters(difference), Math.toRadians(ticksToDegrees(average)));
+        differencePower = differenceController.calculate(difference, extensionTargetPosition);
+        averagePower = averageController.calculate(average, extensionTargetPosition);
+        gravityPower = gravityFeedforward.calculate(ticksToMillimeters(difference), Math.toRadians(ticksToDegrees(average)));
 
         double power1 = differencePower + averagePower + gravityPower;
         double power2 = -differencePower + averagePower - gravityPower;
@@ -98,12 +103,12 @@ public class Arm {
         return y / Math.sqrt(3);
     }
 
-    public static double ticksToMilimeters(double ticks) {
+    public static double ticksToMillimeters(double ticks) {
         return ticks / 8.94468118871;
     }
 
-    public static int milimetersToTicks(double milimeters) {
-        return (int) (8.94468118871 * milimeters);
+    public static int millimetersToTicks(double millimeters) {
+        return (int) (8.94468118871 * millimeters);
     }
 
     public static double ticksToDegrees(double ticks) {

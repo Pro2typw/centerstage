@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.subsystem.vision.test;
 
+import android.annotation.SuppressLint;
 import android.util.Size;
 
 import com.acmerobotics.dashboard.FtcDashboard;

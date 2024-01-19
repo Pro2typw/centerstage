@@ -38,10 +38,18 @@ public class ArmTest extends LinearOpMode {
             arm.update();
 
             telemetry.addData("Pivot Current Position", arm.getPivotCurrentPosition());
+            telemetry.addData("Pivot Target Position (deg)", Arm.ticksToDegrees(arm.getPivotCurrentPosition()));
             telemetry.addData("Pivot Target Position", arm.getPivotTargetPosition());
-
+            telemetry.addLine(String.format("Pivot PID: X(%6.10f) Y(%6.10f) θ(%6.10f)", average.kP, average.kI, average.kD));
+            telemetry.addLine();
             telemetry.addData("Extension Current Position", arm.getExtensionCurrentPosition());
+            telemetry.addData("Extension Target Position (mm)", Arm.ticksToMillimeters(arm.getExtensionCurrentPosition()));
             telemetry.addData("Extension Target Position", arm.getExtensionTargetPosition());
+            telemetry.addLine(String.format("Extension PID: X(%6.10f) Y(%6.10f) θ(%6.10f)", average.kP, average.kI, average.kD));
+            telemetry.addLine();
+            telemetry.addData("Gravity FF Gain", gravity);
+            telemetry.addData("Gravity FF Power", arm.getGravityFFPower());
+            telemetry.update();
         }
     }
 }
