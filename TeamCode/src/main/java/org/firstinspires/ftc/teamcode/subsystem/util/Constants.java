@@ -78,6 +78,13 @@ public class Constants {
 
     }
 
+    @Config
+    public static class Launcher {
+        public static final String LAUNCHER_MAP_NAME = "launcherServo";
+
+        public static final double LAUNCHER_LAUNCH_POWER = 1;
+    }
+
     // todo
     @Config(value = "[]Hang Constants")
     public static class Hang {
