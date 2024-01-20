@@ -10,7 +10,7 @@ public class CenterRedlm3version2 {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
 
-        final Pose2d StartingPose = new Pose2d(-36, -72, Math.toRadians(90));
+        final Pose2d StartingPose = new Pose2d(-36, -72+10, Math.toRadians(-90));
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 .setDimensions(14.2, 15.8)
@@ -20,13 +20,13 @@ public class CenterRedlm3version2 {
                                         .addDisplacementMarker(() -> {
 //                                    arm.setState(Arm.ArmState.INTAKE);
                                         })
-                                        .forward(36) //(72-11.2 - 34.6)
+                                        .back(26) //(72-11.2 - 34.6)
                                         .addDisplacementMarker(() -> {
                                             // Place pixel on ground
 //                                    claw.setLeftClawState(Claw.ClawState.OPEN);
                                         })
                                         .waitSeconds(2)
-                                        .back(5)
+                                        .forward(5)
                                         .lineToLinearHeading(new Pose2d(-55.5, -36, Math.toRadians(180)))
                                         .addDisplacementMarker(() -> {
                                             // Place pixel on ground

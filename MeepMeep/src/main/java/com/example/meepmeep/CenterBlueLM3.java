@@ -10,7 +10,7 @@ public class CenterBlueLM3 {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
 
-        final Pose2d StartingPose = new Pose2d(12, 72, Math.toRadians(90));
+        final Pose2d StartingPose = new Pose2d(12, 72-10, Math.toRadians(90));
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 .setDimensions(14.2, 15.8)
@@ -20,7 +20,7 @@ public class CenterBlueLM3 {
                                         .addDisplacementMarker(() -> {
 //                                    arm.setState(Arm.ArmState.INTAKE);
                                         })
-                                        .back(36) //(72-11.2 - 34.6)
+                                        .back(26) //(72-11.2 - 34.6)
                                         .addDisplacementMarker(() -> {
                                             // Place pixel on ground
 //                                    claw.setLeftClawState(Claw.ClawState.OPEN);
