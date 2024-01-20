@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmode.autonomus;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -16,7 +18,8 @@ public class BlueBackdrop extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Robot robot = new Robot(hardwareMap, telemetry, Claw.ClawState.CLOSE, Hang.HangState.DOWN, false, AllianceColor.BLUE);
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        Robot robot = new Robot(hardwareMap, telemetry, Claw.ClawState.CLOSE, Hang.HangState.DOWN, AllianceColor.BLUE);
 
         final Pose2d StartingPose = new Pose2d(12+5, 72-11.2, Math.toRadians(270));
 
