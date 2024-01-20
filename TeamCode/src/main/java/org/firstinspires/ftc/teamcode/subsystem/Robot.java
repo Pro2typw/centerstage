@@ -26,6 +26,7 @@ public class Robot {
     public Hang hang;
     public Wrist wrist;
     public Camera camera;
+    public Launch launch;
     public AprilTagDetectionPipeline apriltagDetectionPipeline;
     public PropDetectionPipeline propDetectionPipeline;
     public List<LynxModule> lynxModules;
@@ -42,6 +43,7 @@ public class Robot {
         drive = new MecanumDrive(hardwareMap);
         hang = new Hang(hardwareMap, hangState);
         wrist = new Wrist(hardwareMap);
+        launch = new Launch(hardwareMap);
 
         lynxModules = hardwareMap.getAll(LynxModule.class);
         for(LynxModule module : lynxModules) {
