@@ -41,33 +41,33 @@ public class RightBluelm3 {
                                             //place pixel on background
                                         })
                                         .waitSeconds(2)
-                                        .splineToLinearHeading(new Pose2d(8.5, 11.3, Math.toRadians(180)), Math.toRadians(180))
+                                        .lineTo(new Vector2d(8.5, 11.3))
                                         .lineTo(new Vector2d(-55, 11.3))
                                         .addDisplacementMarker(() -> {
                                             // Pickup pixel from stack
                                         })
                                         .waitSeconds(1.5)
                                         .lineTo(new Vector2d(8.5, 11.3))
-                                        .splineToLinearHeading(new Pose2d(45, 40.5, Math.toRadians(180)), Math.toRadians(90))
+                                        .lineTo(new Vector2d(45, 40.5))
                                         .addDisplacementMarker(() -> {
                                             // Place pixel on backdrop
                                         })
                                         .waitSeconds(1.5)
 
-                                        .splineToLinearHeading(new Pose2d(8.5, 11.3, Math.toRadians(180)), Math.toRadians(180))
+                                        .lineTo(new Vector2d(8.5, 11.3))
                                         .lineTo(new Vector2d(-55, 11.3))
                                         .addDisplacementMarker(() -> {
                                             // Pickup pixel from stack
                                         })
                                         .waitSeconds(1.5)
                                         .lineTo(new Vector2d(8.5, 11.3))
-                                        .splineToLinearHeading(new Pose2d(45, 40.5, Math.toRadians(180)), Math.toRadians(90))
+                                        .lineTo(new Vector2d(45, 40.5))
                                         .addDisplacementMarker(() -> {
                                             // Place pixel on backdrop
                                         })
                                         .waitSeconds(1.5)
 
-                                        .splineToLinearHeading(new Pose2d(57, 12, Math.toRadians(180)), Math.toRadians(0)) //Park
+                                        .lineTo(new Vector2d(57, 12)) //Park
 
                                         .build()
                 );
