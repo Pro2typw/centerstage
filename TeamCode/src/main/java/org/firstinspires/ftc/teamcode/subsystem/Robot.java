@@ -37,7 +37,7 @@ public class Robot {
     private PIDFController headingPID;
     private boolean isResetToIMU;
 
-    public Robot(@NotNull HardwareMap hardwareMap, @NotNull Telemetry telemetry, @NotNull Claw.ClawState clawState, @NotNull Hang.HangState hangState, boolean dashboard) {
+    public Robot(@NotNull HardwareMap hardwareMap, @NotNull Telemetry telemetry, @NotNull Claw.ClawState clawState, @NotNull Hang.HangState hangState) {
         arm = new Arm(hardwareMap);
         claw = new Claw(hardwareMap, clawState);
         drive = new MecanumDrive(hardwareMap);
@@ -50,8 +50,7 @@ public class Robot {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         }
 
-        if(dashboard) this.telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        else this.telemetry = telemetry;
+        this.telemetry = telemetry;
 
         imu = new IMU(hardwareMap);
         headingPID = new PIDFController(HEADING_PID_COEFFICIENTS);
@@ -60,8 +59,8 @@ public class Robot {
         isResetToIMU = false;
     }
 
-    public Robot(@NotNull HardwareMap hardwareMap, @NotNull Telemetry telemetry, @NotNull Claw.ClawState clawState, @NotNull Hang.HangState hangState, boolean dashboard, AllianceColor color) {
-        this(hardwareMap, telemetry, clawState, hangState, dashboard);
+    public Robot(@NotNull HardwareMap hardwareMap, @NotNull Telemetry telemetry, @NotNull Claw.ClawState clawState, @NotNull Hang.HangState hangState, AllianceColor color) {
+        this(hardwareMap, telemetry, clawState, hangState);
         apriltagDetectionPipeline = new AprilTagDetectionPipeline();
         propDetectionPipeline = new PropDetectionPipeline(color);
         camera = new Camera(hardwareMap, apriltagDetectionPipeline.getAprilTagProcessor(), propDetectionPipeline);

@@ -65,8 +65,8 @@ public class Constants {
     // todo config ig the entire file but ye
     @Config(value = "[]Arm Constants")
     public static class Arm {
-        public final static String MOTOR1_MAP_NAME = "";
-        public final static String MOTOR2_MAP_NAME = "";
+        public final static String MOTOR1_MAP_NAME = "arm left";
+        public final static String MOTOR2_MAP_NAME = " arm right";
 
         public static PIDCoefficients DIFFERENCE_PID_COEFFICIENTS = new PIDCoefficients(0, 0, 0);
         public static PIDCoefficients AVERAGE_PID_COEFFICIENTS = new PIDCoefficients(0, 0, 0);
