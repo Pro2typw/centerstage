@@ -90,7 +90,6 @@ public class LM3 extends LinearOpMode {
             gp2.update();
         }
     }
-}
 
 /*
     Controls:
