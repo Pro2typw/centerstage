@@ -77,6 +77,16 @@ public class Robot {
         }
     }
 
+    /**
+     * call this right before the while(opmodeisactive) loop
+     */
+    public void init() {
+        arm.init();
+    }
+
+    /**
+     * call this in the while(opmodeisaction) loop
+     */
     public void update() {
         if(isResetToIMU) {
             currentOrientation = imu.getCurrentAngularOrientation();
@@ -94,9 +104,6 @@ public class Robot {
         telemetry.addData("Right Claw", claw.getClawState(Claw.ClawSide.RIGHT));
         telemetry.addData("Hang", hang.getState());
         telemetry.addData("Heading", currentOrientation.firstAngle);
-        telemetry.addData("Current Extension", arm.getExtensionCurrentPosition());
-        telemetry.addData("Current Pivot", arm.getPivotCurrentPosition());
-
         //...
     }
 
