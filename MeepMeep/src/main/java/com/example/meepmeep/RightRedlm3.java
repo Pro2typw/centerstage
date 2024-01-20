@@ -1,12 +1,13 @@
 package com.example.meepmeep;
 
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class RightRed {
+public class RightRedlm3 {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
 
@@ -20,7 +21,7 @@ public class RightRed {
                                         .addDisplacementMarker(() -> {
 //                                    arm.setState(Arm.ArmState.INTAKE);
                                         })
-                                        .lineToLinearHeading(new Pose2d(30, -28.4, Math.toRadians(180)))
+                                        .lineToLinearHeading(new Pose2d(15, -30, Math.toRadians(180)))
                                         .addDisplacementMarker(() -> {
                                             // Place pixel on backdrop
 //                                    claw.setRightClawState(Claw.ClawState.OPEN);
@@ -29,27 +30,32 @@ public class RightRed {
 //                                    claw.setLeftClawState(Claw.ClawState.OPEN);
                                         })
                                         .waitSeconds(3)
+                                        .splineToLinearHeading(new Pose2d(45.1, -40.5, Math.toRadians(180)), Math.toRadians(180))
+                                        .addDisplacementMarker(() -> {
+                                            //place pixel on background
+                                        })
+                                        .waitSeconds(2)
                                         .splineToLinearHeading(new Pose2d(8.5, -11.3, Math.toRadians(180)), Math.toRadians(180))
-                                        .lineTo(new Vector2d(-34, -11.3))
+                                        .lineTo(new Vector2d(-55, -11.3))
                                         .addDisplacementMarker(() -> {
                                             // Pickup pixel from stack
                                         })
                                         .waitSeconds(1.5)
                                         .lineTo(new Vector2d(8.5, -11.3))
-                                        .splineToLinearHeading(new Pose2d(30, -34.6, Math.toRadians(180)), Math.toRadians(90))
+                                        .splineToLinearHeading(new Pose2d(44.5, -29.5, Math.toRadians(180)), Math.toRadians(90))
                                         .addDisplacementMarker(() -> {
                                             // Place pixel on backdrop
                                         })
                                         .waitSeconds(1.5)
 
                                         .splineToLinearHeading(new Pose2d(8.5, -11.3, Math.toRadians(180)), Math.toRadians(180))
-                                        .lineTo(new Vector2d(-34, -11.3))
+                                        .lineTo(new Vector2d(-55, -11.3))
                                         .addDisplacementMarker(() -> {
                                             // Pickup pixel from stack
                                         })
                                         .waitSeconds(1.5)
                                         .lineTo(new Vector2d(8.5, -11.3))
-                                        .splineToLinearHeading(new Pose2d(30, -34.6, Math.toRadians(180)), Math.toRadians(90))
+                                        .splineToLinearHeading(new Pose2d(44.5, -29.5, Math.toRadians(180)), Math.toRadians(90))
                                         .addDisplacementMarker(() -> {
                                             // Place pixel on backdrop
                                         })
