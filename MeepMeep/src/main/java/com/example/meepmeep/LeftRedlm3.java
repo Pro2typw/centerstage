@@ -18,7 +18,7 @@ public class LeftRedlm3 {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
 
-        final Pose2d StartingPose = new Pose2d(12+5, -72+11.2, Math.toRadians(90));
+        final Pose2d StartingPose = new Pose2d(12, -72, Math.toRadians(-90));
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 .setDimensions(14.2, 15.8)
@@ -34,7 +34,7 @@ public class LeftRedlm3 {
 //                                    claw.setRightClawState(Claw.ClawState.OPEN);
                                         })
                                         .waitSeconds(1.5)
-                                        .lineTo(new Vector2d(36, -30))
+                                        .lineTo(new Vector2d(12, -32))
                                         .addDisplacementMarker(() -> {
                                             // Place pixel on ground
 //                                    claw.setLeftClawState(Claw.ClawState.OPEN);

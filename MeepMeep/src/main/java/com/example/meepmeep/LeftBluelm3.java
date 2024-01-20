@@ -18,7 +18,7 @@ public class LeftBluelm3 {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
 
-        final Pose2d StartingPose = new Pose2d(12+5, 72-11.2, Math.toRadians(270));
+        final Pose2d StartingPose = new Pose2d(12, 72, Math.toRadians(90));
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 .setDimensions(14.2, 15.8)
