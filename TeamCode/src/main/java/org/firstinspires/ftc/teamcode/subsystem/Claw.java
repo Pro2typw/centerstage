@@ -20,7 +20,7 @@ public class Claw {
     }
     
     private final CachingServo rightClaw, leftClaw;
-    private final DistanceSensor rightSensor, leftSensor;
+//    private final DistanceSensor rightSensor, leftSensor;
 
     private ClawState rightClawState, leftClawState;
     
@@ -28,8 +28,8 @@ public class Claw {
         rightClaw = new CachingServo(hardwareMap.get(Servo.class, Constants.Claw.RIGHT_CLAW_MAP_NAME));
         leftClaw = new CachingServo(hardwareMap.get(Servo.class, Constants.Claw.LEFT_CLAW_MAP_NAME));
 
-        rightSensor = hardwareMap.get(DistanceSensor.class, "..");
-        leftSensor = hardwareMap.get(DistanceSensor.class, "..");
+//        rightSensor = hardwareMap.get(DistanceSensor.class, "..");
+//        leftSensor = hardwareMap.get(DistanceSensor.class, "..");
 
         setClawState(ClawSide.BOTH, state);
     }

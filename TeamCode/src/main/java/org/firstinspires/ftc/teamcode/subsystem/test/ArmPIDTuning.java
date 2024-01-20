@@ -9,12 +9,15 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.teamcode.subsystem.Arm;
+import org.firstinspires.ftc.teamcode.subsystem.Wrist;
+import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
 
 @TeleOp(group = "test")
 @Config
 public class ArmPIDTuning extends LinearOpMode {
 
     public VoltageSensor batterVoltageSensor;
+
 
     public static double pivotTargetPos = 0;
     public static double extensionTargetPos = 0;
@@ -37,6 +40,7 @@ public class ArmPIDTuning extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Arm arm = new Arm(hardwareMap);
+        Wrist wrist = new Wrist(hardwareMap);
         batterVoltageSensor = hardwareMap.voltageSensor.iterator().next();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -49,7 +53,7 @@ public class ArmPIDTuning extends LinearOpMode {
         long lastTime = startTime;
 
         while (opModeIsActive()) {
-
+            wrist.setPosition(Constants.Wrist.INTAKE_POS);
             double difference = (arm.motor1.getCurrentPosition() - arm.motor2.getCurrentPosition())/2.0;
 
             differenceError = pivotTargetPos - difference;

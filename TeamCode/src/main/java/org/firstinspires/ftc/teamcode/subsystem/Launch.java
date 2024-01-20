@@ -10,26 +10,13 @@ import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
 
 public class Launch {
 
-    public CRServo servo;
-
-    public static enum LaunchState{
-        LAUCHING,
-        STOP
-    }
-
-    public LaunchState LauncherState;
+    public Servo servo;
 
     public Launch(@NonNull HardwareMap hardwareMap) {
-        servo = hardwareMap.get(CRServo.class, "servo");
-        LauncherState = LaunchState.STOP;
+        servo = hardwareMap.get(Servo.class, Constants.Plane.DRONE_MAP_NAME);
+        servo.setPosition(Constants.Plane.INIT_POS);
     }
-    public void activateLauncher(LaunchState state){
-        if(state == LaunchState.STOP) servo.setPower(0);
-        else servo.setPower(Constants.Launcher.LAUNCHER_LAUNCH_POWER);
-    }
-
-    public void switchState(){
-        activateLauncher(LauncherState == LaunchState.STOP? LaunchState.LAUCHING: LaunchState.STOP);
-
+    public void launch() {
+        servo.setPosition(Constants.Plane.LAUNCH_POS);
     }
 }

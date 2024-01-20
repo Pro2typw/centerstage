@@ -56,10 +56,10 @@ public class Constants {
         public final static String RIGHT_CLAW_MAP_NAME = "right claw"; // named from facing the back of the claw (not thw way it opens but the other way
         public final static String LEFT_CLAW_MAP_NAME = "left claw"; // named from facing the back of the claw (not thw way it opens but the other way
         
-        public static double RIGHT_CLAW_OPEN_POSITION = .4;
-        public static double RIGHT_CLAW_CLOSE_POSITION = .2;
-        public static double LEFT_CLAW_OPEN_POSITION = .3;
-        public static double LEFT_CLAW_CLOSE_POSITION = .47;
+        public static double RIGHT_CLAW_OPEN_POSITION = .2;
+        public static double RIGHT_CLAW_CLOSE_POSITION = .53;
+        public static double LEFT_CLAW_OPEN_POSITION = .4;
+        public static double LEFT_CLAW_CLOSE_POSITION = .25;
     }
 
     // todo config ig the entire file but ye
@@ -107,8 +107,22 @@ public class Constants {
     // todo config
     @Config(value = "[]Wrist Constants")
     public static class Wrist {
-        public final static String WRIST_MAP_NAME = "";
-        
+        public final static String WRIST_MAP_NAME = "wrist";
+
+
+        public static double REST_POS = .3;
+        public static double INTAKE_POS = .8;
+        public static double LOW_DEPO_POS = .2;
+        public static double HIGH_DEPO_POS = .8 ;
+
+
+    }
+
+    @Config
+    public static class Plane {
+        public final static String DRONE_MAP_NAME = "drone";
+        public static double INIT_POS = .2;
+        public static double LAUNCH_POS = .68;
     }
     
 }

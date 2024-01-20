@@ -13,10 +13,12 @@ import org.firstinspires.ftc.teamcode.subsystem.Hang;
 import org.firstinspires.ftc.teamcode.subsystem.Arm;
 import org.firstinspires.ftc.teamcode.subsystem.Claw;
 import org.firstinspires.ftc.teamcode.subsystem.Robot;
+import org.firstinspires.ftc.teamcode.subsystem.Wrist;
 import org.firstinspires.ftc.teamcode.subsystem.util.AllianceColor;
 import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
 import org.firstinspires.ftc.teamcode.util.HtmlFormatter;
 import org.firstinspires.ftc.teamcode.util.LoopRateTracker;
+import org.firstinspires.ftc.teamcode.util.WPIMathUtil;
 import org.firstinspires.ftc.teamcode.util.gamepad.JustPressed;
 import org.firstinspires.ftc.teamcode.subsystem.Launch;
 
@@ -46,45 +48,38 @@ public class LM3 extends LinearOpMode {
             robot.clearCache();
             robot.update();
 
-            robot.drive.setPowers(gp1.left_stick_x(), gp1.left_stick_y(), gp1.right_stick_x(), x -> (Math.pow(x, power) * .75 * Math.signum(x)));
+            robot.drive.setPowers(gp1.left_stick_x(), -gp1.left_stick_y(), gp1.right_stick_x(), x -> (Math.pow(x, power) * .75 * Math.signum(x)));
 
             //Plane
-            if(jpgamepad1.x()) robot.launch.switchState();
+            if(jpgamepad1.x()) robot.launch.launch();
 
             //Claw
-            if(jpgamepad1.left_bumper() || jpgamepad2.left_bumper()) //robot.claw.inverseLeftClawState();
-            if(jpgamepad1.right_bumper() || jpgamepad2.right_bumper()) //robot.claw.inverseRightClawState();
+            if(jpgamepad1.left_bumper() || jpgamepad2.left_bumper()) robot.claw.setClawState(Claw.ClawSide.LEFT, robot.claw.getClawState(Claw.ClawSide.LEFT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
+            if(jpgamepad1.right_bumper() || jpgamepad2.right_bumper()) robot.claw.setClawState(Claw.ClawSide.RIGHT, robot.claw.getClawState(Claw.ClawSide.RIGHT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
             if(jpgamepad1.b() || jpgamepad2.b()) {
-                //robot.claw.inverseLeftClawState();
-                //robot.claw.inverseRightClawState();
+                robot.claw.setClawState(Claw.ClawSide.LEFT, robot.claw.getClawState(Claw.ClawSide.LEFT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
+                robot.claw.setClawState(Claw.ClawSide.RIGHT, robot.claw.getClawState(Claw.ClawSide.RIGHT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
+            }
 
             //arm stuff
             if(jpgamepad1.a()) {
-                //ashwin press A, (if already at backdrop -> goes to floor) and vice versa
-    //            if (robot.arm.isAtBackdrop()) {
-    //                robot.arm.moveToFloor();
-                } else {
-    //                robot.arm.moveToBackdrop();
-                }
+                robot.arm.setPivotTargetPos(WPIMathUtil.isNear(600, robot.arm.getPivotTargetPos(), 20) ? 100 : 600);
             }
 
             //manual adjust for pivot - left stick gamepad 2
   //          robot.arm.adjustPivot(jpgamepad2.left_stick_y());
-
+            if(robot.arm.getPivotTargetPos() + jpgamepad2.left_stick_y() * 10 < 600 || robot.arm.getPivotTargetPos() + jpgamepad2.left_stick_y() * 10 > 0)
+                robot.arm.setPivotTargetPos(robot.arm.getPivotTargetPos() - jpgamepad2.left_stick_y() * 10);
             //manual adjust for wrist - right stick gamepad 2
   //          robot.arm.adjustWrist(jpgamepad2.right_stick_y());
+            if(jpgamepad2.dpad_down()) robot.wrist.setState(Wrist.WristState.LOW_DEPO_POS);
+            if(jpgamepad2.dpad_up()) robot.wrist.setState(Wrist.WristState.HIGH_DEPO_POS);
+            if(jpgamepad2.dpad_left()) robot.wrist.setState(Wrist.WristState.INTAKE_POS);
 
-            }
+            jpgamepad2.update();
+            jpgamepad1.update();
 
-
-
-
-
-            robot.getTelemetry();
-            robot.telemetry.update();
-
-            gp1.update();
-            gp2.update();
+        }
         }
     }
 
