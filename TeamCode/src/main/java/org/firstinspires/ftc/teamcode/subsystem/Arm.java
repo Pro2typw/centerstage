@@ -1,17 +1,12 @@
 package org.firstinspires.ftc.teamcode.subsystem;
-// n words
+
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
-import com.acmerobotics.roadrunner.control.PIDFController;
-import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.teamcode.justbetter.actuator.CachingDcMotorEX;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
-import org.firstinspires.ftc.teamcode.subsystem.util.GravityFeedforward;
-import org.jetbrains.annotations.NotNull;
 
 public class Arm {
 
@@ -30,10 +25,89 @@ public class Arm {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             motor.setDirection(DcMotorSimple.Direction.REVERSE);
         }
+
+        batterVoltageSensor = hardwareMap.voltageSensor.iterator().next();
+        batterComp = (12.8 / batterVoltageSensor.getVoltage());
+
+    }
+
+    public VoltageSensor batterVoltageSensor;
+
+    public double pivotTargetPos = 0;
+    public double extensionTargetPos = 0;
+
+    public double getPivotTargetPos() {
+        return pivotTargetPos;
+    }
+
+    public void setPivotTargetPos(double pivotTargetPos) {
+        this.pivotTargetPos = pivotTargetPos;
+    }
+
+    public double getExtensionTargetPos() {
+        return extensionTargetPos;
+    }
+
+    public void setExtensionTargetPos(double extensionTargetPos) {
+        this.extensionTargetPos = extensionTargetPos;
+    }
+
+    public static PIDCoefficients averageCoef = new PIDCoefficients(0.008, 0, 0);
+    public static PIDCoefficients differenceCoef = new PIDCoefficients(0.004, 9e-16, 100000);
+
+
+
+    public double differenceError = 0;
+    public double averageError;
+    public double lastdifferenceError = 0;
+    public double lastaverageError = 0;
+    public double totaldifferenceError = 0;
+    public double totalaverageError = 0;
+
+    public double batterComp = 0;
+
+    long startTime;
+    long lastTime;
+
+    public void init() {
+        startTime = System.nanoTime();
+        lastTime = startTime;
     }
 
     public void update() {
+        double difference = (motor1.getCurrentPosition() - motor2.getCurrentPosition())/2.0;
 
+        differenceError = pivotTargetPos - difference;
+        if (differenceError * lastdifferenceError <= 0) totaldifferenceError = 0;
+        else totaldifferenceError += differenceError;
+        double differenceI = (totaldifferenceError * (System.nanoTime() - startTime)) * differenceCoef.kI;
+        double differenceD = ((differenceError - lastdifferenceError) / (System.nanoTime() - lastTime)) * differenceCoef.kD;
+        double differenceP = differenceError * differenceCoef.kP;
+
+        double differencePower = differenceP + differenceI + differenceD;
+
+
+
+        double average = (motor1.getCurrentPosition() + motor2.getCurrentPosition()) / 2.0;
+
+        averageError = extensionTargetPos - average;
+        if (averageError * lastaverageError <= 0) totalaverageError = 0;
+        else totalaverageError += averageError;
+        double averageI = (totalaverageError * (System.nanoTime() - startTime)) * averageCoef.kI;
+        double averageD = ((averageError - lastaverageError) / (System.nanoTime() - lastTime)) * averageCoef.kD;
+        double averageP = averageError * averageCoef.kP;
+
+        double averagePower = averageP + averageI + averageD;
+        double gravityPower = Math.cos(Math.toRadians(Arm.ticksToDegrees(difference))) * .15 * batterComp;
+        double power1 = differencePower + averagePower + gravityPower;
+        double power2 = -differencePower + averagePower - gravityPower;
+
+        motor1.setPower(power1);
+        motor2.setPower(power2);
+
+
+        lastTime = System.nanoTime();
+        lastdifferenceError = differenceError;
     }
 
     public static double backdropYtoX(double y) {
