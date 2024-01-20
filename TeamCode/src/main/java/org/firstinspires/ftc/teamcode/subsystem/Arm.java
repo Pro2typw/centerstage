@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystem;
-
+// n words
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.arcrobotics.ftclib.controller.PIDController;
@@ -55,4 +55,13 @@ public class Arm {
     public static double degreesToTicks(double degrees) {
         return (int) (degrees * 4.4807486631);
     }
+
+    // 550 ticks 4.04 ticks per degree
+    public enum ArmPositions{
+        FLAT,
+        BACKBOARD,
+        COMINGDOWN
+    }
+
+
 }

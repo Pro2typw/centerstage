@@ -14,7 +14,7 @@ bed
   - <span style="color:yellow">RR Tuning (not starty)</span>
   - <span style="color:yellow">Heading for IMU (code done, needs robo to be built)</span>
   - <span style="color:yellow">April Tag Localization need testing (code done, tuning for robot)</span>
-  - <span style="color:yellow">Prop Detection (code done, tune ROI)</span>
+  -  Prop Detection (code done, tune ROI)</span>
 - U League Tournament
   - Extension Motion Profiling
   - Wrist Differential
