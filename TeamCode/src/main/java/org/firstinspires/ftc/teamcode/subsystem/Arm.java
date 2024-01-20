@@ -118,4 +118,13 @@ public class Arm {
     public static double degreesToTicks(double degrees) {
         return (int) (degrees * 4.4807486631);
     }
+
+    // 550 ticks 4.04 ticks per degree
+    public enum ArmPositions{
+        FLAT,
+        BACKBOARD,
+        COMINGDOWN
+    }
+
+
 }
