@@ -14,11 +14,11 @@ import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class LeftBluelm3 {
+public class LeftRedlm3version2 {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
 
-        final Pose2d StartingPose = new Pose2d(12+5, 72-11.2, Math.toRadians(270));
+        final Pose2d StartingPose = new Pose2d(-36+5, -72+11.2, Math.toRadians(90));
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 .setDimensions(14.2, 15.8)
@@ -28,46 +28,62 @@ public class LeftBluelm3 {
                                         .addDisplacementMarker(() -> {
 //                                    arm.setState(Arm.ArmState.INTAKE);
                                         })
-                                        .lineToLinearHeading(new Pose2d(46, 40, Math.toRadians(180)))
+                                        .lineToLinearHeading(new Pose2d(-37, -35, Math.toRadians(180)))
                                         .addDisplacementMarker(() -> {
-                                            // Place pixel on backdrop
-//                                    claw.setRightClawState(Claw.ClawState.OPEN);
+                                            // Place pixel on ground
+//                                    claw.setLeftClawState(Claw.ClawState.OPEN);
                                         })
-                                        .waitSeconds(1.5)
-                                        .strafeLeft(12.6)
-                                        .forward(8.5)
+                                        .waitSeconds(2)
+                                        .strafeRight(24)
                                         .addDisplacementMarker(() -> {
                                             // Place pixel on ground
 //                                    claw.setLeftClawState(Claw.ClawState.OPEN);
                                         })
                                         .waitSeconds(1.5)
-                                        .lineTo(new Vector2d(28, 11.3))
-                                        .lineTo(new Vector2d(-50, 11.3))
+                                        .lineTo(new Vector2d(-55.5, -11.7))
+                                        .addDisplacementMarker(() -> {
+                                            // Place pixel on ground
+//                                    claw.setLeftClawState(Claw.ClawState.OPEN);
+                                        })
+                                        .lineTo(new Vector2d(28, -11.3))
+                                        .lineTo(new Vector2d(46, -27.4))
+                                        .addDisplacementMarker(() -> {
+                                            // Place pixel on ground
+//                                    claw.setLeftClawState(Claw.ClawState.OPEN);
+                                        })
+                                        .strafeLeft(-13)
+                                        .addDisplacementMarker(() -> {
+                                            // Place pixel on ground
+//                                    claw.setLeftClawState(Claw.ClawState.OPEN);
+                                        })
+                                        .waitSeconds(1.5)
+                                        .lineTo(new Vector2d(28, -11.3))
+                                        .lineTo(new Vector2d(-55, -11.3))
                                         .addDisplacementMarker(() -> {
                                             // Pickup pixel from stack
                                         })
                                         .waitSeconds(1.5)
-                                        .lineTo(new Vector2d(25, 11.3))
-                                        .lineTo(new Vector2d(46, 27.4))
+                                        .lineTo(new Vector2d(25, -11.3))
+                                        .lineTo(new Vector2d(46, -27.4))
                                         .addDisplacementMarker(() -> {
                                             // Place pixel on backdrop
                                         })
                                         .waitSeconds(1.5)
 
-                                        .lineTo(new Vector2d(25, 11.3))
-                                        .lineTo(new Vector2d(-50, 11.3))
+                                        .lineTo(new Vector2d(25, -11.3))
+                                        .lineTo(new Vector2d(-55, -11.3))
                                         .addDisplacementMarker(() -> {
                                             // Pickup pixel from stack
                                         })
                                         .waitSeconds(1.5)
-                                        .lineTo(new Vector2d(25, 11.3))
-                                        .lineTo(new Vector2d(46, 27.4))
+                                        .lineTo(new Vector2d(25, -11.3))
+                                        .lineTo(new Vector2d(46, -27.4))
                                         .addDisplacementMarker(() -> {
                                             // Place pixel on backdrop
                                         })
                                         .waitSeconds(1.5)
 
-                                        .lineTo(new Vector2d(57, 12))
+                                        .lineTo(new Vector2d(57, -12))
 
                                         .build()
                 );
