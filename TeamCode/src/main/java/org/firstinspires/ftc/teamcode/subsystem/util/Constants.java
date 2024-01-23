@@ -55,7 +55,11 @@ public class Constants {
     public static class Claw {
         public final static String RIGHT_CLAW_MAP_NAME = "right claw"; // named from facing the back of the claw (not thw way it opens but the other way
         public final static String LEFT_CLAW_MAP_NAME = "left claw"; // named from facing the back of the claw (not thw way it opens but the other way
-        
+
+        public final static String RIGHT_CLAW_DISTANCE_SENSOR_MAP = "right claw distance sensor";
+        public final static String LEFT_CLAW_DISTANCE_SENSOR_MAP = "left claw distance sensor";
+
+
         public static double RIGHT_CLAW_OPEN_POSITION = .2;
         public static double RIGHT_CLAW_CLOSE_POSITION = .53;
         public static double LEFT_CLAW_OPEN_POSITION = .4;
@@ -68,8 +72,8 @@ public class Constants {
         public final static String MOTOR1_MAP_NAME = "arm left";
         public final static String MOTOR2_MAP_NAME = " arm right";
 
-        public static PIDCoefficients DIFFERENCE_PID_COEFFICIENTS = new PIDCoefficients(0, 0, 0);
-        public static PIDCoefficients AVERAGE_PID_COEFFICIENTS = new PIDCoefficients(0, 0, 0);
+        public static PIDCoefficients DIFFERENCE_PID_COEFFICIENTS = new PIDCoefficients(0.004, 9e-16, 100000);
+        public static PIDCoefficients AVERAGE_PID_COEFFICIENTS = new PIDCoefficients(0.008, 0, 0);
         public static double GRAVITY_FEEDFORWARD_GAIN = 0;
 
         public static int targetPivotPosition = 0;

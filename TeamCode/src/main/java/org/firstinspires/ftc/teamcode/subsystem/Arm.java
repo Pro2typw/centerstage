@@ -52,9 +52,6 @@ public class Arm {
         this.extensionTargetPos = extensionTargetPos;
     }
 
-    public static PIDCoefficients averageCoef = new PIDCoefficients(0.008, 0, 0);
-    public static PIDCoefficients differenceCoef = new PIDCoefficients(0.004, 9e-16, 100000);
-
 
 
     public double differenceError = 0;
@@ -82,9 +79,9 @@ public class Arm {
         differenceError = pivotTargetPos - difference;
         if (differenceError * lastdifferenceError <= 0) totaldifferenceError = 0;
         else totaldifferenceError += differenceError;
-        double differenceI = (totaldifferenceError * (System.nanoTime() - startTime)) * differenceCoef.kI;
-        double differenceD = ((differenceError - lastdifferenceError) / (System.nanoTime() - lastTime)) * differenceCoef.kD;
-        double differenceP = differenceError * differenceCoef.kP;
+        double differenceI = (totaldifferenceError * (System.nanoTime() - startTime)) * Constants.Arm.DIFFERENCE_PID_COEFFICIENTS.kI;
+        double differenceD = ((differenceError - lastdifferenceError) / (System.nanoTime() - lastTime)) * Constants.Arm.DIFFERENCE_PID_COEFFICIENTS.kD;
+        double differenceP = differenceError * Constants.Arm.DIFFERENCE_PID_COEFFICIENTS.kP;
 
         double differencePower = differenceP + differenceI + differenceD;
 
@@ -93,9 +90,9 @@ public class Arm {
         averageError = extensionTargetPos - average;
         if (averageError * lastaverageError <= 0) totalaverageError = 0;
         else totalaverageError += averageError;
-        double averageI = (totalaverageError * (System.nanoTime() - startTime)) * averageCoef.kI;
-        double averageD = ((averageError - lastaverageError) / (System.nanoTime() - lastTime)) * averageCoef.kD;
-        double averageP = averageError * averageCoef.kP;
+        double averageI = (totalaverageError * (System.nanoTime() - startTime)) * Constants.Arm.AVERAGE_PID_COEFFICIENTS.kI;
+        double averageD = ((averageError - lastaverageError) / (System.nanoTime() - lastTime)) * Constants.Arm.AVERAGE_PID_COEFFICIENTS.kD;
+        double averageP = averageError * Constants.Arm.AVERAGE_PID_COEFFICIENTS.kP;
 
         double averagePower = averageP + averageI + averageD;
         double gravityPower = Math.cos(Math.toRadians(Arm.ticksToDegrees(difference))) * .15 * batterComp * G;
