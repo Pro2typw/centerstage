@@ -48,6 +48,11 @@ public class LMT extends LinearOpMode {
             // arm
 
 
+            //launch (switch up the holding (back or mode button) and x-clicking based on preference [it should be ashwin clicking x btw yall r dumb] )
+            if(gamepad1.guide)
+                if(gamepad2.x)
+                    robot.launch.launch();
+
 
 
             gp1.update();
@@ -61,7 +66,7 @@ public class LMT extends LinearOpMode {
  * left/right bumpers for left/right claw to either d1 or d2 (not both)
  * b for both claw to either d1 or d2 (not both)
  * guide for launch for d2:
- *  d2 holds a misc. button and then d1 shoots (safety switch)
+ *  d2 holds a misc. button and then d1 shoots (safety switch) -- done
  * start for hang for d2 -- done
  *
  * arm stuff:
