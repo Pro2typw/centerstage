@@ -30,8 +30,8 @@ public class Claw {
         rightClaw = new CachingServo(hardwareMap.get(Servo.class, Constants.Claw.RIGHT_CLAW_MAP_NAME));
         leftClaw = new CachingServo(hardwareMap.get(Servo.class, Constants.Claw.LEFT_CLAW_MAP_NAME));
 
-//        rightSensor = hardwareMap.get(DistanceSensor.class, Constan);
-//        leftSensor = hardwareMap.get(DistanceSensor.class, "..");
+        rightSensor = hardwareMap.get(DistanceSensor.class, Constants.Claw.RIGHT_CLAW_DISTANCE_SENSOR_MAP);
+        leftSensor = hardwareMap.get(DistanceSensor.class, Constants.Claw.LEFT_CLAW_DISTANCE_SENSOR_MAP);
 
         setClawState(ClawSide.BOTH, state);
         flipped = false;
