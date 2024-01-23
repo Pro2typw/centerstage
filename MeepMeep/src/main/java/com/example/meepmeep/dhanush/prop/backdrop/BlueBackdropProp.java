@@ -1,4 +1,4 @@
-package com.example.meepmeep.dhanush;
+package com.example.meepmeep.dhanush.prop.backdrop;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -6,7 +6,7 @@ import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class BlueStackProp {
+public class BlueBackdropProp {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
         final double LENGTH = 18;
@@ -19,18 +19,18 @@ public class BlueStackProp {
                 .setDimensions(14.2, LENGTH - 4)
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(0), 12.5)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(StartingPose)
-                                .addDisplacementMarker(() -> {
-                                    // point toward backdrop ready to drop
-                                })
-                                .splineTo(new Vector2d(36, 36), Math.toRadians(0))
-                                .addDisplacementMarker(() -> {
-                                    // drop yellow pixel on backdrop
-                                    // rotate extension and pivot to match purple
-                                    // drop purple pixel
-                                })
-                                .waitSeconds(1)
-                                .build()
+                                drive.trajectorySequenceBuilder(StartingPose)
+                                        .addDisplacementMarker(() -> {
+                                            // point toward backdrop ready to drop
+                                        })
+                                        .splineTo(new Vector2d(36, 36), Math.toRadians(0))
+                                        .addDisplacementMarker(() -> {
+                                            // drop yellow pixel on backdrop
+                                            // rotate extension and pivot to match purple
+                                            // drop purple pixel
+                                        })
+                                        .waitSeconds(1)
+                                        .build()
                 );
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
