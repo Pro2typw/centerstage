@@ -75,13 +75,21 @@ public class Hang {
         return state;
     }
 
-    public int[] getCurrentHangPositions() {
-        return hang.getCurrentPositions();
-    }
-
-    public int getCurrentHangPosition() {
+    public int getCurrentPosition() {
         return hang.getCurrentPosition();
     }
 
+    public void cycleNextHangState() {
+        switch (state) {
+            case DOWN:
+            case INIT:
+                setState(HangState.UP);
+                break;
+            case UP:
+                setState(HangState.DOWN);
+                break;
+
+        }
+    }
 
 }

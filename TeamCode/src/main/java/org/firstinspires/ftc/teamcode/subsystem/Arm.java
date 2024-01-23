@@ -66,6 +66,8 @@ public class Arm {
 
     public double batterComp = 0;
 
+    public static double G = 0.6;
+
     long startTime;
     long lastTime;
 
@@ -86,8 +88,6 @@ public class Arm {
 
         double differencePower = differenceP + differenceI + differenceD;
 
-
-
         double average = (motor1.getCurrentPosition() + motor2.getCurrentPosition()) / 2.0;
 
         averageError = extensionTargetPos - average;
@@ -98,7 +98,7 @@ public class Arm {
         double averageP = averageError * averageCoef.kP;
 
         double averagePower = averageP + averageI + averageD;
-        double gravityPower = Math.cos(Math.toRadians(Arm.ticksToDegrees(difference))) * .15 * batterComp;
+        double gravityPower = Math.cos(Math.toRadians(Arm.ticksToDegrees(difference))) * .15 * batterComp * G;
         double power1 = differencePower + averagePower + gravityPower;
         double power2 = -differencePower + averagePower - gravityPower;
 
@@ -128,13 +128,6 @@ public class Arm {
 
     public static double degreesToTicks(double degrees) {
         return (int) (degrees * 4.4807486631);
-    }
-
-    // 550 ticks 4.04 ticks per degree
-    public enum ArmPositions{
-        FLAT,
-        BACKBOARD,
-        COMINGDOWN
     }
 
 

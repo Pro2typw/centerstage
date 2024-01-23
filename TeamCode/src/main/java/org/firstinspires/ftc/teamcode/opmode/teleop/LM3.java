@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.subsystem.Launch;
 public class LM3 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        Robot robot = new Robot(hardwareMap, telemetry, Claw.ClawState.OPEN, Hang.HangState.DOWN);
+        Robot robot = new Robot(hardwareMap, telemetry, Claw.ClawState.OPEN);
         JustPressed gp1 = new JustPressed(gamepad1);
         JustPressed gp2 = new JustPressed(gamepad2);
 

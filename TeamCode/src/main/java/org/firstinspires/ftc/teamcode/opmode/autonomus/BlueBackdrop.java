@@ -16,10 +16,12 @@ import org.firstinspires.ftc.teamcode.util.TeamPropLocation;
 public class BlueBackdrop extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        Robot robot = new Robot(hardwareMap, telemetry, Claw.ClawState.CLOSE, Hang.HangState.DOWN);
+        Robot robot = new Robot(hardwareMap, telemetry, Claw.ClawState.CLOSE);
         TeamPropLocation loc = TeamPropLocation.LEFT;
+        final Pose2d startPose = new Pose2d(12, 72-10, Math.toRadians(90));
 
-        TrajectorySequence left = robot.drive.trajectorySequenceBuilder(new Pose2d())
+        robot.drive.setPoseEstimate(startPose);
+        TrajectorySequence left = robot.drive.trajectorySequenceBuilder(startPose)
 
                 //insert
                 .lineToLinearHeading(new Pose2d(46, 40, Math.toRadians(180)))
@@ -64,7 +66,7 @@ public class BlueBackdrop extends LinearOpMode {
                 .lineTo(new Vector2d(57, 12))
 
                 .build();
-        TrajectorySequence right = robot.drive.trajectorySequenceBuilder(new Pose2d())
+        TrajectorySequence right = robot.drive.trajectorySequenceBuilder(startPose)
                 //insert
                 .back(5)
                 .addDisplacementMarker(() -> {
@@ -116,7 +118,7 @@ public class BlueBackdrop extends LinearOpMode {
                 .lineTo(new Vector2d(57, 12)) //Park
 
                 .build();
-        TrajectorySequence center = robot.drive.trajectorySequenceBuilder(new Pose2d())
+        TrajectorySequence center = robot.drive.trajectorySequenceBuilder(startPose)
                 .back(5)
                 .lineToLinearHeading(new Pose2d(12, 72-10-6, Math.toRadians(270)))
                 .addDisplacementMarker(() -> {
@@ -165,15 +167,6 @@ public class BlueBackdrop extends LinearOpMode {
 
                 .build();
 
-
-        do {
-            if(loc == TeamPropLocation.LEFT) loc = TeamPropLocation.CENTER;
-            else if(loc == TeamPropLocation.CENTER) loc = TeamPropLocation.RIGHT;
-            else loc = TeamPropLocation.LEFT;
-            telemetry.addData("PROP Location", loc);
-            telemetry.update();
-            sleep(1000);
-        } while (opModeInInit());
 
         waitForStart();
         robot.init();

@@ -28,11 +28,11 @@ public class PropDetectionTest extends LinearOpMode {
         while (opModeInInit()) {
             camera.setProcessorEnabled(propDetectionPipeline, true);
 
-            double[] percents = propDetectionPipeline.getBoxAreas();
-            tele.addData("Location", propDetectionPipeline.getPropPosition());
-            tele.addData("Left Square %", percents[0]);
-            tele.addData("Center Square %", percents[1]);
-            tele.addData("Right Square %", percents[2]);
+//            double[] percents = propDetectionPipeline.getBoxAreas();
+//            tele.addData("Location", propDetectionPipeline.getPropPosition());
+//            tele.addData("Left Square %", percents[0]);
+//            tele.addData("Center Square %", percents[1]);
+//            tele.addData("Right Square %", percents[2]);
 
             tele.update();
             gp.update();

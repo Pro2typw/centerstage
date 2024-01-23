@@ -69,7 +69,7 @@ public class JustPressed {
     public boolean right_stick_button() {
         return justPressed.contains(GamepadListener.Button.right_stick_button);
     }
-    public boolean start() {
+    public boolean  start() {
         return justPressed.contains(GamepadListener.Button.start);
     }
     public boolean guide() {

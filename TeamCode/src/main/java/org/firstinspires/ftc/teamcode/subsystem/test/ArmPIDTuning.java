@@ -23,7 +23,7 @@ public class ArmPIDTuning extends LinearOpMode {
     public static double extensionTargetPos = 0;
 
     public static PIDCoefficients averageCoef = new PIDCoefficients(0.008, 0, 0);
-    public static PIDCoefficients differenceCoef = new PIDCoefficients(0.004, 9e-16, 100000);
+    public static PIDCoefficients differenceCoef = new PIDCoefficients(0.0031, 9e-16, 100000);
 
 
 
@@ -35,6 +35,9 @@ public class ArmPIDTuning extends LinearOpMode {
     public double totalaverageError = 0;
 
     public double batterComp = 0;
+
+    public static double G = 0.6;
+    public static double MOTOR_COEF = 1;
 
 
     @Override
@@ -65,8 +68,6 @@ public class ArmPIDTuning extends LinearOpMode {
 
             double differencePower = differenceP + differenceI + differenceD;
 
-
-
             double average = (arm.motor1.getCurrentPosition() + arm.motor2.getCurrentPosition()) / 2.0;
 
             averageError = extensionTargetPos - average;
@@ -77,12 +78,12 @@ public class ArmPIDTuning extends LinearOpMode {
             double averageP = averageError * averageCoef.kP;
 
             double averagePower = averageP + averageI + averageD;
-            double gravityPower = Math.cos(Math.toRadians(Arm.ticksToDegrees(difference))) * .15 * batterComp;
+            double gravityPower = Math.cos(Math.toRadians(Arm.ticksToDegrees(difference))) * .15 * batterComp * G;
             double power1 = differencePower + averagePower + gravityPower;
             double power2 = -differencePower + averagePower - gravityPower;
 
-            arm.motor1.setPower(power1);
-            arm.motor2.setPower(power2);
+            arm.motor1.setPower(power1 * MOTOR_COEF);
+            arm.motor2.setPower(power2 * MOTOR_COEF);
 
 
 
@@ -91,7 +92,9 @@ public class ArmPIDTuning extends LinearOpMode {
             telemetry.addData("kP", differenceP);
             telemetry.addData("kI", differenceI);
             telemetry.addData("kD", differenceD);
-
+            telemetry.addData("G", G);
+            telemetry.addData("Left Motor Position", arm.motor1.getCurrentPosition());
+            telemetry.addData("Right Motor Position", arm.motor2.getCurrentPosition());
 //            telemetry.addData("Extension Current Position", arm.getExtensionCurrentPosition());
 //            telemetry.addData("Extension Target Position (mm)", Arm.ticksToMillimeters(arm.getExtensionCurrentPosition()));
 //            telemetry.addData("Extension Target Position", arm.getExtensionTargetPosition());
@@ -99,8 +102,6 @@ public class ArmPIDTuning extends LinearOpMode {
 //            telemetry.addData("Gravity FF Gain", gravity);
 //            telemetry.addData("Gravity FF Power", arm.getGravityFFPower());
 //            telemetry.addLine();
-            telemetry.addData("Left Motor Position", arm.motor1.getCurrentPosition());
-            telemetry.addData("Right Motor Position", arm.motor2.getCurrentPosition());
             telemetry.update();
 
             lastTime = System.nanoTime();

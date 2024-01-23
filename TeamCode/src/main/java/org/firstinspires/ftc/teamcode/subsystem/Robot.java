@@ -20,10 +20,18 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class Robot {
+
+    public enum PixelState {
+        INTAKE,
+        TRANSIT,
+        DEPOSIT,
+        ADJUST_DEPOSIT
+    }
+
     public Arm arm;
     public Claw claw;
     public MecanumDrive drive;
-//    public Hang hang;
+    public Hang hang;
     public Wrist wrist;
     public Camera camera;
     public Launch launch;
@@ -37,11 +45,11 @@ public class Robot {
     private PIDFController headingPID;
     private boolean isResetToIMU;
 
-    public Robot(@NotNull HardwareMap hardwareMap, @NotNull Telemetry telemetry, @NotNull Claw.ClawState clawState, @NotNull Hang.HangState hangState) {
+    public Robot(@NotNull HardwareMap hardwareMap, @NotNull Telemetry telemetry, @NotNull Claw.ClawState clawState) {
         arm = new Arm(hardwareMap);
         claw = new Claw(hardwareMap, clawState);
         drive = new MecanumDrive(hardwareMap);
-//        hang = new Hang(hardwareMap, hangState);
+        hang = new Hang(hardwareMap, Hang.HangState.INIT);
         wrist = new Wrist(hardwareMap);
         launch = new Launch(hardwareMap);
 
@@ -59,8 +67,8 @@ public class Robot {
         isResetToIMU = false;
     }
 
-    public Robot(@NotNull HardwareMap hardwareMap, @NotNull Telemetry telemetry, @NotNull Claw.ClawState clawState, @NotNull Hang.HangState hangState, AllianceColor color) {
-        this(hardwareMap, telemetry, clawState, hangState);
+    public Robot(@NotNull HardwareMap hardwareMap, @NotNull Telemetry telemetry, @NotNull Claw.ClawState clawState, AllianceColor color) {
+        this(hardwareMap, telemetry, clawState);
         apriltagDetectionPipeline = new AprilTagDetectionPipeline();
         propDetectionPipeline = new PropDetectionPipeline(color);
         camera = new Camera(hardwareMap, apriltagDetectionPipeline.getAprilTagProcessor(), propDetectionPipeline);
@@ -101,12 +109,14 @@ public class Robot {
         arm.update();
     }
 
-    public void getTelemetry() {
-        telemetry.addData("Left Claw", claw.getClawState(Claw.ClawSide.LEFT));
-        telemetry.addData("Right Claw", claw.getClawState(Claw.ClawSide.RIGHT));
-//        telemetry.addData("Hang", hang.getState());
-        telemetry.addData("Heading", currentOrientation.firstAngle);
-        //...
-    }
+
+
+//    public void getTelemetry() {
+//        telemetry.addData("Left Claw", claw.getClawState(Claw.ClawSide.LEFT));
+//        telemetry.addData("Right Claw", claw.getClawState(Claw.ClawSide.RIGHT));
+////        telemetry.addData("Hang", hang.getState());
+//        telemetry.addData("Heading", currentOrientation.firstAngle);
+//        //...
+//    }
 
 }
