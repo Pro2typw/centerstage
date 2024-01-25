@@ -6,7 +6,7 @@ import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class BlueBackdropProp {
+public class BlueBackdropPropCenter {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
         final double LENGTH = 18;
@@ -21,9 +21,16 @@ public class BlueBackdropProp {
                 .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(StartingPose)
                                         .addDisplacementMarker(() -> {
-                                            // point toward backdrop ready to drop
+                                            // arm extend
                                         })
-                                        .splineTo(new Vector2d(36, 36), Math.toRadians(0))
+                                        .splineToLinearHeading(new Pose2d(35, 36, Math.toRadians(25)), Math.toRadians(0))
+                                        .addDisplacementMarker(() -> {
+                                            // claw drop
+                                            // pivot and extension start turning
+                                        })
+
+                                        .waitSeconds(1)
+                                        .lineToLinearHeading(new Pose2d(36, 36, 0))
                                         .addDisplacementMarker(() -> {
                                             // drop yellow pixel on backdrop
                                             // rotate extension and pivot to match purple
