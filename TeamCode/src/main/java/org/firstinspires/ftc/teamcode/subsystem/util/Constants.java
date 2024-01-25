@@ -111,7 +111,8 @@ public class Constants {
     // todo config
     @Config(value = "[]Wrist Constants")
     public static class Wrist {
-        public final static String WRIST_MAP_NAME = "wrist";
+        public final static String LEFT_WRIST_MAP_NAME = "leftServo";
+        public final static String RIGHT_WRIST_MAP_NAME = "rightServo";
 
 
         public static double REST_POS = .3;
