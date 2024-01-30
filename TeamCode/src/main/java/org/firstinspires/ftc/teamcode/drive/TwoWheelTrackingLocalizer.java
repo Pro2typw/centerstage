@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     public static double TICKS_PER_REV = 8192;
-    public static double WHEEL_RADIUS = 0.6889764; // in
+    public static double WHEEL_RADIUS = .69; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
     public static double PARALLEL_X = -1.33933071; // X is the up and down direction
@@ -44,8 +44,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     public static double PERPENDICULAR_X = -2.37594488;
     public static double PERPENDICULAR_Y = -2.37594488;
 
-    public static double X_MULTIPLIER = 48/47.031932781065606; // Multiplier in the X direction
-    public static double Y_MULTIPLIER = 48/47.031932781065606; // Multiplier in the Y direction
+    public static double X_MULTIPLIER = 72 / ((70.69803606724646 + 70.46998646792535 + 70.6189578044092) / 3); // Multiplier in the X direction
+    public static double Y_MULTIPLIER = 72 / ((70.8887403358713 + 70.85075621963374 + 70.9514441054067) / 3); // Multiplier in the Y direction
     // Parallel/Perpendicular to the forward axis
     // Parallel wheel is parallel to the forward axis
     // Perpendicular is perpendicular to the forward axis

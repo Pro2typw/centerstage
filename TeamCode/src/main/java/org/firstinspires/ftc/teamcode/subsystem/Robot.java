@@ -29,10 +29,10 @@ public class Robot {
     }
 
     public Arm arm;
-    public Claw claw;
+//    public Claw claw;
     public MecanumDrive drive;
-    public Hang hang;
-    public Wrist wrist;
+//    public Hang hang;
+//    public Wrist wrist;
     public Camera camera;
     public Launch launch;
     public AprilTagDetectionPipeline apriltagDetectionPipeline;
@@ -47,10 +47,10 @@ public class Robot {
 
     public Robot(@NotNull HardwareMap hardwareMap, @NotNull Telemetry telemetry, @NotNull Claw.ClawState clawState) {
         arm = new Arm(hardwareMap);
-        claw = new Claw(hardwareMap, clawState);
+//        claw = new Claw(hardwareMap, clawState);
         drive = new MecanumDrive(hardwareMap);
-        hang = new Hang(hardwareMap, Hang.HangState.INIT);
-        wrist = new Wrist(hardwareMap);
+//        hang = new Hang(hardwareMap, Hang.HangState.INIT);
+//        wrist = new Wrist(hardwareMap);
         launch = new Launch(hardwareMap);
 
         lynxModules = hardwareMap.getAll(LynxModule.class);
@@ -108,6 +108,8 @@ public class Robot {
         drive.update();
         arm.update();
     }
+
+
 
 
 

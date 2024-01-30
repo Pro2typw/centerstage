@@ -63,7 +63,7 @@ public class Hang {
 
     public void setTargetPosition(int pos) {
         hang.setTargetPosition(pos);
-        hang.setPower(.2);
+        hang.setPower(.5);
         hang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 

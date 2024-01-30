@@ -74,10 +74,10 @@ public class Constants {
 
         public static PIDCoefficients DIFFERENCE_PID_COEFFICIENTS = new PIDCoefficients(0.004, 9e-16, 100000);
         public static PIDCoefficients AVERAGE_PID_COEFFICIENTS = new PIDCoefficients(0.008, 0, 0);
-        public static double GRAVITY_FEEDFORWARD_GAIN = 0;
+        public static double GRAVITY_FEEDFORWARD_GAIN = 1.4;
 
-        public static int targetPivotPosition = 0;
-        public static int targetExtensionPosition = 0;
+        public static final int MAX_EXTENSION = 500; // ticks
+        private static final int MAX_PIVOT = 580; // ticks
 
 
     }

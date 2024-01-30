@@ -93,14 +93,6 @@ public class DriveConstants {
     public static double MAX_ANG_ACCEL = Math.toRadians(360);
 
 
-
-    /*
-     * THIS STUFF IS NOT RELATED TO LRR BUT PURELY FOR ME (DHANUSH)
-     */
-    public static double ROBOT_LENGTH = 18; // measurement of the parallel side of the robot
-
-
-
     public static double encoderTicksToInches(double ticks) {
         return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV;
     }

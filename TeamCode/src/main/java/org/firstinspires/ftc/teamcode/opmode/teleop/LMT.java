@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmode.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.subsystem.Arm;
 import org.firstinspires.ftc.teamcode.subsystem.Claw;
 import org.firstinspires.ftc.teamcode.subsystem.Robot;
 import org.firstinspires.ftc.teamcode.util.gamepad.JustPressed;
@@ -35,18 +36,22 @@ public class LMT extends LinearOpMode {
             if(gp1.guide()) robot.launch.launch();
 
             // claw
-            if(gp2.left_bumper() || gp2.left_bumper()) robot.claw.setClawState(Claw.ClawSide.LEFT, robot.claw.getClawState(Claw.ClawSide.LEFT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
-            if(gp2.right_bumper() || gp2.right_bumper()) robot.claw.setClawState(Claw.ClawSide.RIGHT, robot.claw.getClawState(Claw.ClawSide.RIGHT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
-            if(gp2.b()) robot.claw.toggleClawState();
-            if(robot.drive.getPoseEstimate().getX() > 0) robot.claw.setFlipped(true);
+//            if(gp2.left_bumper() || gp2.left_bumper()) robot.claw.setClawState(Claw.ClawSide.LEFT, robot.claw.getClawState(Claw.ClawSide.LEFT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
+//            if(gp2.right_bumper() || gp2.right_bumper()) robot.claw.setClawState(Claw.ClawSide.RIGHT, robot.claw.getClawState(Claw.ClawSide.RIGHT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
+//            if(gp2.b()) robot.claw.toggleClawState();
+//            if(robot.drive.getPoseEstimate().getX() > 0) robot.claw.setFlipped(true);
 
             // hang
-            if(gp2.start()) robot.hang.cycleNextHangState();
+//            if(gp2.start()) robot.hang.cycleNextHangState();
 
             //wrist
 
             // arm
-
+            if(Arm.ticksToDegrees(robot.arm.getCurrentDifferencePosition()) > 90) {
+                double currentYComponent = robot.arm.getCurrentAveragePosition() * Math.sin(Math.toRadians(Arm.ticksToDegrees(robot.arm.getCurrentDifferencePosition())));
+                double targetXComp = Arm.backdropYtoX(currentYComponent);
+                robot.arm.setExtensionTargetPos(targetXComp / Math.cos(Math.toRadians(Arm.ticksToDegrees(robot.arm.getCurrentDifferencePosition()))));
+            }
 
             //launch (switch up the holding (back or mode button) and x-clicking based on preference [it should be ashwin clicking x btw yall r dumb] )
             if(gamepad1.guide)

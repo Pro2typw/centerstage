@@ -23,7 +23,7 @@ public class ArmPIDTuning extends LinearOpMode {
     public static double extensionTargetPos = 0;
 
     public static PIDCoefficients averageCoef = new PIDCoefficients(0.008, 0, 0);
-    public static PIDCoefficients differenceCoef = new PIDCoefficients(0.0031, 9e-16, 100000);
+    public static PIDCoefficients differenceCoef = new PIDCoefficients(0.0001, 9e-16, 100000);
 
 
 
@@ -36,14 +36,14 @@ public class ArmPIDTuning extends LinearOpMode {
 
     public double batterComp = 0;
 
-    public static double G = 0.6;
+    public static double G = 1.4;
     public static double MOTOR_COEF = 1;
 
 
     @Override
     public void runOpMode() throws InterruptedException {
         Arm arm = new Arm(hardwareMap);
-        Wrist wrist = new Wrist(hardwareMap);
+//        Wrist wrist = new Wrist(hardwareMap);
         batterVoltageSensor = hardwareMap.voltageSensor.iterator().next();
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -56,7 +56,7 @@ public class ArmPIDTuning extends LinearOpMode {
         long lastTime = startTime;
 
         while (opModeIsActive()) {
-            wrist.setPosition(Constants.Wrist.INTAKE_POS);
+//            wrist.setPosition(Constants.Wrist.INTAKE_POS);
             double difference = (arm.motor1.getCurrentPosition() - arm.motor2.getCurrentPosition())/2.0;
 
             differenceError = pivotTargetPos - difference;
@@ -89,15 +89,21 @@ public class ArmPIDTuning extends LinearOpMode {
 
             telemetry.addData("Pivot Current Position", difference);
             telemetry.addData("Pivot Target Position", pivotTargetPos);
-            telemetry.addData("kP", differenceP);
-            telemetry.addData("kI", differenceI);
-            telemetry.addData("kD", differenceD);
+            telemetry.addData("Pivot Error", pivotTargetPos - difference);
+            telemetry.addData("Difference kP", differenceP);
+            telemetry.addData("Difference kI", differenceI);
+            telemetry.addData("Difference kD", differenceD);
+            telemetry.addData("Average kP", averageP);
+            telemetry.addData("Average kI", averageI);
+            telemetry.addData("Average kD", averageD);
+
             telemetry.addData("G", G);
             telemetry.addData("Left Motor Position", arm.motor1.getCurrentPosition());
             telemetry.addData("Right Motor Position", arm.motor2.getCurrentPosition());
-//            telemetry.addData("Extension Current Position", arm.getExtensionCurrentPosition());
+            telemetry.addData("Extension Current Position", average);
 //            telemetry.addData("Extension Target Position (mm)", Arm.ticksToMillimeters(arm.getExtensionCurrentPosition()));
-//            telemetry.addData("Extension Target Position", arm.getExtensionTargetPosition());
+            telemetry.addData("Extension Target Position", extensionTargetPos);
+            telemetry.addData("Extension Error", extensionTargetPos - average);
 //            telemetry.addLine();
 //            telemetry.addData("Gravity FF Gain", gravity);
 //            telemetry.addData("Gravity FF Power", arm.getGravityFFPower());

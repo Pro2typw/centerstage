@@ -38,7 +38,7 @@ public class HangTest extends LinearOpMode {
             }
 
             telemetry1.addData("Manual", manual);
-            telemetry1.addData("Position", hang.getCurrentHangPosition());
+            telemetry1.addData("Position", hang.getCurrentPosition());
             telemetry1.update();
             gp.update();
 
