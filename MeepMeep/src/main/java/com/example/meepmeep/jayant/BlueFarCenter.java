@@ -33,27 +33,33 @@ public class BlueFarCenter {
                                         })
                                         .waitSeconds(1)
 
-                                        .lineTo(new Vector2d(48, 35))
+                                        .lineToSplineHeading(new Pose2d(-32, 58, Math.toRadians(180)))
+                                        .lineTo(new Vector2d(11,58))
+                                        .splineTo(new Vector2d(48, 34), Math.toRadians(0))
                                         .addDisplacementMarker(() -> {
                                             // Place pixel on backboard
                                         })
                                         .waitSeconds(1)
                                         .setReversed(false)
-                                        .lineTo(new Vector2d(-52, 35))
+                                        .splineTo(new Vector2d(11, 58), Math.toRadians(180))
+                                        .lineTo(new Vector2d(-32,58))
+                                        .lineToSplineHeading(new Pose2d(-52, 35, Math.toRadians(180)))
+
 // Cycle 2:
                                         .addDisplacementMarker(() -> {
                                             // Grab pixel from stack
                                         })
                                         .waitSeconds(1)
-
-                                        .lineTo(new Vector2d(48, 35))
+                                        .lineToSplineHeading(new Pose2d(-32, 58, Math.toRadians(180)))
+                                        .lineTo(new Vector2d(11,58))
+                                        .splineTo(new Vector2d(48, 34), Math.toRadians(0))
                                         .addDisplacementMarker(() -> {
                                             // Place pixel on backboard
                                         })
                                         .waitSeconds(1)
 // Park:
-
                                         .build()
+
                 );
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
