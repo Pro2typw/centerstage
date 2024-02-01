@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.subsystem;
 
 import static org.firstinspires.ftc.teamcode.subsystem.util.Constants.IMU.HEADING_PID_COEFFICIENTS;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -11,10 +9,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
+import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
 import org.firstinspires.ftc.teamcode.subsystem.vision.pipeline.AprilTagDetectionPipeline;
 import org.firstinspires.ftc.teamcode.subsystem.vision.pipeline.PropDetectionPipeline;
 import org.firstinspires.ftc.teamcode.subsystem.util.AllianceColor;
-import org.firstinspires.ftc.vision.VisionProcessor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -29,10 +27,10 @@ public class Robot {
     }
 
     public Arm arm;
-//    public Claw claw;
+    public Claw claw;
     public MecanumDrive drive;
-//    public Hang hang;
-//    public Wrist wrist;
+    public Hang hang;
+    public Wrist wrist;
     public Camera camera;
     public Launch launch;
     public AprilTagDetectionPipeline apriltagDetectionPipeline;
@@ -47,10 +45,10 @@ public class Robot {
 
     public Robot(@NotNull HardwareMap hardwareMap, @NotNull Telemetry telemetry, @NotNull Claw.ClawState clawState) {
         arm = new Arm(hardwareMap);
-//        claw = new Claw(hardwareMap, clawState);
+        claw = new Claw(hardwareMap, clawState);
         drive = new MecanumDrive(hardwareMap);
-//        hang = new Hang(hardwareMap, Hang.HangState.INIT);
-//        wrist = new Wrist(hardwareMap);
+        hang = new Hang(hardwareMap, Hang.HangState.INIT);
+        wrist = new Wrist(hardwareMap);
         launch = new Launch(hardwareMap);
 
         lynxModules = hardwareMap.getAll(LynxModule.class);
@@ -65,6 +63,7 @@ public class Robot {
         headingPID.setOutputBounds(0, 1);
         headingPID.setTargetPosition(0);
         isResetToIMU = false;
+        armState = ArmState.INIT;
     }
 
     public Robot(@NotNull HardwareMap hardwareMap, @NotNull Telemetry telemetry, @NotNull Claw.ClawState clawState, AllianceColor color) {
@@ -110,8 +109,55 @@ public class Robot {
     }
 
 
+    public enum ArmState {
+        INIT,
+        LEFT_INTAKE,
+        RIGHT_INTAKE,
+        BOTH_INTAKE,
+        TRANSITION,
+        DEPO
+    }
+
+    ArmState armState;
+    public void setArmState(ArmState state) {
+        armState = state;
+        switch (state) {
+            case INIT:
+                wrist.setPosition(Constants.Wrist.INIT_POS);
+                arm.setExtensionTargetPos(0);
+                arm.setPivotTargetPos(0);
+                claw.setClawState(Claw.ClawSide.BOTH, Claw.ClawState.CLOSE);
+                break;
+            case LEFT_INTAKE:
+                claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
+                wrist.setPosition(Wrist.angleToPosition(0));
+                arm.setPivotTargetPos(0);
+                break;
+            case BOTH_INTAKE:
+                claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
+            case RIGHT_INTAKE:
+                claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
+                wrist.setPosition(Constants.Wrist.INTAKE_POS);
+                arm.setPivotTargetPos(0);
+                break;
+            case TRANSITION:
+                claw.setClawState(Claw.ClawSide.BOTH, Claw.ClawState.CLOSE);
+//                wrist.setPosition(Wrist.angleToPosition(0));
+                arm.setPivotTargetPos(200);
+//                wrist.setPosition(-Wrist.angleToPosition(Arm.ticksToDegrees(200)));
+                break;
+            case DEPO:
+                wrist.setPosition(.5); // todo
+                arm.setPivotTargetPos(580);
 
 
+
+        }
+    }
+
+    public ArmState getArmState() {
+        return armState;
+    }
 
 //    public void getTelemetry() {
 //        telemetry.addData("Left Claw", claw.getClawState(Claw.ClawSide.LEFT));

@@ -60,10 +60,10 @@ public class Constants {
         public final static String LEFT_CLAW_DISTANCE_SENSOR_MAP = "left claw distance sensor";
 
 
-        public static double RIGHT_CLAW_OPEN_POSITION = .2;
-        public static double RIGHT_CLAW_CLOSE_POSITION = .53;
-        public static double LEFT_CLAW_OPEN_POSITION = .4;
-        public static double LEFT_CLAW_CLOSE_POSITION = .25;
+        public static double RIGHT_CLAW_OPEN_POSITION = .53;
+        public static double RIGHT_CLAW_CLOSE_POSITION = .2;
+        public static double LEFT_CLAW_OPEN_POSITION = .25;
+        public static double LEFT_CLAW_CLOSE_POSITION = .4;
     }
 
     // todo config ig the entire file but ye
@@ -111,14 +111,15 @@ public class Constants {
     // todo config
     @Config(value = "[]Wrist Constants")
     public static class Wrist {
-        public final static String LEFT_WRIST_MAP_NAME = "leftServo";
-        public final static String RIGHT_WRIST_MAP_NAME = "rightServo";
+        public final static String LEFT_WRIST_MAP_NAME = "left wrist";
+        public final static String RIGHT_WRIST_MAP_NAME = "right wrist";
 
 
-        public static double REST_POS = .3;
-        public static double INTAKE_POS = .8;
-        public static double LOW_DEPO_POS = .2;
-        public static double HIGH_DEPO_POS = .8 ;
+        public static double INIT_POS = .80733655;
+        public static double INTAKE_POS = .410449;
+        public static double DEPO_POS = 1;
+
+
 
 
     }

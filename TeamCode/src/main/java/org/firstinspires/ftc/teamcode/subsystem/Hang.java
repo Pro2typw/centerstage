@@ -92,4 +92,12 @@ public class Hang {
         }
     }
 
+    public void setRunMode(DcMotor.RunMode mode){
+        hang.setMode(mode);
+    }
+
+    public void setPower(double pow) {
+        hang.setPower(pow);
+    }
+
 }

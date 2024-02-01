@@ -3,11 +3,14 @@ package org.firstinspires.ftc.teamcode.opmode.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.photoncore.Photon;
 import org.firstinspires.ftc.teamcode.subsystem.Arm;
 import org.firstinspires.ftc.teamcode.subsystem.Claw;
 import org.firstinspires.ftc.teamcode.subsystem.Robot;
+import org.firstinspires.ftc.teamcode.util.LoopRateTracker;
 import org.firstinspires.ftc.teamcode.util.gamepad.JustPressed;
 
+@Photon
 @TeleOp(group = "game", name = "League Tournament Game Teleop")
 public class LMT extends LinearOpMode {
 
@@ -19,12 +22,15 @@ public class LMT extends LinearOpMode {
 
         JustPressed gp1 = new JustPressed(gamepad1);
         JustPressed gp2 = new JustPressed(gamepad2);
+        LoopRateTracker loopRateTracker = new LoopRateTracker();
 
-
+        robot.setArmState(Robot.ArmState.INIT);
         do {
             robot.update();
         } while (opModeInInit());
         waitForStart();
+        robot.init();
+        robot.setArmState(Robot.ArmState.BOTH_INTAKE);
         while (opModeIsActive()) {
             robot.clearCache();
             robot.update();
@@ -35,33 +41,52 @@ public class LMT extends LinearOpMode {
             // drone
             if(gp1.guide()) robot.launch.launch();
 
-            // claw
-//            if(gp2.left_bumper() || gp2.left_bumper()) robot.claw.setClawState(Claw.ClawSide.LEFT, robot.claw.getClawState(Claw.ClawSide.LEFT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
-//            if(gp2.right_bumper() || gp2.right_bumper()) robot.claw.setClawState(Claw.ClawSide.RIGHT, robot.claw.getClawState(Claw.ClawSide.RIGHT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
-//            if(gp2.b()) robot.claw.toggleClawState();
-//            if(robot.drive.getPoseEstimate().getX() > 0) robot.claw.setFlipped(true);
-
             // hang
-//            if(gp2.start()) robot.hang.cycleNextHangState();
+            if(gp2.start()) robot.hang.cycleNextHangState();
 
             //wrist
 
-            // arm
-            if(Arm.ticksToDegrees(robot.arm.getCurrentDifferencePosition()) > 90) {
-                double currentYComponent = robot.arm.getCurrentAveragePosition() * Math.sin(Math.toRadians(Arm.ticksToDegrees(robot.arm.getCurrentDifferencePosition())));
-                double targetXComp = Arm.backdropYtoX(currentYComponent);
-                robot.arm.setExtensionTargetPos(targetXComp / Math.cos(Math.toRadians(Arm.ticksToDegrees(robot.arm.getCurrentDifferencePosition()))));
-            }
 
-            //launch (switch up the holding (back or mode button) and x-clicking based on preference [it should be ashwin clicking x btw yall r dumb] )
-            if(gamepad1.guide)
-                if(gamepad2.x)
-                    robot.launch.launch();
+            // arm, claw, and wrist todo
+//            Robot.ArmState armState = robot.getArmState();
+//            if(armState == Robot.ArmState.DEPO) { // saucy control
+//                if(gp1.left_bumper()) robot.claw.setClawState(Claw.ClawSide.LEFT, robot.claw.getClawState(Claw.ClawSide.LEFT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
+//                if(gp1.right_bumper()) robot.claw.setClawState(Claw.ClawSide.RIGHT, robot.claw.getClawState(Claw.ClawSide.RIGHT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
+//                if(gp1.b()) robot.claw.setClawState(Claw.ClawSide.BOTH, robot.claw.getClawState(Claw.ClawSide.BOTH) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
+//            }
+//            else if(armState != Robot.ArmState.TRANSITION) { // ashwin control
+//                if(gp2.left_bumper()) robot.claw.setClawState(Claw.ClawSide.LEFT, robot.claw.getClawState(Claw.ClawSide.LEFT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
+//                if(gp2.right_bumper()) robot.claw.setClawState(Claw.ClawSide.RIGHT, robot.claw.getClawState(Claw.ClawSide.RIGHT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
+//                if(gp2.b()) robot.claw.setClawState(Claw.ClawSide.BOTH, robot.claw.getClawState(Claw.ClawSide.BOTH) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
+//            }
+//            if(gp2.dpad_up()) {
+////                if(armState == Robot.ArmState.INIT)
+//                if(armState == Robot.ArmState.LEFT_INTAKE || armState == Robot.ArmState.BOTH_INTAKE || armState == Robot.ArmState.RIGHT_INTAKE) {
+//                    robot.setArmState(Robot.ArmState.TRANSITION);
+//                }
+//                else if(armState == Robot.ArmState.TRANSITION) robot.setArmState(Robot.ArmState.DEPO);
+//            }
+//            if(gp2.dpad_down()) {
+//                if(armState == Robot.ArmState.LEFT_INTAKE || armState == Robot.ArmState.BOTH_INTAKE || armState == Robot.ArmState.RIGHT_INTAKE) {
+//                    robot.setArmState(Robot.ArmState.TRANSITION);
+//                }
+//                else if(armState == Robot.ArmState.DEPO) robot.setArmState(Robot.ArmState.TRANSITION);
+//            }
 
+            //launch
+            if(gamepad1.guide) robot.launch.launch();
+
+
+//            telemetry.addData("Arm State", armState);
+            telemetry.addData("Left Claw", robot.claw.getClawState(Claw.ClawSide.LEFT));
+            telemetry.addData("Right Claw", robot.claw.getClawState(Claw.ClawSide.RIGHT));
+            telemetry.addData("Loop Rate", loopRateTracker.getLoopTime());
+            telemetry.update();
 
 
             gp1.update();
             gp2.update();
+            loopRateTracker.update();
         }
     }
 }

@@ -1,16 +1,23 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
+import org.firstinspires.ftc.teamcode.util.WPIMathUtil;
 
 public class Arm {
 
     public final DcMotorEx motor1;
     public final DcMotorEx motor2;
+
+    long startTime;
+    long lastTime;
 
 
     public Arm(HardwareMap hardwareMap) {
@@ -26,14 +33,10 @@ public class Arm {
         }
 
         batterVoltageSensor = hardwareMap.voltageSensor.iterator().next();
+
         batterComp = (12.8 / batterVoltageSensor.getVoltage());
 
     }
-
-    private VoltageSensor batterVoltageSensor;
-
-    private double pivotTargetPos = 0;
-    private double extensionTargetPos = 0;
 
     public double getPivotTargetPos() {
         return pivotTargetPos;
@@ -52,70 +55,67 @@ public class Arm {
         this.extensionTargetPos = extensionTargetPos;
     }
 
-
-
-    private double differenceError = 0;
-    private double averageError;
-    private double lastdifferenceError = 0;
-    private double lastaverageError = 0;
-    private double totaldifferenceError = 0;
-    private double totalaverageError = 0;
-
-    private double batterComp = 0;
-
-    private static double G = 0.6;
-
-    private long startTime;
-    private long lastTime;
-
-    private double currentAveragePosition = 0;
-    private double currentDifferencePosition = 0;
-
-    public double getCurrentAveragePosition() {
-        return currentAveragePosition;
-    }
-
-    public double getCurrentDifferencePosition() {
-        return currentDifferencePosition;
-    }
-
     public void init() {
         startTime = System.nanoTime();
         lastTime = startTime;
     }
 
-    public void update() {
-        currentDifferencePosition = (motor1.getCurrentPosition() - motor2.getCurrentPosition())/2.0;
+    public VoltageSensor batterVoltageSensor;
 
-        differenceError = pivotTargetPos - currentDifferencePosition;
+
+    public static double pivotTargetPos = 0;
+    public static double extensionTargetPos = 0;
+
+    public static PIDCoefficients averageCoef = new PIDCoefficients(0.008, 0, 0);
+    public static PIDCoefficients differenceCoef = new PIDCoefficients(0.0001, 9e-16, 100000);
+
+
+
+    public double differenceError = 0;
+    public double averageError;
+    public double lastdifferenceError = 0;
+    public double lastaverageError = 0;
+    public double totaldifferenceError = 0;
+    public double totalaverageError = 0;
+
+    public double batterComp = 0;
+
+    public static double G = 1.4;
+    public static double MOTOR_COEF = 1;
+
+    public void update() {
+
+        double difference = (motor1.getCurrentPosition() - motor2.getCurrentPosition())/2.0;
+
+        differenceError = pivotTargetPos - difference;
         if (differenceError * lastdifferenceError <= 0) totaldifferenceError = 0;
         else totaldifferenceError += differenceError;
-        double differenceI = (totaldifferenceError * (System.nanoTime() - startTime)) * Constants.Arm.DIFFERENCE_PID_COEFFICIENTS.kI;
-        double differenceD = ((differenceError - lastdifferenceError) / (System.nanoTime() - lastTime)) * Constants.Arm.DIFFERENCE_PID_COEFFICIENTS.kD;
-        double differenceP = differenceError * Constants.Arm.DIFFERENCE_PID_COEFFICIENTS.kP;
+        double differenceI = (totaldifferenceError * (System.nanoTime() - startTime)) * differenceCoef.kI;
+        double differenceD = ((differenceError - lastdifferenceError) / (System.nanoTime() - lastTime)) * differenceCoef.kD;
+        double differenceP = differenceError * differenceCoef.kP;
 
         double differencePower = differenceP + differenceI + differenceD;
 
-        currentAveragePosition = (motor1.getCurrentPosition() + motor2.getCurrentPosition()) / 2.0;
+        double average = (motor1.getCurrentPosition() + motor2.getCurrentPosition()) / 2.0;
 
-        averageError = extensionTargetPos - currentAveragePosition;
+        averageError = extensionTargetPos - average;
         if (averageError * lastaverageError <= 0) totalaverageError = 0;
         else totalaverageError += averageError;
-        double averageI = (totalaverageError * (System.nanoTime() - startTime)) * Constants.Arm.AVERAGE_PID_COEFFICIENTS.kI;
-        double averageD = ((averageError - lastaverageError) / (System.nanoTime() - lastTime)) * Constants.Arm.AVERAGE_PID_COEFFICIENTS.kD;
-        double averageP = averageError * Constants.Arm.AVERAGE_PID_COEFFICIENTS.kP;
+        double averageI = (totalaverageError * (System.nanoTime() - startTime)) * averageCoef.kI;
+        double averageD = ((averageError - lastaverageError) / (System.nanoTime() - lastTime)) * averageCoef.kD;
+        double averageP = averageError * averageCoef.kP;
 
         double averagePower = averageP + averageI + averageD;
-        double gravityPower = Math.cos(Math.toRadians(Arm.ticksToDegrees(currentDifferencePosition))) * .15 * batterComp * G;
+        double gravityPower = Math.cos(Math.toRadians(Arm.ticksToDegrees(difference))) * .15 * batterComp * G;
         double power1 = differencePower + averagePower + gravityPower;
         double power2 = -differencePower + averagePower - gravityPower;
 
-        motor1.setPower(power1);
-        motor2.setPower(power2);
-
+        motor1.setPower(power1 * MOTOR_COEF);
+        motor2.setPower(power2 * MOTOR_COEF);
 
         lastTime = System.nanoTime();
         lastdifferenceError = differenceError;
+
     }
 
     public static double backdropYtoX(double y) {

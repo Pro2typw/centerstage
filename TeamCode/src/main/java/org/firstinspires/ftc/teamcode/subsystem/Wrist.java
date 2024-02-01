@@ -15,7 +15,7 @@ public class Wrist {
     private double leftPosition, rightPosition;
 
     public Wrist(HardwareMap hardwareMap) {
-        this(hardwareMap, 0); // change starting position to teleop starting position
+        this(hardwareMap, 0.5); // change starting position to teleop starting position
     }
 
     public Wrist(HardwareMap hardwareMap, double position) {
@@ -25,17 +25,20 @@ public class Wrist {
         servos = new CachingServo[] {leftServo, rightServo};
 
         leftPosition = position;
-        rightPosition = position;
+        rightPosition = 1 - position;
     }
 
 
     public void setPosition(double position) {
         leftPosition = position;
-        rightPosition = position;
+        rightPosition = 1 - position;
 
-        for(CachingServo servo : servos) {
-            servo.setPosition(position);
-        }
+        leftServo.setPosition(leftPosition);
+        rightServo.setPosition(rightPosition);
+    }
+
+    public double getPosition() {
+        return leftPosition;
     }
 
     public static double angleToPosition(double deg) {

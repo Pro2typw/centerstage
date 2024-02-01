@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.subsystem.Hang;
 import org.firstinspires.ftc.teamcode.util.gamepad.JustPressed;
@@ -25,10 +26,13 @@ public class HangTest extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            if(gp.right_bumper()) manual = !manual;
+            if(gp.right_bumper()) {
+                manual = !manual;
+                if(manual) hang.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
 
             if(manual) {
-                hang.setTargetPosition(hang.getTargetPosition() + (int)gp.left_stick_x() * 10);
+                hang.setPower(gp.left_stick_y() * .5);
             }
             else {
                 if(gp.a()) hang.setState(Hang.HangState.INIT);
