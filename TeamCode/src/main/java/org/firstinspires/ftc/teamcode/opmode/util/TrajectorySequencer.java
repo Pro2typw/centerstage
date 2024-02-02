@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
+import org.firstinspires.ftc.teamcode.subsystem.Claw;
 import org.firstinspires.ftc.teamcode.subsystem.Robot;
 import org.firstinspires.ftc.teamcode.subsystem.util.AllianceColor;
 import org.firstinspires.ftc.teamcode.subsystem.util.AllianceSide;
@@ -14,14 +15,24 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 
 public class TrajectorySequencer {
-    public static HashMap<TeamPropLocation[], TrajectorySequence> getTrajectorSequence(@NotNull Robot robot, @NotNull AllianceColor color, @NotNull AllianceSide side, int cycles) {
-        HashMap<TeamPropLocation[], TrajectorySequence> hashmap = new HashMap<>(3);
 
-        Pose2d startPose;
+
+
+    /**
+     * Returns a hashmap of TrajectorySequences for each location and cycle
+     * @param robot the robot
+     * @param color the alliance color
+     * @param side the alliance side
+     * @param cycles the number of cycles
+     * @return a hashmap of TrajectorySequences for each location and cycle
+     */
+    public static HashMap<TeamPropLocation, TrajectorySequence[]> getTrajectorSequence(@NotNull Robot robot, @NotNull AllianceColor color, @NotNull AllianceSide side, int cycles) {
+        HashMap<TeamPropLocation, TrajectorySequence[]> hashmap = new HashMap<>(3);
+
+        final Pose2d startPose;
         if(color == AllianceColor.BLUE) startPose = side == AllianceSide.BACKDROP ? new Pose2d(12, 63, Math.toRadians(90)) : new Pose2d();
         else startPose = side == AllianceSide.BACKDROP ? new Pose2d(12, 63 * -1, Math.toRadians(270)) : new Pose2d();
 
-        // add trajs...
         TrajectorySequence left, right, center;
 
         if(color == AllianceColor.BLUE) {
@@ -30,20 +41,24 @@ public class TrajectorySequencer {
                         .setReversed(true)
                         .addDisplacementMarker(() -> {
                             // point toward backdrop ready to drop
+                            robot.setArmState(Robot.ArmState.INTAKE);
                         })
                         .splineTo(new Vector2d(32, 36), Math.toRadians(0))
                         .addDisplacementMarker(() -> {
                             // drop purple pixel
+                            robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
                         })
                         .waitSeconds(1)
                         .addDisplacementMarker(() -> {
                             // pivot to backdrop with wrist
+                            robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.CLOSE);
+                            robot.setArmState(Robot.ArmState.TRANSITION);
+                            robot.setArmState(Robot.ArmState.DEPO);
                         })
                         .lineTo(new Vector2d(50, 36))
                         .addDisplacementMarker(() -> {
                             // drop yellow pixel on backdrop
-                            // rotate extension and pivot to match purple
-                            // drop purple pixel
+                            robot.claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
                         })
                         .waitSeconds(1)
                         .build();
@@ -181,9 +196,82 @@ public class TrajectorySequencer {
             }
         }
 
-        TrajectorySequence cycle = robot.drive.trajectorySequenceBuilder(startPose)
-                .build();
+        else { // todo
+            if(side == AllianceSide.BACKDROP) {
+                left = robot.drive.trajectorySequenceBuilder(startPose)
+                        .build();
+                center = robot.drive.trajectorySequenceBuilder(startPose)
+                        .build();
+                right = robot.drive.trajectorySequenceBuilder(startPose)
+                        .build();
 
+            }
+            else {
+                left = robot.drive.trajectorySequenceBuilder(startPose)
+                        .build();
+                center = robot.drive.trajectorySequenceBuilder(startPose)
+                        .build();
+                right = robot.drive.trajectorySequenceBuilder(startPose)
+                        .build();
+
+            }
+        }
+
+
+        TrajectorySequence cycleSide;
+        TrajectorySequence cycleCenter;
+
+        if(color == AllianceColor.BLUE) {
+            cycleSide = robot.drive.trajectorySequenceBuilder(startPose)
+                    .setTangent(Math.toRadians(180))
+                    .addDisplacementMarker(() -> {
+                        // pivot to intake
+                    })
+                    .splineTo(new Vector2d(20, 12), Math.toRadians(180))
+//                                        .setTangent(Math.toRadians(180))
+                    .lineTo(new Vector2d(-60, 12))
+                    .build();
+            cycleCenter = robot.drive.trajectorySequenceBuilder(startPose)
+                    .addDisplacementMarker(() -> {
+                        // pivot to intake
+                    })
+                    .lineTo(new Vector2d(-60, 36))
+                    .addDisplacementMarker(() -> {
+                        // claw close
+                    })
+                    .waitSeconds(1)
+                    .lineTo(new Vector2d(12, 36))
+                    .addDisplacementMarker(() -> {
+                        // depo position
+                    })
+                    .lineTo(new Vector2d(50, 36))
+                    .addDisplacementMarker(() -> {
+                        // claw drop yellow
+                    })
+                    .waitSeconds(1)
+                    .build();
+        }
+        else { // todo
+            cycleSide = robot.drive.trajectorySequenceBuilder(startPose)
+
+                    .build();
+            cycleCenter = robot.drive.trajectorySequenceBuilder(startPose)
+                    .build();
+        }
+
+        hashmap.put(TeamPropLocation.LEFT, new TrajectorySequence[1 + cycles]);
+        hashmap.put(TeamPropLocation.RIGHT, new TrajectorySequence[1 + cycles]);
+        hashmap.put(TeamPropLocation.CENTER, new TrajectorySequence[1 + cycles]);
+
+        hashmap.get(TeamPropLocation.LEFT)[0] = left;
+        hashmap.get(TeamPropLocation.RIGHT)[0] = right;
+        hashmap.get(TeamPropLocation.CENTER)[0] = center;
+
+        for(int i = 1; i <= cycles; i++) {
+            hashmap.get(TeamPropLocation.LEFT)[i] = cycleSide;
+            hashmap.get(TeamPropLocation.CENTER)[i] = cycleCenter;
+            hashmap.get(TeamPropLocation.RIGHT)[i] = cycleSide;
+        }
 
         return hashmap;
     }

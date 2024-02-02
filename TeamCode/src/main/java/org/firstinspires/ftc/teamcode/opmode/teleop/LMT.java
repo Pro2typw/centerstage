@@ -54,6 +54,7 @@ public class LMT extends LinearOpMode {
                 robot.hang.setPower(gp2.left_stick_y() * .5);
             }
 
+
             //wrist
 
 

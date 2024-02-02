@@ -99,7 +99,7 @@ public class Robot {
     public void update() {
         if(isResetToIMU) {
             currentOrientation = imu.getCurrentAngularOrientation();
-            double driveTurnPower = headingPID.update(currentOrientation.firstAngle); // todo config me
+            double driveTurnPower = headingPID.update(currentOrientation.firstAngle);
 
             drive.turnWithPower(driveTurnPower);
         }

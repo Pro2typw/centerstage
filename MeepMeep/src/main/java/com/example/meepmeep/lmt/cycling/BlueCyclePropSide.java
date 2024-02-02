@@ -24,7 +24,20 @@ public class BlueCyclePropSide {
                                         .splineTo(new Vector2d(20, 12), Math.toRadians(180))
 //                                        .setTangent(Math.toRadians(180))
                                         .lineTo(new Vector2d(-60, 12))
-
+                                        .addDisplacementMarker(() -> {
+                                            // claw close
+                                        })
+                                        .waitSeconds(1)
+                                        .setTangent(0)
+                                        .lineTo(new Vector2d(20, 12))
+                                        .addDisplacementMarker(() -> {
+                                            // depo position
+                                        })
+                                        .splineTo(new Vector2d(50, 36), Math.toRadians(0))
+                                        .addDisplacementMarker(() -> {
+                                            // claw drop yellow
+                                        })
+                                        .waitSeconds(1)
                                         .build()
                 );
 

@@ -8,21 +8,23 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
+
+import org.firstinspires.ftc.teamcode.photoncore.hardware.motor.PhotonDcMotor;
 import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
 import org.firstinspires.ftc.teamcode.util.WPIMathUtil;
 
 public class Arm {
 
-    public final DcMotorEx motor1;
-    public final DcMotorEx motor2;
+    public final PhotonDcMotor motor1;
+    public final PhotonDcMotor motor2;
 
     long startTime;
     long lastTime;
 
 
     public Arm(HardwareMap hardwareMap) {
-        motor1 = hardwareMap.get(DcMotorEx.class, Constants.Arm.MOTOR1_MAP_NAME);
-        motor2 = hardwareMap.get(DcMotorEx.class, Constants.Arm.MOTOR2_MAP_NAME);
+        motor1 = (PhotonDcMotor) hardwareMap.get(DcMotorEx.class, Constants.Arm.MOTOR1_MAP_NAME);
+        motor2 = (PhotonDcMotor) hardwareMap.get(DcMotorEx.class, Constants.Arm.MOTOR2_MAP_NAME);
 
 //        motor2.setDirection(DcMotorSimple.Direction.REVERSE);
         for(DcMotorEx motor : new DcMotorEx[]{motor1, motor2}) {
