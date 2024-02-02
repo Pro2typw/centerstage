@@ -1,4 +1,4 @@
-package com.example.meepmeep.dhanush.prop.stack;
+package com.example.meepmeep.lmt.cycling;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -6,13 +6,13 @@ import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class BlueBackdropPropSide {
+public class RedCyclePropCenter {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
         final double LENGTH = 18;
 
 
-        final Pose2d StartingPose = new Pose2d(12, 72-LENGTH/2, Math.toRadians(270));
+        final Pose2d StartingPose = new Pose2d(50, 36, Math.toRadians(180));
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -21,13 +21,20 @@ public class BlueBackdropPropSide {
                 .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(StartingPose)
                                         .addDisplacementMarker(() -> {
-                                            // point toward backdrop ready to drop
+                                            // pivot to intake
                                         })
-                                        .splineTo(new Vector2d(36, 36), Math.toRadians(0))
+                                        .lineTo(new Vector2d(-60, 36))
                                         .addDisplacementMarker(() -> {
-                                            // drop yellow pixel on backdrop
-                                            // rotate extension and pivot to match purple
-                                            // drop purple pixel
+                                            // claw close
+                                        })
+                                        .waitSeconds(1)
+                                        .lineTo(new Vector2d(12, 36))
+                                        .addDisplacementMarker(() -> {
+                                            // depo position
+                                        })
+                                        .lineTo(new Vector2d(50, 36))
+                                        .addDisplacementMarker(() -> {
+                                            // claw drop yellow
                                         })
                                         .waitSeconds(1)
                                         .build()

@@ -26,13 +26,12 @@ public class Hang {
         DcMotorEx rightHang = hardwareMap.get(DcMotorEx.class, Constants.Hang.RIGHT_HANG_MAP_NAME);
         
         hang = new MultiMotor(leftHang, rightHang);
-        rightHang.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftHang.setDirection(DcMotorSimple.Direction.REVERSE);
 
         hang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         hang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         hang.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        
-        setState(state);
+
     }
 
     public Hang(@NotNull HardwareMap hardwareMap) {

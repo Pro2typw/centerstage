@@ -1,4 +1,4 @@
-package com.example.meepmeep.dhanush.cycling;
+package com.example.meepmeep.lmt.cycling;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -6,13 +6,13 @@ import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class BlueCyclePropSide {
+public class RedCyclePropSide {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
         final double LENGTH = 18;
 
 
-        final Pose2d StartingPose = new Pose2d(new Vector2d(48, 36), Math.toRadians(0));
+        final Pose2d StartingPose = new Pose2d(50, 36, Math.toRadians(180));
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -23,7 +23,7 @@ public class BlueCyclePropSide {
                                         .setTangent(Math.toRadians(180))
                                         .splineTo(new Vector2d(20, 12), Math.toRadians(180))
 //                                        .setTangent(Math.toRadians(180))
-                                        .lineTo(new Vector2d(-54, 12))
+                                        .lineTo(new Vector2d(-60, 12))
 
                                         .build()
                 );

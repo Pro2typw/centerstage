@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -38,7 +37,6 @@ public class Claw {
     }
     
     public void setClawState(@NotNull ClawSide side, @NotNull ClawState state) {
-        if(!flipped) {
             switch(side) {
                 case LEFT:
                     leftClawState = state;
@@ -52,22 +50,7 @@ public class Claw {
                     rightClaw.setPosition(state == ClawState.CLOSE ? Constants.Claw.RIGHT_CLAW_CLOSE_POSITION : Constants.Claw.RIGHT_CLAW_OPEN_POSITION);
                     break;
             }
-        }
-        else {
-            switch(side) {
-                case RIGHT:
-                    leftClawState = state;
-                    leftClaw.setPosition(state == ClawState.CLOSE ? Constants.Claw.LEFT_CLAW_CLOSE_POSITION : Constants.Claw.LEFT_CLAW_OPEN_POSITION);
-                    break;
-                case BOTH:
-                    leftClawState = state;
-                    leftClaw.setPosition(state == ClawState.CLOSE ? Constants.Claw.LEFT_CLAW_CLOSE_POSITION : Constants.Claw.LEFT_CLAW_OPEN_POSITION);
-                case LEFT:
-                    rightClawState = state;
-                    rightClaw.setPosition(state == ClawState.CLOSE ? Constants.Claw.RIGHT_CLAW_CLOSE_POSITION : Constants.Claw.RIGHT_CLAW_OPEN_POSITION);
-                    break;
-            }
-        }
+
 
     }
 
@@ -75,6 +58,14 @@ public class Claw {
         if(side == ClawSide.LEFT) return leftClawState;
         else if(side == ClawSide.RIGHT) return  rightClawState;
         else return leftClawState == rightClawState ? leftClawState : ClawState.CLOSE;
+    }
+
+    /**
+     *
+     * @return left -> right
+     */
+    public double[] getClawPositions() {
+        return new double[] {leftClaw.getPosition(), rightClaw.getPosition()};
     }
 
     public void toggleClawState() {

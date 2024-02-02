@@ -32,7 +32,7 @@ public class HangTest extends LinearOpMode {
             }
 
             if(manual) {
-                hang.setPower(gp.left_stick_y() * .5);
+                hang.setPower(gp.left_stick_y() * 1);
             }
             else {
                 if(gp.a()) hang.setState(Hang.HangState.INIT);

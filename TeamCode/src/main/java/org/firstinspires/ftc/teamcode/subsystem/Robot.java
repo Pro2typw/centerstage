@@ -47,7 +47,7 @@ public class Robot {
         arm = new Arm(hardwareMap);
         claw = new Claw(hardwareMap, clawState);
         drive = new MecanumDrive(hardwareMap);
-        hang = new Hang(hardwareMap, Hang.HangState.INIT);
+        hang = new Hang(hardwareMap);
         wrist = new Wrist(hardwareMap);
         launch = new Launch(hardwareMap);
 
@@ -147,10 +147,11 @@ public class Robot {
                 claw.setClawState(Claw.ClawSide.BOTH, Claw.ClawState.CLOSE);
                 wrist.setPosition(Constants.Wrist.INTAKE_POS);
                 arm.setPivotTargetPos(100);
+                arm.setExtensionTargetPos(0);
 //                wrist.setPosition(-Wrist.angleToPosition(Arm.ticksToDegrees(200)));
                 break;
             case INTAKE:
-                arm.setPivotTargetPos(0);
+                arm.setPivotTargetPos(-20);
                 arm.setExtensionTargetPos(0);
                 wrist.setPosition(Constants.Wrist.INTAKE_POS);
                 break;

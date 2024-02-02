@@ -60,10 +60,10 @@ public class Constants {
         public final static String LEFT_CLAW_DISTANCE_SENSOR_MAP = "left claw distance sensor";
 
 
-        public static double RIGHT_CLAW_OPEN_POSITION = .53;
-        public static double RIGHT_CLAW_CLOSE_POSITION = .2;
-        public static double LEFT_CLAW_OPEN_POSITION = .25;
-        public static double LEFT_CLAW_CLOSE_POSITION = .4;
+        public static double RIGHT_CLAW_OPEN_POSITION = .45;
+        public static double RIGHT_CLAW_CLOSE_POSITION = 0;
+        public static double LEFT_CLAW_OPEN_POSITION = .3;
+        public static double LEFT_CLAW_CLOSE_POSITION = .55;
     }
 
     // todo config ig the entire file but ye
@@ -116,7 +116,7 @@ public class Constants {
 
 
         public static double INIT_POS = .80733655;
-        public static double INTAKE_POS = .410449;
+        public static double INTAKE_POS = .420044;
         public static double DEPO_POS = 1;
 
 

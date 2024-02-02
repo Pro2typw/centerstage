@@ -1,4 +1,4 @@
-package com.example.meepmeep.dhanush.prop.backdrop;
+package com.example.meepmeep.lmt.prop.backdrop;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -6,31 +6,36 @@ import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class BlueBackdropPropCenter {
+public class RedBackdropPropRight {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
         final double LENGTH = 18;
 
 
-        final Pose2d StartingPose = new Pose2d(12, 72-LENGTH/2, Math.toRadians(270));
+        final Pose2d StartingPose = new Pose2d(12, (72-LENGTH/2) * -1, Math.toRadians(270));
+
+
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 .setDimensions(14.2, LENGTH - 4)
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(0), 12.5)
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12.5)
                 .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(StartingPose)
+                                        .setReversed(true)
                                         .addDisplacementMarker(() -> {
-                                            // arm extend
+                                            // point toward backdrop ready to drop
                                         })
-                                        .splineToLinearHeading(new Pose2d(35, 36, Math.toRadians(25)), Math.toRadians(0))
+                                        .splineTo(new Vector2d(32, 36 * -1), Math.toRadians(0))
+                                        .lineTo(new Vector2d(10, 36 * -1))
                                         .addDisplacementMarker(() -> {
-                                            // claw drop
-                                            // pivot and extension start turning
+                                            // drop purple pixel
                                         })
-
                                         .waitSeconds(1)
-                                        .lineToLinearHeading(new Pose2d(36, 36, 0))
+                                        .addDisplacementMarker(() -> {
+                                            // pivot to backdrop with wrist
+                                        })
+                                        .lineTo(new Vector2d(50, 36 * -1))
                                         .addDisplacementMarker(() -> {
                                             // drop yellow pixel on backdrop
                                             // rotate extension and pivot to match purple

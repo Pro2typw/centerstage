@@ -67,7 +67,7 @@ public class Arm {
     public static double extensionTargetPos = 0;
 
     public static PIDCoefficients averageCoef = new PIDCoefficients(0.008, 0, 0);
-    public static PIDCoefficients differenceCoef = new PIDCoefficients(0.0001, 9e-16, 100000);
+    public static PIDCoefficients differenceCoef = new PIDCoefficients(0.0002, 9e-16, 100000);
 
 
 
@@ -83,9 +83,20 @@ public class Arm {
     public static double G = 1.4;
     public static double MOTOR_COEF = 1;
 
+    double average = 0, difference = 0;
+
+    public double getAverage() {
+        return average;
+    }
+
+    public double getPivotCurrentPos() {
+        return difference;
+    }
+
+
     public void update() {
 
-        double difference = (motor1.getCurrentPosition() - motor2.getCurrentPosition())/2.0;
+        difference = (motor1.getCurrentPosition() - motor2.getCurrentPosition())/2.0;
 
         differenceError = pivotTargetPos - difference;
         if (differenceError * lastdifferenceError <= 0) totaldifferenceError = 0;
@@ -96,7 +107,7 @@ public class Arm {
 
         double differencePower = differenceP + differenceI + differenceD;
 
-        double average = (motor1.getCurrentPosition() + motor2.getCurrentPosition()) / 2.0;
+        average = (motor1.getCurrentPosition() + motor2.getCurrentPosition()) / 2.0;
 
         averageError = extensionTargetPos - average;
         if (averageError * lastaverageError <= 0) totalaverageError = 0;
