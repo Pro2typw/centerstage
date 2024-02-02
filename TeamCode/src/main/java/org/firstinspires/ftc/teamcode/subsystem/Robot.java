@@ -111,11 +111,14 @@ public class Robot {
 
     public enum ArmState {
         INIT,
-        LEFT_INTAKE,
-        RIGHT_INTAKE,
-        BOTH_INTAKE,
+        INTAKE,
+
+//        LEFT_INTAKE,
+//        RIGHT_INTAKE,
+//        BOTH_INTAKE,
         TRANSITION,
         DEPO
+
     }
 
     ArmState armState;
@@ -128,26 +131,31 @@ public class Robot {
                 arm.setPivotTargetPos(0);
                 claw.setClawState(Claw.ClawSide.BOTH, Claw.ClawState.CLOSE);
                 break;
-            case LEFT_INTAKE:
-                claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
-                wrist.setPosition(Wrist.angleToPosition(0));
-                arm.setPivotTargetPos(0);
-                break;
-            case BOTH_INTAKE:
-                claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
-            case RIGHT_INTAKE:
-                claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
-                wrist.setPosition(Constants.Wrist.INTAKE_POS);
-                arm.setPivotTargetPos(0);
-                break;
+//            case LEFT_INTAKE:
+//                claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
+//                wrist.setPosition(Constants.Wrist.INTAKE_POS);
+//                arm.setPivotTargetPos(0);
+//                break;
+//            case BOTH_INTAKE:
+//                claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
+//            case RIGHT_INTAKE:
+//                claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
+//                wrist.setPosition(Constants.Wrist.INTAKE_POS);
+//                arm.setPivotTargetPos(0);
+//                break;
             case TRANSITION:
                 claw.setClawState(Claw.ClawSide.BOTH, Claw.ClawState.CLOSE);
-//                wrist.setPosition(Wrist.angleToPosition(0));
-                arm.setPivotTargetPos(200);
+                wrist.setPosition(Constants.Wrist.INTAKE_POS);
+                arm.setPivotTargetPos(100);
 //                wrist.setPosition(-Wrist.angleToPosition(Arm.ticksToDegrees(200)));
                 break;
+            case INTAKE:
+                arm.setPivotTargetPos(0);
+                arm.setExtensionTargetPos(0);
+                wrist.setPosition(Constants.Wrist.INTAKE_POS);
+                break;
             case DEPO:
-                wrist.setPosition(.5); // todo
+                wrist.setPosition(Constants.Wrist.DEPO_POS); // todo
                 arm.setPivotTargetPos(580);
 
 

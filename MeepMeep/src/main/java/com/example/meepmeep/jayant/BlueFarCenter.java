@@ -12,7 +12,7 @@ public class BlueFarCenter {
         final double LENGTH = 18;
 
 
-        final Pose2d StartingPose = new Pose2d(new Vector2d(-36, 58), Math.toRadians(90));
+        final Pose2d StartingPose = new Pose2d(new Vector2d(-40, 62), Math.toRadians(90));
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -21,7 +21,7 @@ public class BlueFarCenter {
                 .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(StartingPose)
                                         .setReversed(true)
-                                        .lineTo(new Vector2d(-36, 35))
+                                        .splineTo(new Vector2d(-36, 35), Math.toRadians(270))
                                         .addDisplacementMarker(() -> {
                                             // Place preloaded pixel on tape
                                         })

@@ -3,11 +3,13 @@ package org.firstinspires.ftc.teamcode.opmode.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.R;
 import org.firstinspires.ftc.teamcode.photoncore.Photon;
 import org.firstinspires.ftc.teamcode.subsystem.Arm;
 import org.firstinspires.ftc.teamcode.subsystem.Claw;
 import org.firstinspires.ftc.teamcode.subsystem.Robot;
 import org.firstinspires.ftc.teamcode.util.LoopRateTracker;
+import org.firstinspires.ftc.teamcode.util.WPIMathUtil;
 import org.firstinspires.ftc.teamcode.util.gamepad.JustPressed;
 
 @Photon
@@ -24,13 +26,14 @@ public class LMT extends LinearOpMode {
         JustPressed gp2 = new JustPressed(gamepad2);
         LoopRateTracker loopRateTracker = new LoopRateTracker();
 
-        robot.setArmState(Robot.ArmState.INIT);
+//        robot.setArmState(Robot.ArmState.INIT);
         do {
             robot.update();
         } while (opModeInInit());
         waitForStart();
         robot.init();
-        robot.setArmState(Robot.ArmState.BOTH_INTAKE);
+        robot.setArmState(Robot.ArmState.INTAKE);
+        robot.claw.setClawState(Claw.ClawSide.BOTH, Claw.ClawState.CLOSE);
         while (opModeIsActive()) {
             robot.clearCache();
             robot.update();
@@ -48,40 +51,71 @@ public class LMT extends LinearOpMode {
 
 
             // arm, claw, and wrist todo
-//            Robot.ArmState armState = robot.getArmState();
-//            if(armState == Robot.ArmState.DEPO) { // saucy control
-//                if(gp1.left_bumper()) robot.claw.setClawState(Claw.ClawSide.LEFT, robot.claw.getClawState(Claw.ClawSide.LEFT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
-//                if(gp1.right_bumper()) robot.claw.setClawState(Claw.ClawSide.RIGHT, robot.claw.getClawState(Claw.ClawSide.RIGHT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
-//                if(gp1.b()) robot.claw.setClawState(Claw.ClawSide.BOTH, robot.claw.getClawState(Claw.ClawSide.BOTH) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
-//            }
-//            else if(armState != Robot.ArmState.TRANSITION) { // ashwin control
-//                if(gp2.left_bumper()) robot.claw.setClawState(Claw.ClawSide.LEFT, robot.claw.getClawState(Claw.ClawSide.LEFT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
-//                if(gp2.right_bumper()) robot.claw.setClawState(Claw.ClawSide.RIGHT, robot.claw.getClawState(Claw.ClawSide.RIGHT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
-//                if(gp2.b()) robot.claw.setClawState(Claw.ClawSide.BOTH, robot.claw.getClawState(Claw.ClawSide.BOTH) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
-//            }
+            Robot.ArmState armState = robot.getArmState();
+            if(armState == Robot.ArmState.DEPO) { // saucy control
+                if(gp1.left_bumper()) robot.claw.setClawState(Claw.ClawSide.LEFT, robot.claw.getClawState(Claw.ClawSide.LEFT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
+                if(gp1.right_bumper()) robot.claw.setClawState(Claw.ClawSide.RIGHT, robot.claw.getClawState(Claw.ClawSide.RIGHT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
+                if(gp1.b()) robot.claw.setClawState(Claw.ClawSide.BOTH, robot.claw.getClawState(Claw.ClawSide.BOTH) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
+
+            }
+            else if(armState != Robot.ArmState.TRANSITION || armState != Robot.ArmState.DEPO) { // ashwin control
+                if(gp2.left_bumper()) robot.claw.setClawState(Claw.ClawSide.LEFT, robot.claw.getClawState(Claw.ClawSide.LEFT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
+                if(gp2.right_bumper()) robot.claw.setClawState(Claw.ClawSide.RIGHT, robot.claw.getClawState(Claw.ClawSide.RIGHT) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
+                if(gp2.b()) robot.claw.setClawState(Claw.ClawSide.BOTH, robot.claw.getClawState(Claw.ClawSide.BOTH) == Claw.ClawState.CLOSE ? Claw.ClawState.OPEN : Claw.ClawState.CLOSE);
+            }
 //            if(gp2.dpad_up()) {
-////                if(armState == Robot.ArmState.INIT)
 //                if(armState == Robot.ArmState.LEFT_INTAKE || armState == Robot.ArmState.BOTH_INTAKE || armState == Robot.ArmState.RIGHT_INTAKE) {
 //                    robot.setArmState(Robot.ArmState.TRANSITION);
 //                }
 //                else if(armState == Robot.ArmState.TRANSITION) robot.setArmState(Robot.ArmState.DEPO);
+//                else if(armState == Robot.ArmState.INIT) robot.setArmState(Robot.ArmState.BOTH_INTAKE);
 //            }
+
+            if(gp2.dpad_up()) {
+                if(armState == Robot.ArmState.INTAKE) robot.setArmState(Robot.ArmState.TRANSITION);
+                else if(armState == Robot.ArmState.TRANSITION) robot.setArmState(Robot.ArmState.DEPO);
+            }
+            if(gp2.dpad_down()) {
+                if(armState == Robot.ArmState.DEPO) robot.setArmState(Robot.ArmState.TRANSITION);
+                if(armState == Robot.ArmState.TRANSITION) {
+                    robot.setArmState(Robot.ArmState.INTAKE);
+                    robot.claw.setClawState(Claw.ClawSide.BOTH, Claw.ClawState.OPEN);
+                }
+            }
 //            if(gp2.dpad_down()) {
-//                if(armState == Robot.ArmState.LEFT_INTAKE || armState == Robot.ArmState.BOTH_INTAKE || armState == Robot.ArmState.RIGHT_INTAKE) {
-//                    robot.setArmState(Robot.ArmState.TRANSITION);
-//                }
-//                else if(armState == Robot.ArmState.DEPO) robot.setArmState(Robot.ArmState.TRANSITION);
+//                if(armState == Robot.ArmState.DEPO) robot.setArmState(Robot.ArmState.TRANSITION);
+//                if(armState == Robot.ArmState.TRANSITION) robot.setArmState(Robot.ArmState.BOTH_INTAKE);
 //            }
+            if(armState == Robot.ArmState.TRANSITION && gp2.b()) {
+                robot.setArmState(Robot.ArmState.INTAKE);
+                robot.claw.setClawState(Claw.ClawSide.BOTH, Claw.ClawState.OPEN);
+            }
+            if(gp2.left_bumper() && armState == Robot.ArmState.TRANSITION) {
+                robot.setArmState(Robot.ArmState.INTAKE);
+                robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
+            }
+            if(gp2.right_bumper() && armState == Robot.ArmState.TRANSITION){
+                robot.setArmState(Robot.ArmState.INTAKE);
+                robot.claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
+
+            }
+
+            if(armState == Robot.ArmState.DEPO) {
+                robot.arm.setExtensionTargetPos(WPIMathUtil.clamp(robot.arm.getExtensionTargetPos() * gp2.left_stick_y() * 10, 0, 500));
+                robot.arm.setPivotTargetPos(WPIMathUtil.clamp(robot.arm.getPivotTargetPos() * gp2.right_stick_y() * 10, Arm.degreesToTicks(90), 580));
+            }
+//
 
             //launch
-            if(gamepad1.guide) robot.launch.launch();
+            if(gamepad2.guide) robot.launch.launch();
 
 
-//            telemetry.addData("Arm State", armState);
+            telemetry.addData("Arm State", armState);
             telemetry.addData("Left Claw", robot.claw.getClawState(Claw.ClawSide.LEFT));
             telemetry.addData("Right Claw", robot.claw.getClawState(Claw.ClawSide.RIGHT));
             telemetry.addData("Loop Rate", loopRateTracker.getLoopTime());
             telemetry.update();
+
 
 
             gp1.update();

@@ -12,7 +12,7 @@ public class BlueCyclePropSide {
         final double LENGTH = 18;
 
 
-        final Pose2d StartingPose = new Pose2d(new Vector2d(36, 36), Math.toRadians(0));
+        final Pose2d StartingPose = new Pose2d(new Vector2d(48, 36), Math.toRadians(0));
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -20,12 +20,10 @@ public class BlueCyclePropSide {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(0), 12.5)
                 .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(StartingPose)
-                                        .setTangent(Math.toRadians(270))
-                                        .splineToConstantHeading(new Vector2d(12, 12), Math.toRadians(180))
+                                        .setTangent(Math.toRadians(180))
+                                        .splineTo(new Vector2d(20, 12), Math.toRadians(180))
 //                                        .setTangent(Math.toRadians(180))
-                                        .lineTo(new Vector2d(-48, 12))
-                                        .lineTo(new Vector2d(12, 12))
-                                        .splineToConstantHeading(new Vector2d(36, 36), Math.toRadians(90))
+                                        .lineTo(new Vector2d(-54, 12))
 
                                         .build()
                 );
