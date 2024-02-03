@@ -53,12 +53,12 @@ public class Robot {
 
         lynxModules = hardwareMap.getAll(LynxModule.class);
         for(LynxModule module : lynxModules) {
-            module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
         this.telemetry = telemetry;
 
-        imu = new IMU(hardwareMap);
+//        imu = new IMU(hardwareMap);
         headingPID = new PIDFController(HEADING_PID_COEFFICIENTS);
         headingPID.setOutputBounds(0, 1);
         headingPID.setTargetPosition(0);

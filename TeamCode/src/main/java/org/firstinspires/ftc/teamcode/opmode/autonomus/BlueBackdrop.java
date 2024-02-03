@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.opmode.autonomus;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -29,6 +32,11 @@ public class BlueBackdrop extends LinearOpMode {
 
         TeamPropLocation location = TeamPropLocation.LEFT;
 
+        robot.drive.setPoseEstimate(new Pose2d(12, 63, Math.toRadians(90)));
+//        Trajectory traj = robot.drive.trajectoryBuilder(new Pose2d())
+//                .splineTo(new Vector2d(30, 30), 0)
+//                .build();
+
         while(opModeInInit()) {
             if(location == TeamPropLocation.LEFT) location = TeamPropLocation.CENTER;
             else if(location == TeamPropLocation.CENTER) location = TeamPropLocation.RIGHT;
@@ -41,9 +49,10 @@ public class BlueBackdrop extends LinearOpMode {
         }
 
         waitForStart();
-
         robot.init();
 
+
+//        robot.drive.followTrajectoryAsync(traj);
         for(TrajectorySequence seq : paths.get(location)) {
             robot.drive.followTrajectorySequence(seq);
         }

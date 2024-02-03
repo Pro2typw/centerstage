@@ -12,7 +12,7 @@ public class RedCyclePropSide {
         final double LENGTH = 18;
 
 
-        final Pose2d StartingPose = new Pose2d(50, 36, Math.toRadians(180));
+        final Pose2d StartingPose = new Pose2d(50, -36, Math.toRadians(180));
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -21,9 +21,9 @@ public class RedCyclePropSide {
                 .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(StartingPose)
                                         .setTangent(Math.toRadians(180))
-                                        .splineTo(new Vector2d(20, 12), Math.toRadians(180))
+                                        .splineTo(new Vector2d(20, -12), Math.toRadians(180))
 //                                        .setTangent(Math.toRadians(180))
-                                        .lineTo(new Vector2d(-60, 12))
+                                        .lineTo(new Vector2d(-60, -12))
 
                                         .build()
                 );

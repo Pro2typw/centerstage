@@ -12,8 +12,7 @@ public class RedBackdropPropRight {
         final double LENGTH = 18;
 
 
-        final Pose2d StartingPose = new Pose2d(-36, 72-LENGTH/2, Math.toRadians(90));
-
+        final Pose2d StartingPose = new Pose2d(-36, -63, Math.toRadians(270));
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 .setDimensions(14.2, LENGTH - 4)
@@ -21,7 +20,7 @@ public class RedBackdropPropRight {
                 .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(StartingPose)
                                         .setReversed(true)
-                                        .lineTo(new Vector2d(-36, 51))
+                                        .lineTo(new Vector2d(-36, -51))
                                         .lineToLinearHeading(new Pose2d(-36, 33, Math.toRadians(180)))
                                         .addDisplacementMarker(() -> {
                                             // claw drop purple

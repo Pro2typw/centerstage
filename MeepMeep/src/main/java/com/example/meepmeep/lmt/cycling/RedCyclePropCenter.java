@@ -12,7 +12,7 @@ public class RedCyclePropCenter {
         final double LENGTH = 18;
 
 
-        final Pose2d StartingPose = new Pose2d(50, 36, Math.toRadians(180));
+        final Pose2d StartingPose = new Pose2d(50, -36, Math.toRadians(180));
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -23,16 +23,16 @@ public class RedCyclePropCenter {
                                         .addDisplacementMarker(() -> {
                                             // pivot to intake
                                         })
-                                        .lineTo(new Vector2d(-60, 36))
+                                        .lineTo(new Vector2d(-60, -36))
                                         .addDisplacementMarker(() -> {
                                             // claw close
                                         })
                                         .waitSeconds(1)
-                                        .lineTo(new Vector2d(12, 36))
+                                        .lineTo(new Vector2d(12, -36))
                                         .addDisplacementMarker(() -> {
                                             // depo position
                                         })
-                                        .lineTo(new Vector2d(50, 36))
+                                        .lineTo(new Vector2d(50, -36))
                                         .addDisplacementMarker(() -> {
                                             // claw drop yellow
                                         })

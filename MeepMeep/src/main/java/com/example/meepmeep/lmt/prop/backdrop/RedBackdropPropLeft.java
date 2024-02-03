@@ -12,7 +12,7 @@ public class RedBackdropPropLeft {
         final double LENGTH = 18;
 
 
-        final Pose2d StartingPose = new Pose2d(12, 72-LENGTH/2, Math.toRadians(90));
+        final Pose2d StartingPose = new Pose2d(12, -63, Math.toRadians(270));
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -24,7 +24,7 @@ public class RedBackdropPropLeft {
                                         .addDisplacementMarker(() -> {
                                             // point toward backdrop ready to drop
                                         })
-                                        .splineTo(new Vector2d(32, 36), Math.toRadians(0))
+                                        .splineTo(new Vector2d(32, -36), Math.toRadians(0))
                                         .addDisplacementMarker(() -> {
                                             // drop purple pixel
                                         })
@@ -32,7 +32,7 @@ public class RedBackdropPropLeft {
                                         .addDisplacementMarker(() -> {
                                             // pivot to backdrop with wrist
                                         })
-                                        .lineTo(new Vector2d(50, 36))
+                                        .lineTo(new Vector2d(50, -36))
                                         .addDisplacementMarker(() -> {
                                             // drop yellow pixel on backdrop
                                             // rotate extension and pivot to match purple

@@ -12,9 +12,7 @@ public class RedBackdropPropRight {
         final double LENGTH = 18;
 
 
-        final Pose2d StartingPose = new Pose2d(12, (72-LENGTH/2) * -1, Math.toRadians(270));
-
-
+        final Pose2d StartingPose = new Pose2d(12, -63, Math.toRadians(270));
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
