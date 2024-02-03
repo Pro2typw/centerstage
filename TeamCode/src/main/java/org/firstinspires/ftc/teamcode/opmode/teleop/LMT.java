@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.photoncore.Photon;
 import org.firstinspires.ftc.teamcode.subsystem.Arm;
 import org.firstinspires.ftc.teamcode.subsystem.Claw;
@@ -17,7 +18,7 @@ import org.firstinspires.ftc.teamcode.util.gamepad.JustPressed;
 @TeleOp(group = "game", name = "League Tournament Game Teleop")
 public class LMT extends LinearOpMode {
 
-    public static double DRIVETRAIN_POWER = 4;
+    public static double DRIVETRAIN_POWER = .5;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -28,6 +29,8 @@ public class LMT extends LinearOpMode {
         JustPressed gp2 = new JustPressed(gamepad2);
         LoopRateTracker loopRateTracker = new LoopRateTracker();
 
+        boolean slowMode = false;
+
 //        robot.setArmState(Robot.ArmState.INIT);
         do {
             robot.update();
@@ -37,21 +40,31 @@ public class LMT extends LinearOpMode {
         robot.setArmState(Robot.ArmState.INTAKE);
         robot.claw.setClawState(Claw.ClawSide.BOTH, Claw.ClawState.CLOSE);
         boolean isHang = false;
+        boolean justHung = false;
         while (opModeIsActive()) {
             robot.clearCache();
             robot.update();
 
             // drive
-            robot.drive.setPowers(gp1.left_stick_x(), -gp1.left_stick_y(), gp1.right_stick_x(), x -> (Math.pow(x, DRIVETRAIN_POWER) * .75 * Math.signum(x)));
+            if(gp1.left_stick_button()) slowMode = !slowMode;
+            if(slowMode) robot.drive.setPowers(gp1.left_stick_x(), -gp1.left_stick_y(), gp1.right_stick_x(), x -> .75 * Math.cbrt(x));
+            else robot.drive.setPowers(gp1.left_stick_x(), -gp1.left_stick_y(), gp1.right_stick_x(), x -> Math.cbrt(x) * .4);
+
 
             // launch
             if(gp1.guide()) robot.launch.launch();
 
             // hang
-            if(gp2.guide()) isHang = !isHang;
+            if(gp2.guide()) {
+                isHang = !isHang;
+                justHung = isHang;
+            }
             if(isHang) {
                 robot.setArmState(Robot.ArmState.INIT);
-                robot.hang.setPower(gp2.left_stick_y() * .5);
+                robot.hang.setPower(gp2.left_stick_y() * -0.5);
+            }
+            else if(justHung) {
+                robot.setArmState(Robot.ArmState.INTAKE);
             }
 
 
@@ -85,7 +98,10 @@ public class LMT extends LinearOpMode {
             }
             if(gp2.dpad_down()) {
                 if(armState == Robot.ArmState.DEPO) robot.setArmState(Robot.ArmState.TRANSITION);
-                if(armState == Robot.ArmState.TRANSITION) {
+                else if(!WPIMathUtil.isNear(0, robot.arm.getExtensionTargetPos(), 30)) {
+                    robot.arm.setExtensionTargetPos(0);
+                }
+                else if(armState == Robot.ArmState.TRANSITION) {
                     robot.setArmState(Robot.ArmState.INTAKE);
                     robot.claw.setClawState(Claw.ClawSide.BOTH, Claw.ClawState.OPEN);
                 }
@@ -109,15 +125,17 @@ public class LMT extends LinearOpMode {
 
             if(armState == Robot.ArmState.DEPO) {
                 if(gp2.left_stick_y() != 0)
-                    robot.arm.setExtensionTargetPos(WPIMathUtil.clamp(robot.arm.getExtensionTargetPos() + gp2.left_stick_y() * 10, 0, 500));
+                    robot.arm.setExtensionTargetPos(WPIMathUtil.clamp(robot.arm.getExtensionTargetPos() - gp2.left_stick_y() * 10, 0, 500));
                 if(gp2.right_stick_y() != 0)
-                    robot.arm.setPivotTargetPos(WPIMathUtil.clamp(robot.arm.getPivotTargetPos() + gp2.right_stick_y(), Arm.degreesToTicks(90), 580));
+                    robot.arm.setPivotTargetPos(WPIMathUtil.clamp(robot.arm.getPivotTargetPos() - gp2.right_stick_y(), Arm.degreesToTicks(90), 580));
             }
 
 
             telemetry.addData("Arm State", armState);
             telemetry.addData("Pivot Current Pos", robot.arm.getPivotCurrentPos());
             telemetry.addData("Pivot Target Pos", robot.arm.getPivotTargetPos());
+            telemetry.addData("Extension Current Pos", robot.arm.getExtensionCurrentPos());
+            telemetry.addData("Extension Target Pos", robot.arm.getExtensionTargetPos());
 
             telemetry.addData("Left Claw", robot.claw.getClawState(Claw.ClawSide.LEFT));
             telemetry.addData("Right Claw", robot.claw.getClawState(Claw.ClawSide.RIGHT));
@@ -125,7 +143,10 @@ public class LMT extends LinearOpMode {
             telemetry.addLine("L: " + clawPos[0] + "; R: " + clawPos[1]);
             telemetry.addData("Loop Rate", loopRateTracker.getLoopTime());
             telemetry.addData("Hang Mode", isHang ? "ON" : "OFF");
-            telemetry.addData("LEFT STICK", gp2.left_stick_y());
+//            telemetry.addData("LEFT STICK", gp2.left_stick_y());
+            telemetry.addData("DT Slow Mode", slowMode);
+
+            telemetry.addData("Current Draw (A)", robot.lynxModules.get(0).getCurrent(CurrentUnit.AMPS));
             telemetry.update();
 
 

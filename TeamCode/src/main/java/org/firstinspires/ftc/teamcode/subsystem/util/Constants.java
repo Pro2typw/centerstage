@@ -115,8 +115,8 @@ public class Constants {
         public final static String RIGHT_WRIST_MAP_NAME = "right wrist";
 
 
-        public static double INIT_POS = .80733655;
-        public static double INTAKE_POS = .420044;
+        public static double INIT_POS = .824;
+        public static double INTAKE_POS = .361;
         public static double DEPO_POS = 1;
 
 

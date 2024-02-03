@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import org.firstinspires.ftc.teamcode.subsystem.Arm;
 import org.firstinspires.ftc.teamcode.subsystem.Wrist;
 import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
+import org.firstinspires.ftc.teamcode.util.WPIMathUtil;
 
 @TeleOp(group = "test")
 @Config
@@ -23,7 +24,7 @@ public class ArmPIDTuning extends LinearOpMode {
     public static double extensionTargetPos = 0;
 
     public static PIDCoefficients averageCoef = new PIDCoefficients(0.008, 0, 0);
-    public static PIDCoefficients differenceCoef = new PIDCoefficients(0.0001, 9e-16, 100000);
+    public static PIDCoefficients differenceCoef = new PIDCoefficients(0.00008, 9e-16, 100000);
 
 
 
@@ -59,7 +60,7 @@ public class ArmPIDTuning extends LinearOpMode {
 //            wrist.setPosition(Constants.Wrist.INTAKE_POS);
             double difference = (arm.motor1.getCurrentPosition() - arm.motor2.getCurrentPosition())/2.0;
 
-            differenceError = pivotTargetPos - difference;
+                differenceError = pivotTargetPos - difference;
             if (differenceError * lastdifferenceError <= 0) totaldifferenceError = 0;
             else totaldifferenceError += differenceError;
             double differenceI = (totaldifferenceError * (System.nanoTime() - startTime)) * differenceCoef.kI;

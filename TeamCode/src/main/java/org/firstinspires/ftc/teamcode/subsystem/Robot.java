@@ -146,13 +146,13 @@ public class Robot {
             case TRANSITION:
                 claw.setClawState(Claw.ClawSide.BOTH, Claw.ClawState.CLOSE);
                 wrist.setPosition(Constants.Wrist.INTAKE_POS);
-                arm.setPivotTargetPos(100);
+                arm.setPivotTargetPos(150);
                 arm.setExtensionTargetPos(0);
 //                wrist.setPosition(-Wrist.angleToPosition(Arm.ticksToDegrees(200)));
                 break;
             case INTAKE:
-                arm.setPivotTargetPos(-20);
-                arm.setExtensionTargetPos(0);
+                arm.setPivotTargetPos(0);
+                arm.setExtensionTargetPos(Arm.millimetersToTicks(5));
                 wrist.setPosition(Constants.Wrist.INTAKE_POS);
                 break;
             case DEPO:

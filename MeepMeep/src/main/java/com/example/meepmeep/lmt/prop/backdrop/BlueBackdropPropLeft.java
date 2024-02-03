@@ -24,7 +24,7 @@ public class BlueBackdropPropLeft {
                                         .addDisplacementMarker(() -> {
                                             // point toward backdrop ready to drop
                                         })
-                                        .splineTo(new Vector2d(32, 36), Math.toRadians(0))
+                                        .splineTo(new Vector2d(40, 36), Math.toRadians(0))
                                         .addDisplacementMarker(() -> {
                                             // drop purple pixel
                                         })

@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -9,9 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.teamcode.photoncore.hardware.motor.PhotonDcMotor;
 import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
-import org.firstinspires.ftc.teamcode.util.WPIMathUtil;
 
 public class Arm {
 
@@ -69,7 +65,7 @@ public class Arm {
     public static double extensionTargetPos = 0;
 
     public static PIDCoefficients averageCoef = new PIDCoefficients(0.008, 0, 0);
-    public static PIDCoefficients differenceCoef = new PIDCoefficients(0.0002, 9e-16, 100000);
+    public static PIDCoefficients differenceCoef = new PIDCoefficients(0.00008, 9e-16, 100000);
 
 
 
@@ -87,7 +83,7 @@ public class Arm {
 
     double average = 0, difference = 0;
 
-    public double getAverage() {
+    public double getExtensionCurrentPos() {
         return average;
     }
 

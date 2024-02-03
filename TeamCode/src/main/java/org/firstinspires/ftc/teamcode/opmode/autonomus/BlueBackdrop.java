@@ -33,9 +33,7 @@ public class BlueBackdrop extends LinearOpMode {
         TeamPropLocation location = TeamPropLocation.LEFT;
 
         robot.drive.setPoseEstimate(new Pose2d(12, 63, Math.toRadians(90)));
-//        Trajectory traj = robot.drive.trajectoryBuilder(new Pose2d())
-//                .splineTo(new Vector2d(30, 30), 0)
-//                .build();
+
 
         while(opModeInInit()) {
             if(location == TeamPropLocation.LEFT) location = TeamPropLocation.CENTER;
@@ -51,16 +49,16 @@ public class BlueBackdrop extends LinearOpMode {
         waitForStart();
         robot.init();
 
+        location = TeamPropLocation.LEFT;
 
-//        robot.drive.followTrajectoryAsync(traj);
-        for(TrajectorySequence seq : paths.get(location)) {
-            robot.drive.followTrajectorySequence(seq);
-        }
-
+        TrajectorySequence[] path = paths.get(location);
+        int i = 0;
         while (opModeIsActive()) {
-            robot.clearCache();
-            robot.update();
+            if(i < path.length && !robot.drive.isBusy()) robot.drive.followTrajectorySequenceAsync(path[i++]);
 
+//            robot.clearCache();
+//            telemetry.update();
+            robot.update();
         }
 
     }

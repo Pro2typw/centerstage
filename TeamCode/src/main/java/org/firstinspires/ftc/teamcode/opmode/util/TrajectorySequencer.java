@@ -43,19 +43,27 @@ public class TrajectorySequencer {
                             // point toward backdrop ready to drop
                             robot.setArmState(Robot.ArmState.INTAKE);
                         })
-                        .splineTo(new Vector2d(32, 36), Math.toRadians(0))
+                        .splineTo(new Vector2d(40, 36), Math.toRadians(0))
                         .addDisplacementMarker(() -> {
                             // drop purple pixel
                             robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
                         })
                         .waitSeconds(1)
+                        .lineTo(new Vector2d(41, 36))
+
                         .addDisplacementMarker(() -> {
                             // pivot to backdrop with wrist
                             robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.CLOSE);
                             robot.setArmState(Robot.ArmState.TRANSITION);
+
+                        })
+                        .lineTo(new Vector2d(42, 36))
+                        .waitSeconds(6)
+                        .addDisplacementMarker(() -> {
                             robot.setArmState(Robot.ArmState.DEPO);
                         })
-                        .lineTo(new Vector2d(50, 36))
+                        .lineTo(new Vector2d(55, 52))
+                        .waitSeconds(2)
                         .addDisplacementMarker(() -> {
                             // drop yellow pixel on backdrop
                             robot.claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
@@ -67,21 +75,29 @@ public class TrajectorySequencer {
                         .setReversed(true)
                         .addDisplacementMarker(() -> {
                             // point toward backdrop ready to drop
+                            robot.setArmState(Robot.ArmState.INTAKE);
                         })
                         .splineTo(new Vector2d(32, 36), Math.toRadians(0))
-                        .lineTo(new Vector2d(10, 36))
+                        .lineTo(new Vector2d(12, 36))
                         .addDisplacementMarker(() -> {
                             // drop purple pixel
+                            robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
                         })
                         .waitSeconds(1)
+                        .lineTo(new Vector2d(14, 36))
                         .addDisplacementMarker(() -> {
-                            // pivot to backdrop with wrist
+                            robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.CLOSE);
+                            robot.setArmState(Robot.ArmState.TRANSITION);
                         })
-                        .lineTo(new Vector2d(50, 36))
+                        .lineTo(new Vector2d(16, 36))
+                        .waitSeconds(6)
+                        .addDisplacementMarker(() -> {
+                            robot.setArmState(Robot.ArmState.DEPO);
+                        })
+                        .lineTo(new Vector2d(55, 36))
                         .addDisplacementMarker(() -> {
                             // drop yellow pixel on backdrop
-                            // rotate extension and pivot to match purple
-                            // drop purple pixel
+                            robot.claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
                         })
                         .waitSeconds(1)
                         .build();
@@ -92,6 +108,7 @@ public class TrajectorySequencer {
                         .lineToLinearHeading(new Pose2d(12, 33, Math.toRadians(270)))
                         .addDisplacementMarker(() -> {
                             // claw drop purple
+
 
                         })
                         .waitSeconds(1)
