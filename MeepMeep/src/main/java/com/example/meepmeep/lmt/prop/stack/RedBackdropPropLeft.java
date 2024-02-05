@@ -21,12 +21,12 @@ public class RedBackdropPropLeft {
                                 drive.trajectorySequenceBuilder(StartingPose)
                                         .setReversed(true)
                                         .lineTo(new Vector2d(-36, -51))
-                                        .lineToLinearHeading(new Pose2d(-32, -33, Math.toRadians(0)))
+                                        .lineToLinearHeading(new Pose2d(-36, -33, Math.toRadians(180)))
                                         .addDisplacementMarker(() -> {
                                             // claw drop purple
                                         })
                                         .waitSeconds(1)
-                                        .back(3)
+//                                        .back(3)
                                         .addDisplacementMarker(() -> {
                                             // pivot to stack for one
                                         })
@@ -45,6 +45,7 @@ public class RedBackdropPropLeft {
                                         .addDisplacementMarker(() -> {
                                             // claw drop yellow
                                         })
+                                        .waitSeconds(1)
                                         .build()
                 );
 
@@ -55,3 +56,5 @@ public class RedBackdropPropLeft {
                 .start();
     }
 }
+
+

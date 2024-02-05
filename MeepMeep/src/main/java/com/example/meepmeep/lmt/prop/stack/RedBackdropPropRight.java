@@ -21,31 +21,30 @@ public class RedBackdropPropRight {
                                 drive.trajectorySequenceBuilder(StartingPose)
                                         .setReversed(true)
                                         .lineTo(new Vector2d(-36, -51))
-                                        .lineToLinearHeading(new Pose2d(-36, 33, Math.toRadians(180)))
+                                        .lineToLinearHeading(new Pose2d(-32, -33, Math.toRadians(0)))
                                         .addDisplacementMarker(() -> {
                                             // claw drop purple
                                         })
                                         .waitSeconds(1)
-//                                        .back(3)
+                                        .back(3)
                                         .addDisplacementMarker(() -> {
                                             // pivot to stack for one
                                         })
-                                        .lineToLinearHeading(new Pose2d(-59, 36, Math.toRadians(180)))
+                                        .lineToLinearHeading(new Pose2d(-59, -36, Math.toRadians(180)))
                                         .addDisplacementMarker(() -> {
                                             // claw pickup from stack
                                         })
                                         .waitSeconds(1)
                                         .setReversed(true)
-                                        .splineTo(new Vector2d(-28, 60), 0)
+                                        .splineTo(new Vector2d(-28, -60), 0)
                                         .addDisplacementMarker(() -> {
                                             // pivot to depo
                                         })
-                                        .lineTo(new Vector2d(12, 60))
-                                        .splineTo(new Vector2d(48, 36), 0)
+                                        .lineTo(new Vector2d(12, -60))
+                                        .splineTo(new Vector2d(48, -36), 0)
                                         .addDisplacementMarker(() -> {
                                             // claw drop yellow
                                         })
-                                        .waitSeconds(1)
                                         .build()
                 );
 
@@ -56,3 +55,4 @@ public class RedBackdropPropRight {
                 .start();
     }
 }
+

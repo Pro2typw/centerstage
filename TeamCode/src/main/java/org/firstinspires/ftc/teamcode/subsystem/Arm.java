@@ -65,7 +65,7 @@ public class Arm {
     public static double extensionTargetPos = 0;
 
     public static PIDCoefficients averageCoef = new PIDCoefficients(0.008, 0, 0);
-    public static PIDCoefficients differenceCoef = new PIDCoefficients(0.00008, 9e-16, 100000);
+    public static PIDCoefficients differenceCoef = new PIDCoefficients(0.00013, 9e-16, 140000);
 
 
 

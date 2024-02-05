@@ -12,7 +12,7 @@ public class PathFullTest {
         final double LENGTH = 18;
 
 
-        final Pose2d StartingPose = new Pose2d(12, 72-LENGTH/2, Math.toRadians(90));
+        final Pose2d StartingPose = new Pose2d(-36, -63, Math.toRadians(270));
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -20,44 +20,11 @@ public class PathFullTest {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(0), 12.5)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(StartingPose)
-                                .setReversed(true)
-                                .addDisplacementMarker(() -> {
-                                    // point toward backdrop ready to drop
-                                })
-                                .splineTo(new Vector2d(32, 36), Math.toRadians(0))
-                                .addDisplacementMarker(() -> {
-                                    // drop purple pixel
-                                })
-                                .waitSeconds(1)
-                                .addDisplacementMarker(() -> {
-                                    // pivot to backdrop with wrist
-                                })
-                                .lineTo(new Vector2d(50, 36))
-                                .addDisplacementMarker(() -> {
-                                    // drop yellow pixel on backdrop
-                                    // rotate extension and pivot to match purple
-                                    // drop purple pixel
-                                })
-                                .waitSeconds(1)
-                                .setTangent(Math.toRadians(180))
-                                .splineTo(new Vector2d(20, 12), Math.toRadians(180))
-//                                        .setTangent(Math.toRadians(180))
-                                .lineTo(new Vector2d(-60, 12))
-                                .addDisplacementMarker(() -> {
-                                    // claw close
-                                })
-                                .waitSeconds(1)
-                                .setTangent(0)
-                                .lineTo(new Vector2d(20, 12))
-                                .addDisplacementMarker(() -> {
-                                    // depo position
-                                })
-                                .splineTo(new Vector2d(50, 36), Math.toRadians(0))
-                                .addDisplacementMarker(() -> {
-                                    // claw drop yellow
-                                })
-                                .waitSeconds(1)
-                                .build()
+
+                .back(3)
+                .strafeLeft(4 * 24)
+                .build()
+//                                .build()
                 );
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
