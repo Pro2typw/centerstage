@@ -12,7 +12,7 @@ public class RedFarRight {
             final double LENGTH = 18;
 
 
-            final Pose2d StartingPose = new Pose2d(new Vector2d(-36, -58), Math.toRadians(90));
+            final Pose2d StartingPose = new Pose2d(new Vector2d(-36, -63), Math.toRadians(270));
 
 
             RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -20,7 +20,7 @@ public class RedFarRight {
                     .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(0), 12.5)
                     .followTrajectorySequence(drive ->
                                     drive.trajectorySequenceBuilder(StartingPose)
-                                            .splineTo(new Vector2d(-52, -31), Math.toRadians(180))
+                                            .lineToLinearHeading(new Pose2d(-36, -32, Math.toRadians(0)))
                                             .addDisplacementMarker(() -> {
                                                 // Place preloaded pixel on tape
                                             })

@@ -21,7 +21,8 @@ public class BlueFarCenter {
                 .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(StartingPose)
                                         .setReversed(true)
-                                        .splineTo(new Vector2d(-36, 35), Math.toRadians(270))
+                                        .lineToLinearHeading(new Pose2d(-36, 36, Math.toRadians(270)))
+                                        .back(10)
                                         .addDisplacementMarker(() -> {
                                             // Place preloaded pixel on tape
                                         })
@@ -35,7 +36,7 @@ public class BlueFarCenter {
 
                                         .lineToSplineHeading(new Pose2d(-32, 58, Math.toRadians(180)))
                                         .lineTo(new Vector2d(11,58))
-                                        .splineTo(new Vector2d(48, 34), Math.toRadians(0))
+                                        .splineTo(new Vector2d(48, 42), Math.toRadians(0))
                                         .addDisplacementMarker(() -> {
                                             // Place pixel on backboard
                                         })
@@ -52,7 +53,7 @@ public class BlueFarCenter {
                                         .waitSeconds(1)
                                         .lineToSplineHeading(new Pose2d(-32, 58, Math.toRadians(180)))
                                         .lineTo(new Vector2d(11,58))
-                                        .splineTo(new Vector2d(48, 34), Math.toRadians(0))
+                                        .splineTo(new Vector2d(48, 42), Math.toRadians(0))
                                         .addDisplacementMarker(() -> {
                                             // Place pixel on backboard
                                         })

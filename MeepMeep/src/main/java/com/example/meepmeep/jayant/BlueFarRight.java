@@ -51,7 +51,7 @@ public class BlueFarRight {
                                         .waitSeconds(1)
                                         .lineTo(new Vector2d(-36, 58))
                                         .lineTo(new Vector2d(11,58))
-                                        .splineTo(new Vector2d(48, 28), Math.toRadians(0))
+                                        .splineTo(new Vector2d(48, 43), Math.toRadians(0))
                                         .addDisplacementMarker(() -> {
                                             // Place pixel on backboard
                                         })
