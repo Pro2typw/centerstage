@@ -12,7 +12,7 @@ public class RedFarLeft {
         final double LENGTH = 18;
 
 
-        final Pose2d StartingPose = new Pose2d(new Vector2d(-36, -58), Math.toRadians(90));
+        final Pose2d StartingPose = new Pose2d(new Vector2d(-36, -63), Math.toRadians(270));
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
