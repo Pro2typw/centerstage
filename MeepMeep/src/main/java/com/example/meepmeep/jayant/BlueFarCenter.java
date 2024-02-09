@@ -60,7 +60,6 @@ public class BlueFarCenter {
                                         .waitSeconds(1)
 // Park:
                                         .build()
-
                 );
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)

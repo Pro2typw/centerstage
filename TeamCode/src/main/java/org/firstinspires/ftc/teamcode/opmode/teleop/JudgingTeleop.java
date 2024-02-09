@@ -36,10 +36,18 @@ public class JudgingTeleop extends LinearOpMode {
         robot.setArmState(Robot.ArmState.INTAKE);
         while (opModeIsActive()) {
 
+            //pivot
             if(gp1.x()) {
                 robot.arm.setPivotTargetPos(robot.arm.getPivotTargetPos() == 500 ? 0 : 500);
             }
-            if(gp2.y()) robot.arm.setExtensionTargetPos(robot.arm.getExtensionTargetPos() == 500 ? 0 : 500);
+            //extension
+            if(gp1.y()) robot.arm.setExtensionTargetPos(robot.arm.getExtensionTargetPos() == 500 ? 0 : 500);
+
+            //hang
+            if(gp1.dpad_up()) {
+                robot.setArmState(Robot.ArmState.INIT);
+                robot.hang.setPower(gp2.left_stick_y() * -0.5);
+            }
 
             robot.clearCache();
             robot.update();
