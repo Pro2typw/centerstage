@@ -2,12 +2,10 @@ package org.firstinspires.ftc.teamcode.subsystem.util;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 
 public class Constants {
 
-    //todo config constants
     @Config(value = "[]Vision Constants")
     public static class Vision {
         public static int BLUE_CENTER_RECTANGLE_TOP_LEFT_X = 260;
@@ -50,7 +48,6 @@ public class Constants {
         public final static double Y_OFFSET = 0;
     }
 
-    //todo config
     @Config(value = "[]Claw Constants")
     public static class Claw {
         public final static String RIGHT_CLAW_MAP_NAME = "right claw"; // named from facing the back of the claw (not thw way it opens but the other way
@@ -66,30 +63,30 @@ public class Constants {
         public static double LEFT_CLAW_CLOSE_POSITION = .55;
     }
 
-    // todo config ig the entire file but ye
     @Config(value = "[]Arm Constants")
     public static class Arm {
         public final static String MOTOR1_MAP_NAME = "arm left";
         public final static String MOTOR2_MAP_NAME = " arm right";
 
-        public static PIDCoefficients DIFFERENCE_PID_COEFFICIENTS = new PIDCoefficients(0.004, 9e-16, 100000);
-        public static PIDCoefficients AVERAGE_PID_COEFFICIENTS = new PIDCoefficients(0.008, 0, 0);
+        public static PIDCoefficients DIFFERENCE_PID_COEFFICIENTS = new PIDCoefficients(0.008, 38e-12, 200000); // pivot
+        public static PIDCoefficients AVERAGE_PID_COEFFICIENTS = new PIDCoefficients(0.008, 0, 0); // extension
         public static double GRAVITY_FEEDFORWARD_GAIN = 1.4;
 
+        public static double VOLTAGE_COMPENSATION_CONSTANT = -1;
+
         public static final int MAX_EXTENSION = 500; // ticks
-        private static final int MAX_PIVOT = 580; // ticks
+        public static final int MAX_PIVOT = 580; // ticks
 
 
     }
 
     @Config
-    public static class Launcher {
+    public static class Drone {
         public static final String LAUNCHER_MAP_NAME = "launcherServo";
 
         public static final double LAUNCHER_LAUNCH_POWER = 1;
     }
 
-    // todo
     @Config(value = "[]Hang Constants")
     public static class Hang {
         public final static String LEFT_HANG_MAP_NAME = "left hang";
@@ -105,10 +102,9 @@ public class Constants {
     public static class IMU {
         public final static String IMU_MAP_NAME = "imu";
         
-        public static PIDCoefficients HEADING_PID_COEFFICIENTS = new PIDCoefficients(0, 0, 0);  //todo config
+        public static PIDCoefficients HEADING_PID_COEFFICIENTS = new PIDCoefficients(0, 0, 0);
     }
-    
-    // todo config
+
     @Config(value = "[]Wrist Constants")
     public static class Wrist {
         public final static String LEFT_WRIST_MAP_NAME = "left wrist";

@@ -43,7 +43,7 @@ public class TrapezoidProfile {
 
     private final Constraints constraints;
     private State current;
-    private State goal; // TODO: Remove
+    private State goal;
 
     private double endAccel;
     private double endFullSpeed;

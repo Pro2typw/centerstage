@@ -12,7 +12,7 @@ public class BlueBackdropPropRight {
         final double LENGTH = 18;
 
 
-        final Pose2d StartingPose = new Pose2d(12, (72-LENGTH/2) * -1, Math.toRadians(270));
+        final Pose2d StartingPose = new Pose2d(12, (72-LENGTH/2), Math.toRadians(90));
 
 
 
@@ -26,8 +26,8 @@ public class BlueBackdropPropRight {
                                         .addDisplacementMarker(() -> {
                                             // point toward backdrop ready to drop
                                         })
-                                        .splineTo(new Vector2d(32, 36 * -1), Math.toRadians(0))
-                                        .lineTo(new Vector2d(10, 36 * -1))
+                                        .splineTo(new Vector2d(32, 36), Math.toRadians(0))
+                                        .lineTo(new Vector2d(10, 36))
                                         .addDisplacementMarker(() -> {
                                             // drop purple pixel
                                         })
@@ -35,7 +35,7 @@ public class BlueBackdropPropRight {
                                         .addDisplacementMarker(() -> {
                                             // pivot to backdrop with wrist
                                         })
-                                        .lineTo(new Vector2d(50, 36 * -1))
+                                        .lineTo(new Vector2d(50, 36))
                                         .addDisplacementMarker(() -> {
                                             // drop yellow pixel on backdrop
                                             // rotate extension and pivot to match purple

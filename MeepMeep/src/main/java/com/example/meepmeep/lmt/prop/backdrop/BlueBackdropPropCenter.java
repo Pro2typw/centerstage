@@ -12,7 +12,7 @@ public class BlueBackdropPropCenter {
         final double LENGTH = 18;
 
 
-        final Pose2d StartingPose = new Pose2d(12, -63, Math.toRadians(270));
+        final Pose2d StartingPose = new Pose2d(12, 63, Math.toRadians(90));
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -21,17 +21,17 @@ public class BlueBackdropPropCenter {
                 .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(StartingPose)
                                         .setReversed(true)
-                                        .lineTo(new Vector2d(12, -51))
-                                        .lineToLinearHeading(new Pose2d(12, -33, Math.toRadians(90)))
+                                        .lineTo(new Vector2d(12, 51))
+                                        .lineToLinearHeading(new Pose2d(12, 33, Math.toRadians(270)))
                                         .addDisplacementMarker(() -> {
                                             // claw drop purple
                                         })
                                         .waitSeconds(1)
-                                        .lineTo(new Vector2d(36, -36))
+                                        .lineTo(new Vector2d(36, 36))
                                         .addDisplacementMarker(() -> {
                                             // pivot to depo
                                         })
-                                        .lineToLinearHeading(new Pose2d(50, -36, Math.toRadians(180)))
+                                        .lineToLinearHeading(new Pose2d(50, 36, Math.toRadians(180)))
                                         .addDisplacementMarker(() -> {
                                             // claw drop yellow
                                         })

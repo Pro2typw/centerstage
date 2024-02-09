@@ -8,13 +8,15 @@ import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
 
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(group = "game")
+@Autonomous(group = "0", name = "Blue Strafe")
 public class BlueStrafe extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         MecanumDrive drive = new MecanumDrive(hardwareMap);
         waitForStart();
         ElapsedTime timer = new ElapsedTime();
+
+
         while (opModeIsActive()) {
             if(timer.time(TimeUnit.SECONDS) <= 2) {
                 drive.setMotorPowers(-1, 1, -1, 1);

@@ -43,26 +43,19 @@ public class Hang {
         switch (state) {
 
             case INIT:
-                hang.setTargetPosition(Constants.Hang.INIT_POSITION);
-                hang.setPower(.2);
-                hang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                setTargetPosition(Constants.Hang.INIT_POSITION, 1);
                 break;
             case UP:
-                hang.setTargetPosition(Constants.Hang.UP_POSITION);
-                hang.setPower(.2);
-                hang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                setTargetPosition(Constants.Hang.UP_POSITION, 1);
                 break;
             case DOWN:
-                hang.setTargetPosition(Constants.Hang.DOWN_POSITION);
-                hang.setPower(.2);
-                hang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                break;
+                setTargetPosition(Constants.Hang.DOWN_POSITION, .5);
         }
     }
 
-    public void setTargetPosition(int pos) {
+    public void setTargetPosition(int pos, double pow) {
         hang.setTargetPosition(pos);
-        hang.setPower(.5);
+        hang.setPower(pow);
         hang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 

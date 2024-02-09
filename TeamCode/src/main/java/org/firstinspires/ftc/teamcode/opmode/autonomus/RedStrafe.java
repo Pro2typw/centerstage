@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
 
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(group = "game")
+@Autonomous(group = "0")
 public class RedStrafe extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

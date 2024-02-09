@@ -176,14 +176,11 @@ public interface ServoInfo {
 
         // maybe 280 idk servo programmer says smth different
         double defaultAngleRange = 180;  // deg
-        // todo unknown
         double maxAngleRange = 355;  // deg
 
-        // todo unknown, also they have been removed for all servos on the website
         PwmControl.PwmRange servoModePwmRange = new PwmControl.PwmRange(500, 2500);
         PwmControl.PwmRange continuousModePwmRange = new PwmControl.PwmRange(500, 2500);
 
-        // todo unknown
         boolean directionIncreasingClockwise = false;
     }
 }

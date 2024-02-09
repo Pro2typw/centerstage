@@ -32,7 +32,7 @@ public class Robot {
     public Hang hang;
     public Wrist wrist;
     public Camera camera;
-    public Launch launch;
+    public Drone drone;
     public AprilTagDetectionPipeline apriltagDetectionPipeline;
     public PropDetectionPipeline propDetectionPipeline;
     public List<LynxModule> lynxModules;
@@ -49,7 +49,7 @@ public class Robot {
         drive = new MecanumDrive(hardwareMap);
         hang = new Hang(hardwareMap);
         wrist = new Wrist(hardwareMap);
-        launch = new Launch(hardwareMap);
+        drone = new Drone(hardwareMap);
 
         lynxModules = hardwareMap.getAll(LynxModule.class);
         for(LynxModule module : lynxModules) {
@@ -64,6 +64,10 @@ public class Robot {
         headingPID.setTargetPosition(0);
         isResetToIMU = false;
         armState = ArmState.INIT;
+    }
+
+    public Robot(@NotNull HardwareMap hardwareMap, @NotNull Telemetry telemetry) {
+        this(hardwareMap, telemetry, Claw.ClawState.CLOSE);
     }
 
     public Robot(@NotNull HardwareMap hardwareMap, @NotNull Telemetry telemetry, @NotNull Claw.ClawState clawState, AllianceColor color) {
@@ -112,12 +116,8 @@ public class Robot {
     public enum ArmState {
         INIT,
         INTAKE,
-
-//        LEFT_INTAKE,
-//        RIGHT_INTAKE,
-//        BOTH_INTAKE,
         TRANSITION,
-        DEPO
+        DEPOSIT
 
     }
 
@@ -131,36 +131,21 @@ public class Robot {
                 arm.setPivotTargetPos(0);
                 claw.setClawState(Claw.ClawSide.BOTH, Claw.ClawState.CLOSE);
                 break;
-//            case LEFT_INTAKE:
-//                claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
-//                wrist.setPosition(Constants.Wrist.INTAKE_POS);
-//                arm.setPivotTargetPos(0);
-//                break;
-//            case BOTH_INTAKE:
-//                claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
-//            case RIGHT_INTAKE:
-//                claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
-//                wrist.setPosition(Constants.Wrist.INTAKE_POS);
-//                arm.setPivotTargetPos(0);
-//                break;
-            case TRANSITION:
-                claw.setClawState(Claw.ClawSide.BOTH, Claw.ClawState.CLOSE);
-                wrist.setPosition(Constants.Wrist.INTAKE_POS);
-                arm.setPivotTargetPos(150);
-                arm.setExtensionTargetPos(0);
-//                wrist.setPosition(-Wrist.angleToPosition(Arm.ticksToDegrees(200)));
-                break;
             case INTAKE:
-                arm.setPivotTargetPos(0);
-                arm.setExtensionTargetPos(Arm.millimetersToTicks(5));
                 wrist.setPosition(Constants.Wrist.INTAKE_POS);
+                arm.setExtensionTargetPos(0);
+                arm.setPivotTargetPos(0);
                 break;
-            case DEPO:
-                wrist.setPosition(Constants.Wrist.DEPO_POS); // todo
+            case TRANSITION:
+                wrist.setPosition(Constants.Wrist.INTAKE_POS);
+                arm.setExtensionTargetPos(0);
+                arm.setPivotTargetPos(150);
+                break;
+            case DEPOSIT:
+                wrist.setPosition(Constants.Wrist.DEPO_POS);
+                arm.setExtensionTargetPos(0);
                 arm.setPivotTargetPos(580);
-
-
-
+                break;
         }
     }
 

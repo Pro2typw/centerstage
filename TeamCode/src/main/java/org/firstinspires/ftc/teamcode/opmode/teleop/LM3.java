@@ -22,7 +22,7 @@
 //import org.firstinspires.ftc.teamcode.util.gamepad.JustPressed;
 //import org.firstinspires.ftc.teamcode.subsystem.Launch;
 //
-//@TeleOp(name = "LM3 Game", group = "game")
+//@TeleOp(name = "LM3 Game")
 //public class LM3 extends LinearOpMode {
 //    @Override
 //    public void runOpMode() throws InterruptedException {

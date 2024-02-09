@@ -35,7 +35,6 @@ public class SimpleIMUIntegrator implements BNO055IMU.AccelerationIntegrator {
         acceleration = linearAcceleration;
         long time = acceleration.acquisitionTime;
 
-        // todo try trapezoidal integration
         velocity.xVeloc += acceleration.xAccel * (time - velocity.acquisitionTime) * 1E-9;
         velocity.yVeloc += acceleration.yAccel * (time - velocity.acquisitionTime) * 1E-9;
         velocity.zVeloc += acceleration.zAccel * (time - velocity.acquisitionTime) * 1E-9;

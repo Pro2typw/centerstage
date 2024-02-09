@@ -12,19 +12,56 @@ public class PathFullTest {
         final double LENGTH = 18;
 
 
-        final Pose2d StartingPose = new Pose2d(-36, -63, Math.toRadians(270));
+        final Pose2d StartingPose = new Pose2d(12, 63, Math.toRadians(90));
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
-                .setDimensions(14.2, LENGTH - 4)
+                .setDimensions(14.2, LENGTH )
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(0), 12.5)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(StartingPose)
 
-                .back(3)
-                .strafeLeft(4 * 24)
-                .build()
-//                                .build()
+                                .setReversed(true)
+                                .addDisplacementMarker(() -> {
+                                    // point toward backdrop ready to drop
+//                                    robot.setArmState(Robot.ArmState.INTAKE);
+                                })
+                                .splineTo(new Vector2d(40, 36), Math.toRadians(0))
+                                .addDisplacementMarker(() -> {
+                                    // drop purple pixel
+//                                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
+                                })
+                                .waitSeconds(1)
+                                .lineTo(new Vector2d(41, 36))
+
+                                .addDisplacementMarker(() -> {
+                                    // pivot to backdrop with wrist
+//                                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.CLOSE);
+//                                    robot.setArmState(Robot.ArmState.TRANSITION);
+
+                                })
+                                .lineTo(new Vector2d(42, 36))
+                                .waitSeconds(6)
+                                .addDisplacementMarker(() -> {
+//                                    robot.setArmState(Robot.ArmState.DEPO);
+                                })
+                                .lineTo(new Vector2d(55, 52))
+                                .waitSeconds(2)
+                                .addDisplacementMarker(() -> {
+                                    // drop yellow pixel on backdrop
+//                                    robot.claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
+                                })
+                                .waitSeconds(1)
+                                .lineTo(new Vector2d(54.5, 52))
+                                .addDisplacementMarker(() -> {
+//                                    robot.setArmState(Robot.ArmState.TRANSITION);
+                                })
+                                .waitSeconds(2)
+                                .lineTo(new Vector2d(54.4, 12))
+                                .addDisplacementMarker(() -> {
+//                                    robot.setArmState(Robot.ArmState.INTAKE);
+                                })
+                                .build()
                 );
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)

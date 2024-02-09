@@ -88,7 +88,6 @@ public class GraphFunction {
         return linearInterpolation(index - i, yAxis[i], yAxis[i+1]);
     }
 
-    //todo use the findAllX's algorithm and put into here and findLastX
     public double findFirstX(double y) {
         if (xAxis == null || yAxis == null) throw new IllegalStateException("You need to calculate values first.");
         if (!inRoughRange(y)) throw new IllegalArgumentException("y is outside of the defined range.");

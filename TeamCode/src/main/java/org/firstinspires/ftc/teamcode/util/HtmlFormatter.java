@@ -187,7 +187,7 @@ public class HtmlFormatter implements Cloneable {
      * @param color color of the shadow
      * @return the instance of {@link HtmlFormatter}
      */
-    public HtmlFormatter textShadow(int x, int y, int blur, String color) { // todo multi shadow
+    public HtmlFormatter textShadow(int x, int y, int blur, String color) {
         cssStyles.put("text-shadow", String.format("%spx %spx %spx %s", x, y , blur, color));
         return clone();
     }

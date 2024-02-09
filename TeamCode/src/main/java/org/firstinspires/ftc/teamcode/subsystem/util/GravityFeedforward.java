@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.subsystem.util;
 
-
 public class GravityFeedforward {
 
     double gain;
@@ -13,6 +12,10 @@ public class GravityFeedforward {
         this.gain = gain;
     }
 
+    public GravityFeedforward() {
+        gain = 1;
+    }
+
     /**
      *
      * @param gain proportional gain used to scale the gravity feedforward signal
@@ -20,6 +23,7 @@ public class GravityFeedforward {
     public void setGain(double gain) {
         this.gain = gain;
     }
+
     /**
      *
      * @param length length of the lever or arm
@@ -28,5 +32,7 @@ public class GravityFeedforward {
      */
     public double calculate(double length, double angRad) {
         return length * 9.8 * Math.sin(angRad) * gain;
+
+
     }
 }

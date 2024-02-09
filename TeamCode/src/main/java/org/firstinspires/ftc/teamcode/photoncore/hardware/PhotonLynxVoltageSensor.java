@@ -24,7 +24,6 @@ public class PhotonLynxVoltageSensor extends LynxVoltageSensor {
         lastKnownVoltage.setValue(0.0);
     }
 
-    // TODO: Check if the interval read by the RC app would be better than setting it as cannot expire
     private final PhotonLastKnown<Double> lastKnownVoltage = new PhotonLastKnown<>(false);
 
     /**
