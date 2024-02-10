@@ -23,4 +23,8 @@ public class Drone {
 
         launched = !launched;
     }
+
+    public boolean isLaunched() {
+        return launched;
+    }
 }

@@ -84,7 +84,7 @@ public class Constants {
     public static class Drone {
         public static final String LAUNCHER_MAP_NAME = "launcherServo";
 
-        public static final double LAUNCHER_LAUNCH_POWER = 1;
+        public static final double LAUNCHER_LAUNCH_POWER = .65;
     }
 
     @Config(value = "[]Hang Constants")

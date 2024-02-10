@@ -31,11 +31,11 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
     public static double WHEEL_RADIUS = 0.6889764; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double LATERAL_DISTANCE = 10.839544633573473; // in; distance between the left and right wheels
-    public static double FORWARD_OFFSET = 7.48031; // in; offset of the lateral wheel
-
-    public static double X_MULTIPLIER = (48 / ((47.14230250060632 + 47.148572755428084 + 47.07221286855378) / 3)); // Multiplier in the X direction
-    public static double Y_MULTIPLIER = (72 / ((69.52700252335842 + 69.93220673405729 + 46.71397396452169) / 3)); // Multiplier in the Y direction
+    public static double LATERAL_DISTANCE = 10.830544633573473; // in; distance between the left and right wheels
+    public static double FORWARD_OFFSET = -6.468; // in; offset of the lateral wheel
+    public static double PERPENDICULAR_OFFSET = 2.298; // changing doesnt have any effect
+    public static double X_MULTIPLIER = (71.125 / ((70.67212380012916 + 70.60137929538304 + 70.6041639813299) / 3)); // Multiplier in the X direction
+    public static double Y_MULTIPLIER = (71.125 / ((69.74648931756559 + 69.75012286901926 + 69.7835697514916) / 3)); // Multiplier in the Y direction
     private Encoder leftEncoder, rightEncoder, frontEncoder;
 
     private List<Integer> lastEncPositions, lastEncVels;
@@ -44,7 +44,7 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
         super(Arrays.asList(
                 new Pose2d(0, LATERAL_DISTANCE / 2, 0), // left
                 new Pose2d(0, -LATERAL_DISTANCE / 2, 0), // right
-                new Pose2d(FORWARD_OFFSET, 0, Math.toRadians(90)) // front
+                new Pose2d(FORWARD_OFFSET, PERPENDICULAR_OFFSET, Math.toRadians(90)) // front
         ));
 
         lastEncPositions = lastTrackingEncPositions;
