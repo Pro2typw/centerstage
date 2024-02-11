@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.photoncore.Photon;
 import org.firstinspires.ftc.teamcode.subsystem.Arm;
 import org.firstinspires.ftc.teamcode.subsystem.Claw;
+import org.firstinspires.ftc.teamcode.subsystem.Hang;
 import org.firstinspires.ftc.teamcode.subsystem.Robot;
 import org.firstinspires.ftc.teamcode.util.LoopRateTracker;
 import org.firstinspires.ftc.teamcode.util.WPIMathUtil;
@@ -24,6 +25,7 @@ public class JudgingTeleop extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         Robot robot = new Robot(hardwareMap, telemetry, Claw.ClawState.CLOSE);
+        robot.hang = new Hang(hardwareMap, Hang.HangState.INIT);
 
         JustPressed gp1 = new JustPressed(gamepad1);
         JustPressed gp2 = new JustPressed(gamepad2);
@@ -45,9 +47,13 @@ public class JudgingTeleop extends LinearOpMode {
 
             //hang
             if(gp1.dpad_up()) {
-                robot.setArmState(Robot.ArmState.INIT);
-                robot.hang.setPower(gp2.left_stick_y() * -0.5);
+                robot.hang.setPower(-0.5);
             }
+            else if(gp1.dpad_down()) {
+                robot.hang.setPower(0.5);
+            }
+            else robot.hang.setPower(0);
+
 
             robot.clearCache();
             robot.update();
