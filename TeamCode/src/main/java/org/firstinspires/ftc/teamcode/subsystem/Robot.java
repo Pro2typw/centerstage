@@ -51,6 +51,10 @@ public class Robot {
         wrist = new Wrist(hardwareMap);
         drone = new Drone(hardwareMap);
 
+        arm.setPivotTargetPos(0);
+        arm.setExtensionTargetPos(0);
+
+
         lynxModules = hardwareMap.getAll(LynxModule.class);
         for(LynxModule module : lynxModules) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);

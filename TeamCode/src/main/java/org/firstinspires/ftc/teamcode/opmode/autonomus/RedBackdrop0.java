@@ -96,18 +96,18 @@ public class RedBackdrop0 extends LinearOpMode {
                 .setReversed(true)
                 .addDisplacementMarker(() -> {
                     // point toward backdrop ready to drop
-//                                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
+                                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
                 })
                 .lineTo(new Vector2d(15, -51))
                 .lineToLinearHeading(new Pose2d(15, -33, Math.toRadians(270)))
                 .addDisplacementMarker(() -> {
                     // claw drop purple
-//                                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
+                                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
                 })
                 .waitSeconds(.5)
                 .lineTo(new Vector2d(12.1, -36))
                 .addDisplacementMarker(() -> {
-//                                    robot.arm.setPivotTargetPos(150);
+                                    robot.arm.setPivotTargetPos(150);
                 })
                 .waitSeconds(1)
                 .lineTo(new Vector2d(36, -36))
@@ -161,6 +161,7 @@ public class RedBackdrop0 extends LinearOpMode {
                 break;
             case CENTER:
                 robot.drive.followTrajectorySequenceAsync(center);
+                break;
         }
 
         while (opModeIsActive()) {

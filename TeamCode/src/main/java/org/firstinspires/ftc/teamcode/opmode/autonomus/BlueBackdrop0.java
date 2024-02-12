@@ -161,6 +161,7 @@ public class BlueBackdrop0 extends LinearOpMode {
                 break;
             case CENTER:
                 robot.drive.followTrajectorySequenceAsync(center);
+                break;
         }
 
         while (opModeIsActive()) {
