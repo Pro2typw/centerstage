@@ -46,7 +46,7 @@ public class ArmPIDTuningBetta extends LinearOpMode {
             double differencePower = differenceController.calculate(difference);
             double averagePower = averageController.calculate(average);
 
-            double gravityPower = Math.cos(Math.toRadians(Arm.ticksToDegrees(difference))) * .15 * batterComp;
+            double gravityPower = Math.abs(difference) > 20 ? Math.cos(Math.toRadians(Arm.ticksToDegrees(difference))) * .15 * batterComp * 1.4 : 0;
             double power1 = differencePower + averagePower + gravityPower;
             double power2 = -differencePower + averagePower - gravityPower;
 

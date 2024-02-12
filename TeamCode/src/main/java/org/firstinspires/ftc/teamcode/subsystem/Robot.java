@@ -77,10 +77,6 @@ public class Robot {
         camera = new Camera(hardwareMap, apriltagDetectionPipeline.getAprilTagProcessor(), propDetectionPipeline);
     }
 
-    public void toggleResetToIMU() {
-        isResetToIMU = !isResetToIMU;
-    }
-
     /**
      * call this first in the loop
      */
@@ -123,42 +119,11 @@ public class Robot {
 
     ArmState armState;
     public void setArmState(ArmState state) {
-        armState = state;
-        switch (state) {
-            case INIT:
-                wrist.setPosition(Constants.Wrist.INIT_POS);
-                arm.setExtensionTargetPos(0);
-                arm.setPivotTargetPos(0);
-                claw.setClawState(Claw.ClawSide.BOTH, Claw.ClawState.CLOSE);
-                break;
-            case INTAKE:
-                wrist.setPosition(Constants.Wrist.INTAKE_POS);
-                arm.setExtensionTargetPos(0);
-                arm.setPivotTargetPos(0);
-                break;
-            case TRANSITION:
-                wrist.setPosition(Constants.Wrist.INTAKE_POS);
-                arm.setExtensionTargetPos(0);
-                arm.setPivotTargetPos(150);
-                break;
-            case DEPOSIT:
-                wrist.setPosition(Constants.Wrist.DEPO_POS);
-                arm.setExtensionTargetPos(0);
-                arm.setPivotTargetPos(580);
-                break;
-        }
+
     }
 
     public ArmState getArmState() {
         return armState;
     }
-
-//    public void getTelemetry() {
-//        telemetry.addData("Left Claw", claw.getClawState(Claw.ClawSide.LEFT));
-//        telemetry.addData("Right Claw", claw.getClawState(Claw.ClawSide.RIGHT));
-////        telemetry.addData("Hang", hang.getState());
-//        telemetry.addData("Heading", currentOrientation.firstAngle);
-//        //...
-//    }
 
 }

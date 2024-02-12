@@ -17,7 +17,7 @@ public class PIDController {
     private double minOutput = Integer.MIN_VALUE;
     private double maxOutput = Integer.MAX_VALUE;
 
-    private double startTime;
+    private long startTime;
     private double lastTime;
 
     double P = 0;
@@ -47,6 +47,7 @@ public class PIDController {
      * @param targetPosition The desired target position
      */
     public void setTargetPosition(double targetPosition) {
+//        if(targetPosition != this.targetPosition) totalError = 0;
         this.targetPosition = targetPosition;
     }
 
@@ -66,28 +67,33 @@ public class PIDController {
      * @return The computed control output
      */
     public double calculate(double currentPosition) {
+        long time = System.nanoTime() - startTime;
         this.currentPosition = currentPosition;
         error = targetPosition - currentPosition;
 
-        if (error * lastError <= 0) totalError = 0;
+        if (error * lastError <= 0 || Math.abs(error - lastError) > 5) totalError = 0;
         else totalError += error;
 
         P = error * pidCoefficients.kP;
-        I = (totalError * (System.nanoTime() - lastTime)) * pidCoefficients.kI;
-        D = ((error - lastError) / (System.nanoTime() - lastTime)) * pidCoefficients.kD;
+        I = (totalError * (time - lastTime)) * pidCoefficients.kI;
+        D = ((error - lastError) / (time - lastTime)) * pidCoefficients.kD;
 
         double power = P + I + D;
 
-        lastTime = System.nanoTime();
+        lastTime = time;
         lastError = error;
 
         return WPIMathUtil.clamp(power, minOutput, maxOutput);
     }
-
+    
     public void reset() {
         totalError = 0;
         lastError = 0;
         init();
+    }
+
+    public double getPower() {
+        return WPIMathUtil.clamp(P + I + D, minOutput, maxOutput);
     }
 
     public PIDCoefficients getPidCoefficients() {

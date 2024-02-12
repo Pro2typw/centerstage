@@ -68,7 +68,7 @@ public class Constants {
         public final static String MOTOR1_MAP_NAME = "arm left";
         public final static String MOTOR2_MAP_NAME = " arm right";
 
-        public static PIDCoefficients DIFFERENCE_PID_COEFFICIENTS = new PIDCoefficients(0.008, 38e-12, 200000); // pivot
+        public static PIDCoefficients DIFFERENCE_PID_COEFFICIENTS = new PIDCoefficients(0.0036, 2.5e-12, 170000); // pivot
         public static PIDCoefficients AVERAGE_PID_COEFFICIENTS = new PIDCoefficients(0.008, 0, 0); // extension
         public static double GRAVITY_FEEDFORWARD_GAIN = 1.4;
 

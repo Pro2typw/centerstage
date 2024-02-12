@@ -37,9 +37,7 @@ public class ArmPIDTuning extends LinearOpMode {
 
     public double batterComp = 0;
 
-    public static double G = 1;
-    public static double MOTOR_COEF = 1;
-
+    public static double G = 1.4;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -57,7 +55,7 @@ public class ArmPIDTuning extends LinearOpMode {
         long lastTime = startTime;
 
         while (opModeIsActive()) {
-      long time = System.nanoTime() - startTime;
+            long time = System.nanoTime() - startTime;
 //            wrist.setPosition(Constants.Wrist.INTAKE_POS);
             double difference = (arm.motor1.getCurrentPosition() - arm.motor2.getCurrentPosition())/2.0;
 
@@ -85,10 +83,8 @@ public class ArmPIDTuning extends LinearOpMode {
             double power1 = differencePower + averagePower + gravityPower;
             double power2 = -differencePower + averagePower - gravityPower;
 
-            arm.motor1.setPower(power1 * MOTOR_COEF);
-            arm.motor2.setPower(power2 * MOTOR_COEF);
-
-
+            arm.motor1.setPower(power1);
+            arm.motor2.setPower(power2);
 
             telemetry.addData("Pivot Current Position", difference);
             telemetry.addData("Pivot Target Position", pivotTargetPos);

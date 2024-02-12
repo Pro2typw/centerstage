@@ -12,7 +12,7 @@ public class PathFullTest {
         final double LENGTH = 18;
 
 
-        final Pose2d StartingPose = new Pose2d(12, 63, Math.toRadians(90));
+        final Pose2d StartingPose = new Pose2d(12, -63, Math.toRadians(270));
 
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
@@ -20,46 +20,34 @@ public class PathFullTest {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(0), 12.5)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(StartingPose)
-
                                 .setReversed(true)
                                 .addDisplacementMarker(() -> {
                                     // point toward backdrop ready to drop
-//                                    robot.setArmState(Robot.ArmState.INTAKE);
+//                                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
                                 })
-                                .splineTo(new Vector2d(40, 36), Math.toRadians(0))
+                                .lineTo(new Vector2d(15, -51))
+                                .lineToLinearHeading(new Pose2d(15, -33, Math.toRadians(270)))
                                 .addDisplacementMarker(() -> {
-                                    // drop purple pixel
+                                    // claw drop purple
 //                                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
                                 })
-                                .waitSeconds(1)
-                                .lineTo(new Vector2d(41, 36))
-
+                                .waitSeconds(.5)
+                                .lineTo(new Vector2d(12.1, -36))
                                 .addDisplacementMarker(() -> {
-                                    // pivot to backdrop with wrist
+//                                    robot.arm.setPivotTargetPos(150);
+                                })
+                                .waitSeconds(1)
+                                .lineTo(new Vector2d(36, -36))
+                                .addDisplacementMarker(() -> {
+                                    // pivot to depo
+//                                    robot.arm.setPivotTargetPos(580);
+//                                    robot.wrist.setPosition(Constants.Wrist.DEPO_POS);
 //                                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.CLOSE);
-//                                    robot.setArmState(Robot.ArmState.TRANSITION);
-
                                 })
-                                .lineTo(new Vector2d(42, 36))
-                                .waitSeconds(6)
+                                .lineToLinearHeading(new Pose2d(48, -36, Math.toRadians(180)))
                                 .addDisplacementMarker(() -> {
-//                                    robot.setArmState(Robot.ArmState.DEPO);
-                                })
-                                .lineTo(new Vector2d(55, 52))
-                                .waitSeconds(2)
-                                .addDisplacementMarker(() -> {
-                                    // drop yellow pixel on backdrop
+                                    // claw drop yellow
 //                                    robot.claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
-                                })
-                                .waitSeconds(1)
-                                .lineTo(new Vector2d(54.5, 52))
-                                .addDisplacementMarker(() -> {
-//                                    robot.setArmState(Robot.ArmState.TRANSITION);
-                                })
-                                .waitSeconds(2)
-                                .lineTo(new Vector2d(54.4, 12))
-                                .addDisplacementMarker(() -> {
-//                                    robot.setArmState(Robot.ArmState.INTAKE);
                                 })
                                 .build()
                 );
