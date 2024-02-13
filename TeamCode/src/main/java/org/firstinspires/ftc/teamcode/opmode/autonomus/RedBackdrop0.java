@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.subsystem.Claw;
 import org.firstinspires.ftc.teamcode.subsystem.Robot;
 import org.firstinspires.ftc.teamcode.subsystem.util.Constants;
+import org.firstinspires.ftc.teamcode.subsystem.vision.pipeline.AprilTagDetectionPipeline;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.util.TeamPropLocation;
 import org.firstinspires.ftc.teamcode.util.TelemetryUtil;
@@ -27,101 +28,123 @@ public class RedBackdrop0 extends LinearOpMode {
                 .setReversed(true)
                 .addDisplacementMarker(() -> {
                     // point toward backdrop ready to drop
-                                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
+                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
                 })
                 .splineTo(new Vector2d(32, -36), Math.toRadians(0))
-                .lineTo(new Vector2d(10, -36))
+                .lineTo(new Vector2d(8, -36))
                 .addDisplacementMarker(() -> {
                     // drop purple pixel
-                                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
+                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
                 })
                 .waitSeconds(1)
                 .lineTo(new Vector2d(12, -36))
                 .addDisplacementMarker(() -> {
                     // pivot to backdrop with wrist
-                                    robot.arm.setPivotTargetPos(150);
+                    robot.arm.setPivotTargetPos(150);
                 })
                 .lineTo(new Vector2d(20, -36))
                 .addDisplacementMarker(() -> {
-                                    robot.arm.setPivotTargetPos(580);
-                                    robot.wrist.setPosition(Constants.Wrist.DEPO_POS);
-                                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.CLOSE);
+                    robot.arm.setPivotTargetPos(580);
+                    robot.wrist.setPosition(Constants.Wrist.DEPO_POS);
+                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.CLOSE);
                 })
                 .waitSeconds(1)
-                .lineTo(new Vector2d(45, -32))
+                .lineTo(new Vector2d(45, -22))
                 .addDisplacementMarker(() -> {
                     // drop yellow pixel on backdrop
                     // rotate extension and pivot to match purple
                     // drop purple pixel
-                                    robot.claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
+                    robot.claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
                 })
-                .waitSeconds(1)
-
+                .lineTo(new Vector2d(44.9, -42))
+                .waitSeconds(.5)
+                .addDisplacementMarker(() -> {
+                    robot.arm.setPivotTargetPos(175);
+                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
+                })
                 .build();
+
+////RIGHT
         TrajectorySequence right = robot.drive.trajectorySequenceBuilder(startingPose)
                 .setReversed(true)
                 .addDisplacementMarker(() -> {
                     // point toward backdrop ready to drop
-                                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
+                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
                 })
-                .splineTo(new Vector2d(35, -36), Math.toRadians(0))
+                .splineTo(new Vector2d(35, -41), Math.toRadians(0))
                 .addDisplacementMarker(() -> {
                     // drop purple pixel
-                                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
+                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
                 })
                 .lineTo(new Vector2d(35.1, -36))
                 .waitSeconds(.25)
                 .addDisplacementMarker(() -> {
-                                    robot.arm.setPivotTargetPos(150);
+                    robot.arm.setPivotTargetPos(150);
                 })
                 .waitSeconds(.5)
                 .lineTo(new Vector2d(37, -36))
                 .addDisplacementMarker(() -> {
                     // pivot to backdrop with wrist
-                                    robot.arm.setPivotTargetPos(580);
-                                    robot.wrist.setPosition(Constants.Wrist.DEPO_POS);
-                                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.CLOSE);
+                    robot.arm.setPivotTargetPos(580);
+                    robot.wrist.setPosition(Constants.Wrist.DEPO_POS);
+                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.CLOSE);
                 })
                 .lineTo(new Vector2d(40, -43))
                 .waitSeconds(1)
-                .lineTo(new Vector2d(45, -50))
+                .lineTo(new Vector2d(48, -42))
                 .addDisplacementMarker(() -> {
                     // drop yellow pixel on backdrop
-                                    robot.claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
+                    robot.claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
                     // rotate extension and pivot to match purple
                     // drop purple pixel
                 })
+                .lineTo(new Vector2d(47.9, -42))
+                .waitSeconds(.5)
+                .addDisplacementMarker(() -> {
+                    robot.arm.setPivotTargetPos(175);
+                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
+                })
+
                 .build();
+
+  ///// CENTER
         TrajectorySequence center = robot.drive.trajectorySequenceBuilder(startingPose)
                 .setReversed(true)
                 .addDisplacementMarker(() -> {
                     // point toward backdrop ready to drop
-                                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
+                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
                 })
                 .lineTo(new Vector2d(15, -51))
-                .lineToLinearHeading(new Pose2d(15, -33, Math.toRadians(270)))
+                .lineToLinearHeading(new Pose2d(6, -41.5, Math.toRadians(90)))
                 .addDisplacementMarker(() -> {
                     // claw drop purple
-                                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
+                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
                 })
                 .waitSeconds(.5)
                 .lineTo(new Vector2d(12.1, -36))
                 .addDisplacementMarker(() -> {
-                                    robot.arm.setPivotTargetPos(150);
+                    robot.arm.setPivotTargetPos(150);
                 })
                 .waitSeconds(1)
                 .lineTo(new Vector2d(36, -36))
                 .addDisplacementMarker(() -> {
                     // pivot to depo
-//                                    robot.arm.setPivotTargetPos(580);
-//                                    robot.wrist.setPosition(Constants.Wrist.DEPO_POS);
-//                                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.CLOSE);
+                    robot.arm.setPivotTargetPos(580);
+                    robot.wrist.setPosition(Constants.Wrist.DEPO_POS);
+                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.CLOSE);
                 })
-                .lineToLinearHeading(new Pose2d(48, -36, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(48, -32, Math.toRadians(180)))
                 .addDisplacementMarker(() -> {
                     // claw drop yellow
-//                                    robot.claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
+                    robot.claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
                 })
+                .lineTo(new Vector2d(47.9, -42))
+                .waitSeconds(.5)
+                .addDisplacementMarker(() -> {
+                    robot.arm.setPivotTargetPos(175);
+                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
+                })
+
                 .build();
 
 
@@ -138,7 +161,7 @@ public class RedBackdrop0 extends LinearOpMode {
                     break;
             }
 
-            position = TeamPropLocation.CENTER;
+            position = TeamPropLocation.RIGHT;
 
             telemetry.addLine("Purple is on left claw");
             telemetry.addLine("Yellow is on right claw");

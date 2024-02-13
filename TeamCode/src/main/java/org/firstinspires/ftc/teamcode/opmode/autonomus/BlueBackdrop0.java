@@ -56,6 +56,13 @@ public class BlueBackdrop0 extends LinearOpMode {
                     // rotate extension and pivot to match purple
                     // drop purple pixel
                 })
+                .lineTo(new Vector2d(44.9, 42))
+                .waitSeconds(.5)
+                .addDisplacementMarker(() -> {
+                    robot.arm.setPivotTargetPos(175);
+                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
+                })
+
                 .build();
         TrajectorySequence right = robot.drive.trajectorySequenceBuilder(startingPose)
                 .setReversed(true)
@@ -89,7 +96,13 @@ public class BlueBackdrop0 extends LinearOpMode {
                     // drop purple pixel
                     robot.claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
                 })
-                .waitSeconds(1)
+                .lineTo(new Vector2d(44.9, 42))
+                .waitSeconds(.5)
+                .addDisplacementMarker(() -> {
+                    robot.arm.setPivotTargetPos(175);
+                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
+                })
+
 
                 .build();
         TrajectorySequence center = robot.drive.trajectorySequenceBuilder(startingPose)
@@ -122,6 +135,13 @@ public class BlueBackdrop0 extends LinearOpMode {
                     // claw drop yellow
                     robot.claw.setClawState(Claw.ClawSide.RIGHT, Claw.ClawState.OPEN);
                 })
+                .lineTo(new Vector2d(47.9, 42))
+                .waitSeconds(.5)
+                .addDisplacementMarker(() -> {
+                    robot.arm.setPivotTargetPos(175);
+                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
+                })
+
                 .build();
 
 
@@ -138,7 +158,6 @@ public class BlueBackdrop0 extends LinearOpMode {
                     break;
             }
 
-            position = TeamPropLocation.CENTER;
 
             telemetry.addLine("Purple is on left claw");
             telemetry.addLine("Yellow is on right claw");
