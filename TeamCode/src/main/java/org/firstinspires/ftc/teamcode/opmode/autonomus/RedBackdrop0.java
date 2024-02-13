@@ -161,8 +161,6 @@ public class RedBackdrop0 extends LinearOpMode {
                     break;
             }
 
-            position = TeamPropLocation.RIGHT;
-
             telemetry.addLine("Purple is on left claw");
             telemetry.addLine("Yellow is on right claw");
             telemetry.addData("Team Prop Location", position);

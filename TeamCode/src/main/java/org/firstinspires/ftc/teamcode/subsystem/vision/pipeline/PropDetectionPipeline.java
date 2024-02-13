@@ -148,4 +148,8 @@ public class PropDetectionPipeline implements VisionProcessor {
     public TeamPropLocation getPropPosition(){
         return output;
     }
+
+    public double[] getAveragedBoxes() {
+        return new double[] {averagedLeftBox, averagedCenterBox, averagedRightBox};
+    }
 }

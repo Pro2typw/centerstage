@@ -15,33 +15,34 @@ import org.firstinspires.ftc.vision.VisionPortal;
 public class PropDetectionTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        MultipleTelemetry tele = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        PropDetectionPipeline propDetectionPipeline = new PropDetectionPipeline(AllianceColor.BLUE);
+        telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
+        PropDetectionPipeline propDetectionPipeline = new PropDetectionPipeline(AllianceColor.RED);
         Camera camera = new Camera(hardwareMap, propDetectionPipeline);
         JustPressed gp = new JustPressed(gamepad1);
 
         while (camera.getCameraState() != VisionPortal.CameraState.STREAMING) {
-            tele.addLine(camera.getCameraState().toString());
-            tele.update();
-            sleep(20);
+            telemetry.addLine(camera.getCameraState().toString());
+            telemetry.addData("Prop Position", propDetectionPipeline.getPropPosition());
+            double[] averages = propDetectionPipeline.getAveragedBoxes();
+            telemetry.addLine(averages[0] + " " + averages[1] + " " + averages[2]);
+            telemetry.update();
         }
         while (opModeInInit()) {
             camera.setProcessorEnabled(propDetectionPipeline, true);
 
 //            double[] percents = propDetectionPipeline.getBoxAreas();
-//            tele.addData("Location", propDetectionPipeline.getPropPosition());
-//            tele.addData("Left Square %", percents[0]);
-//            tele.addData("Center Square %", percents[1]);
-//            tele.addData("Right Square %", percents[2]);
+//            telemetry.addData("Location", propDetectionPipeline.getPropPosition());
+//            telemetry.addData("Left Square %", percents[0]);
+//            telemetry.addData("Center Square %", percents[1]);
+//            telemetry.addData("Right Square %", percents[2]);
 
-            tele.update();
+            telemetry.update();
             gp.update();
         }
 
         waitForStart();
-        while(opModeIsActive()) {
-            tele.addLine("Restart program and don't go past the init mode");
-            tele.update();
-        }
+            telemetry.addLine("Restart program and don't go past the init mode");
+            telemetry.update();
+
     }
 }

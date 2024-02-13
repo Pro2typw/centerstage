@@ -12,6 +12,8 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.util.TeamPropLocation;
 import org.firstinspires.ftc.teamcode.util.TelemetryUtil;
 
+import java.util.Vector;
+
 @Autonomous(group = "0")
 public class BlueStack0 extends LinearOpMode {
     @Override
@@ -51,6 +53,8 @@ public class BlueStack0 extends LinearOpMode {
                     // claw drop yellow
                 })
                 .build();
+
+///RIGHT
         TrajectorySequence right = robot.drive.trajectorySequenceBuilder(startingPose)
                 .setReversed(true)
                 .lineTo(new Vector2d(-36, 51))
@@ -79,14 +83,31 @@ public class BlueStack0 extends LinearOpMode {
                     // claw drop yellow
                 })
                 .build();
+
+//// CENTER
         TrajectorySequence center = robot.drive.trajectorySequenceBuilder(startingPose)
                 .setReversed(true)
-                .lineTo(new Vector2d(-36, 51))
-                .lineToLinearHeading(new Pose2d(-36, 33, Math.toRadians(270)))
                 .addDisplacementMarker(() -> {
+                    // point toward backdrop ready to drop
+                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
+                })
+                .lineTo(new Vector2d(-42, 51))
+                .lineToLinearHeading(new Pose2d(-36, 38, Math.toRadians(270)))
+                .addDisplacementMarker(() -> {
+                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
+//                    robot.arm.setPivotTargetPos(30);
                     // claw drop purple
                 })
                 .waitSeconds(1)
+                .lineTo(new Vector2d(-36.1, 36))
+                .addDisplacementMarker(() -> {
+                    robot.arm.setPivotTargetPos(100);
+                })
+                .waitSeconds(2)
+                .lineTo(new Vector2d(-36.2, 36))
+                .addDisplacementMarker(() -> {
+                    robot.arm.setPivotTargetPos(30);
+                })
                 .back(3)
                 .addDisplacementMarker(() -> {
                     // pivot to stack for one
@@ -100,7 +121,7 @@ public class BlueStack0 extends LinearOpMode {
                 .addDisplacementMarker(() -> {
                     // pivot to depo
                 })
-                .lineTo(new Vector2d(50, 36))
+                .lineTo(new Vector2d(43, 36))
                 .addDisplacementMarker(() -> {
                     // claw drop yellow
                 })
@@ -120,7 +141,7 @@ public class BlueStack0 extends LinearOpMode {
                     break;
             }
 
-//            position = TeamPropLocation.CENTER;
+            position = TeamPropLocation.CENTER;
 
             telemetry.addLine("Purple is on left claw");
             telemetry.addLine("Yellow is on right claw");
