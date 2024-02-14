@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystem.util.AllianceColor;
 import org.firstinspires.ftc.teamcode.subsystem.Camera;
+import org.firstinspires.ftc.teamcode.subsystem.vision.pipeline.BluePropDetectionBetter;
 import org.firstinspires.ftc.teamcode.subsystem.vision.pipeline.PropDetectionPipeline;
 import org.firstinspires.ftc.teamcode.util.gamepad.JustPressed;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -16,15 +17,15 @@ public class PropDetectionTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
-        PropDetectionPipeline propDetectionPipeline = new PropDetectionPipeline(AllianceColor.RED);
+        BluePropDetectionBetter propDetectionPipeline = new BluePropDetectionBetter();
         Camera camera = new Camera(hardwareMap, propDetectionPipeline);
         JustPressed gp = new JustPressed(gamepad1);
 
         while (camera.getCameraState() != VisionPortal.CameraState.STREAMING) {
             telemetry.addLine(camera.getCameraState().toString());
-            telemetry.addData("Prop Position", propDetectionPipeline.getPropPosition());
+//            telemetry.addData("Prop Position", propDetectionPipeline.getPropPosition());
             double[] averages = propDetectionPipeline.getAveragedBoxes();
-            telemetry.addLine(averages[0] + " " + averages[1] + " " + averages[2]);
+            telemetry.addLine(averages[0] + " " + averages[1]);
             telemetry.update();
         }
         while (opModeInInit()) {

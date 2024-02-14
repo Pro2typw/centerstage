@@ -58,9 +58,8 @@ public class PropDetectionPipeline implements VisionProcessor {
                     new Point(Constants.Vision.BLUE_RIGHT_RECTANGLE_BOTTOM_RIGHT_X, Constants.Vision.BLUE_RIGHT_RECTANGLE_BOTTOM_RIGHT_Y)
             );
 
-            tolerance = 60;
-            selectedValue = new Scalar(106, 144, 186);
-        }
+            tolerance = 1000;
+            selectedValue = new Scalar(5, 222, 199);        }
         else {
             CENTER_RECTANGLE = new Rect(
                     new Point(Constants.Vision.RED_CENTER_RECTANGLE_TOP_LEFT_X, Constants.Vision.RED_CENTER_RECTANGLE_TOP_LEFT_Y),
@@ -77,8 +76,8 @@ public class PropDetectionPipeline implements VisionProcessor {
                     new Point(Constants.Vision.RED_RIGHT_RECTANGLE_BOTTOM_RIGHT_X, Constants.Vision.RED_RIGHT_RECTANGLE_BOTTOM_RIGHT_Y)
             );
 
-            tolerance = 60;
-            selectedValue = new Scalar(5, 185, 128);
+            tolerance = 1000;
+            selectedValue = new Scalar(5, 222, 199);
         }
         values = selectedValue.val;
         lower = new Scalar(
