@@ -22,7 +22,7 @@ public class AprilTagDetectionPipeline {
                 .setDrawTagOutline(true)
                 .setDrawTagID(true)
                 .setDrawCubeProjection(true)
-                .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
+                .setOutputUnits(DistanceUnit.INCH, AngleUnit.RADIANS)
                 .build();
     }
     
@@ -40,6 +40,7 @@ public class AprilTagDetectionPipeline {
 
         double xSum = 0;
         double ySum = 0;
+        double headingSum = 0;
 
         for(AprilTagDetection detection : detections) {
             Pose2d tagPos = vectorFToPose2d(detection.metadata.fieldPosition);
@@ -47,20 +48,22 @@ public class AprilTagDetectionPipeline {
 
             double x = detection.ftcPose.x - Constants.Camera.X_OFFSET;
             double y = detection.ftcPose.y - Constants.Camera.Y_OFFSET;
+            double heading = detection.ftcPose.bearing;
 
 //            headingRad = -headingRad;
 
-            double x2 = x * Math.cos(headingRad) + y * Math.sin(headingRad);
-            double y2 = x * -Math.sin(headingRad) + y * Math.cos(headingRad);
+            double x2 = x * Math.cos(heading) + y * Math.sin(heading);
+            double y2 = x * Math.sin(heading) + y * Math.cos(heading);
 
             double absX = tagPos.getX() - y2;
             double absY = tagPos.getY() + x2;
 
             xSum += absX;
             ySum += absY;
+            headingSum += heading;
         }
 
-        return new Pose2d(xSum / detections.size(), ySum / detections.size(), headingRad);
+        return new Pose2d(xSum / detections.size(), ySum / detections.size(), headingSum / detections.size());
 
     }
 

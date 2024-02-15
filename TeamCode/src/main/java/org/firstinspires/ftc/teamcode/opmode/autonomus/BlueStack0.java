@@ -92,7 +92,7 @@ public class BlueStack0 extends LinearOpMode {
                     robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
                 })
                 .lineTo(new Vector2d(-42, 51))
-                .lineToLinearHeading(new Pose2d(-34, 42, Math.toRadians(270)))
+                .lineToLinearHeading(new Pose2d(-34, 45, Math.toRadians(270)))
                 .addDisplacementMarker(() -> {
                     robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
 
@@ -102,7 +102,7 @@ public class BlueStack0 extends LinearOpMode {
                 .waitSeconds(1)
                 .lineTo(new Vector2d(-36.1, 36))
                 .addDisplacementMarker(() -> {
-                    robot.arm.setPivotTargetPos(100);
+                    robot.arm.setPivotTargetPos(200);
                 })
                 .waitSeconds(1)
 //                .lineTo(new Vector2d(-36.2, 36))
@@ -112,37 +112,46 @@ public class BlueStack0 extends LinearOpMode {
                 .back(3)
                 .addDisplacementMarker(() -> {
                     // claw pickup from stack
-                    robot.arm.setPivotTargetPos(50);
+                    robot.arm.setPivotTargetPos(60);
+//                    robot.wrist.setPosition();
 //                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.CLOSE);
                 })
-                .lineToLinearHeading(new Pose2d(-52, 39.5, Math.toRadians(180)))
-                .waitSeconds(.5)
-                .lineToLinearHeading(new Pose2d(-58.5, 39.5, Math.toRadians(180)))
+                .waitSeconds(1)
+
+                .lineToLinearHeading(new Pose2d(-52, 37.5, Math.toRadians(180)))
+                .waitSeconds(1)
+                .lineToLinearHeading(new Pose2d(-58.5, 38, Math.toRadians(180)))
 //                .waitSeconds(1)
                 .addDisplacementMarker(() -> {
                     robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.CLOSE);
                 })
                 .waitSeconds(2)
+                .lineToLinearHeading(new Pose2d(-58.5001, 38, Math.toRadians(180)))
+                .waitSeconds(1)
 //                .lineTo(new Vector2d(-58.001, 40))
                 .lineTo(new Vector2d(15, 40))
                 .addDisplacementMarker(() -> {
                     // pivot to depo
-                    robot.arm.setPivotTargetPos(580);
+                    robot.arm.setPivotTargetPos(600);
                     robot.wrist.setPosition(Constants.Wrist.DEPO_POS);
                 })
                 .waitSeconds(2)
-                .lineTo(new Vector2d(46, 41))
+                .lineTo(new Vector2d(45.5, 43))
+                .waitSeconds(1)
                 .addDisplacementMarker(() -> {
                     // claw drop yellow
                     robot.claw.setClawState(Claw.ClawSide.BOTH, Claw.ClawState.OPEN);
                 })
+                .lineTo(new Vector2d(46.5001, 41))
                 .waitSeconds(1)
                 .lineTo(new Vector2d(43.9, 40))
-                .waitSeconds(2)
+                .waitSeconds(1)
                 .addDisplacementMarker(() -> {
                     robot.arm.setPivotTargetPos(150);
                     robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
                 })
+                .waitSeconds(1)
+                .lineTo(new Vector2d(44, 40))
                 .build();
 
 

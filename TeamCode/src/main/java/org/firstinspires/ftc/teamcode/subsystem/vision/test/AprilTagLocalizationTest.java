@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
+import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystem.IMU;
 import org.firstinspires.ftc.teamcode.subsystem.vision.pipeline.AprilTagDetectionPipeline;
 import org.firstinspires.ftc.teamcode.util.gamepad.JustPressed;
@@ -21,7 +22,7 @@ import org.firstinspires.inspection.GamepadInspection;
 
 import java.util.concurrent.TimeUnit;
 
-@Disabled
+//@Disabled
 @TeleOp(group = "test")
 public class AprilTagLocalizationTest extends LinearOpMode {
     AprilTagDetectionPipeline processor;
@@ -29,7 +30,7 @@ public class AprilTagLocalizationTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
+        MecanumDrive drive = new MecanumDrive(hardwareMap);
         MultipleTelemetry tele = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         JustPressed gp = new JustPressed(gamepad1);
         IMU imu = new IMU(hardwareMap);
@@ -55,7 +56,7 @@ public class AprilTagLocalizationTest extends LinearOpMode {
 
         ExposureControl exposure = portal.getCameraControl(ExposureControl.class);
         exposure.setMode(ExposureControl.Mode.Manual);
-        exposure.setExposure(100, TimeUnit.MILLISECONDS);
+        exposure.setExposure(60, TimeUnit.MILLISECONDS);
 
         GainControl gain = portal.getCameraControl(GainControl.class);
         gain.setGain(200);
@@ -75,16 +76,16 @@ public class AprilTagLocalizationTest extends LinearOpMode {
 
             if(processor.getAprilTagDetections().size() != 0) {
                 tele.addLine("\n");
-                tele.addLine(String.format("Raw Position: X(%6.2f) Y(%6.2f)", processor.getAprilTagDetections().get(0).metadata.fieldPosition.get(0), processor.getAprilTagDetections().get(0).metadata.fieldPosition.get(1)));
+//                tele.addLine(String.format("Raw Position: X(%6.2f) Y(%6.2f)", processor.getAprilTagDetections().get(0).metadata.fieldPosition.get(0), processor.getAprilTagDetections().get(0).metadata.fieldPosition.get(1)));
                 tele.addLine("\n");
             }
 
 
             Pose2d estPos = processor.localize(Math.toRadians(imu.getCurrentAngularOrientation().firstAngle));
             if(estPos != null) {
-                tele.addLine(String.format("X(%6.2f) Y(%6.2f) θ(%6.2f)", estPos.getX(), estPos.getY(), imu.getCurrentAngularOrientation().firstAngle));
-
-            }
+                tele.addLine(String.format("X(%6.2f) Y(%6.2f) θ(%6.2f)", estPos.getX(), estPos.getY(), estPos.getHeading()));
+                drive.setPoseEstimate(estPos);
+                drive.update();            }
             tele.update();
             gp.update();
             sleep(20);
