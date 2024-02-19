@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.vision.pipeline;
 
 import android.graphics.Canvas;
 
+import com.acmerobotics.dashboard.config.Config;
+
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.teamcode.util.AllianceStates;
 import org.firstinspires.ftc.vision.VisionProcessor;
@@ -16,6 +18,7 @@ import org.opencv.imgproc.Imgproc;
 import java.util.ArrayList;
 import java.util.List;
 
+@Config
 public class RedBackdropPropDetection implements VisionProcessor {
     
     private final Rect RIGHT_ROI = new Rect(
@@ -26,8 +29,8 @@ public class RedBackdropPropDetection implements VisionProcessor {
             new Point(20, 20),
             new Point(50, 50)
     );
+
     private final double expectedPercent = .1;
-    
     private final Scalar selectedValue = new Scalar(87, 206, 96); // hsv rgb(188, 42, 27) // ycrbg rgb(87, 206, 96)
     private final int tolerance = 20;
     private final double[] values = selectedValue.val;

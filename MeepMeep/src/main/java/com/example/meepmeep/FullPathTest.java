@@ -14,8 +14,7 @@ public class FullPathTest {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, 0, 0))
-
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, 0, Math.PI / 6))
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)

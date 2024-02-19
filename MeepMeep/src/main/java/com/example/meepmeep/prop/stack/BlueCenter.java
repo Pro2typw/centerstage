@@ -29,8 +29,8 @@ public class BlueCenter {
                 .lineToYSplineHeading(36,  Math.toRadians(270))
                 // drop purple
                 .setTangent(Math.toRadians(180))
-                        .lineToX(-12)
-                .lineToXSplineHeading(45, Math.toRadians(0), new VelConstraint() {
+                .lineToX(-12)
+                .lineToXSplineHeading(45, Math.toRadians(180), new VelConstraint() {
                     @Override
                     public double maxRobotVel(@NotNull Pose2dDual<Arclength> pose2dDual, @NotNull PosePath posePath, double v) {
                         if(true) {

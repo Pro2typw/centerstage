@@ -16,8 +16,11 @@ import org.opencv.imgproc.Imgproc;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class BlueStackPropDetection implements VisionProcessor {
     
+
+
     private final Rect RIGHT_ROI = new Rect(
             new Point(0, 0),
             new Point(200, 180)
