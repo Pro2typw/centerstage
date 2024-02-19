@@ -34,9 +34,9 @@ public class RedRight {
                 .lineToXSplineHeading(-54, Math.toRadians(180))
                 //pickup white pixel from stack
                 .setTangent(0)
-                .splineToConstantHeading(new Vector2d(-39, -61.5), Math.toRadians(90))   //-39, 61.5
+                .splineToConstantHeading(new Vector2d(-39, -61.5), Math.toRadians(0))
 
-                .setTangent(Math.toRadians(180))
+
                 .lineToX(22)
 
                 .splineTo(new Vector2d(47,-34), Math.toRadians(0))
@@ -44,7 +44,7 @@ public class RedRight {
 
                 // if parking...
                 .setTangent(Math.toRadians(90))
-                .lineToY(60)
+                .lineToY(-60)
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
