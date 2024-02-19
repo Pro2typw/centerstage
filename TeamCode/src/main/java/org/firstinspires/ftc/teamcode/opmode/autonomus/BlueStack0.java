@@ -20,11 +20,12 @@ public class BlueStack0 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         telemetry = TelemetryUtil.initTelemetry(telemetry);
         Robot robot = new Robot(hardwareMap, telemetry, Claw.ClawState.CLOSE);
-        final Pose2d startingPose = new Pose2d(-36, 63, Math.toRadians(90));
+        final Pose2d startingPose = new Pose2d(-39, 63, Math.toRadians(90));
         robot.drive.setPoseEstimate(startingPose);
 
         TeamPropLocation position = TeamPropLocation.LEFT;
 
+////LEFT
         TrajectorySequence left = robot.drive.trajectorySequenceBuilder(startingPose)
                 .setReversed(true)
                 .lineTo(new Vector2d(-36, 51))
@@ -33,24 +34,14 @@ public class BlueStack0 extends LinearOpMode {
                     // claw drop purple
                 })
                 .waitSeconds(1)
-                .back(3)
-                .addDisplacementMarker(() -> {
-                    // pivot to stack for one
-                })
-                .lineToLinearHeading(new Pose2d(-59, 36, Math.toRadians(180)))
-                .addDisplacementMarker(() -> {
-                    // claw pickup from stack
-                })
-                .waitSeconds(1)
+                .lineTo(new Vector2d(-36, 60))
+
                 .setReversed(true)
-                .splineTo(new Vector2d(-28, 60), 0)
-                .addDisplacementMarker(() -> {
-                    // pivot to depo
-                })
                 .lineTo(new Vector2d(12, 60))
                 .splineTo(new Vector2d(48, 36), 0)
                 .addDisplacementMarker(() -> {
-                    // claw drop yellow
+                    // pivot and drop yellow pixel on left backboard
+                    // park (just stay in front of backboard)
                 })
                 .build();
 
@@ -63,95 +54,35 @@ public class BlueStack0 extends LinearOpMode {
                     // claw drop purple
                 })
                 .waitSeconds(1)
-//                                        .back(3)
-                .addDisplacementMarker(() -> {
-                    // pivot to stack for one
-                })
-                .lineToLinearHeading(new Pose2d(-59, 36, Math.toRadians(180)))
-                .addDisplacementMarker(() -> {
-                    // claw pickup from stack
-                })
-                .waitSeconds(1)
+                .lineTo(new Vector2d(-36, 60))
+
                 .setReversed(true)
-                .splineTo(new Vector2d(-28, 60), 0)
-                .addDisplacementMarker(() -> {
-                    // pivot to depo
-                })
                 .lineTo(new Vector2d(12, 60))
                 .splineTo(new Vector2d(48, 36), 0)
                 .addDisplacementMarker(() -> {
-                    // claw drop yellow
+                    // pivot and drop yellow pixel on left backboard
+                    // park (just stay in front of backboard)
                 })
                 .build();
 
 //// CENTER
         TrajectorySequence center = robot.drive.trajectorySequenceBuilder(startingPose)
                 .setReversed(true)
+                .lineTo(new Vector2d(-36, 51))
+                .lineToLinearHeading(new Pose2d(-36, 35, Math.toRadians(270)))
                 .addDisplacementMarker(() -> {
-                    // point toward backdrop ready to drop
-                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
-                })
-                .lineTo(new Vector2d(-42, 51))
-                .lineToLinearHeading(new Pose2d(-34, 45, Math.toRadians(270)))
-                .addDisplacementMarker(() -> {
-                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.OPEN);
-
-//                    robot.arm.setPivotTargetPos(30);
                     // claw drop purple
                 })
                 .waitSeconds(1)
-                .lineTo(new Vector2d(-36.1, 36))
-                .addDisplacementMarker(() -> {
-                    robot.arm.setPivotTargetPos(200);
-                })
-                .waitSeconds(1)
-//                .lineTo(new Vector2d(-36.2, 36))
-//                .addDisplacementMarker(() -> {
-//
-//                })
-                .back(3)
-                .addDisplacementMarker(() -> {
-                    // claw pickup from stack
-                    robot.arm.setPivotTargetPos(60);
-//                    robot.wrist.setPosition();
-//                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.CLOSE);
-                })
-                .waitSeconds(1)
+                .lineToLinearHeading(new Pose2d(-36, 60, Math.toRadians(180)))
 
-                .lineToLinearHeading(new Pose2d(-52, 37.5, Math.toRadians(180)))
-                .waitSeconds(1)
-                .lineToLinearHeading(new Pose2d(-58.5, 38, Math.toRadians(180)))
-//                .waitSeconds(1)
+                .setReversed(true)
+                .lineTo(new Vector2d(12, 60))
+                .splineTo(new Vector2d(48, 36), 0)
                 .addDisplacementMarker(() -> {
-                    robot.claw.setClawState(Claw.ClawSide.LEFT, Claw.ClawState.CLOSE);
+                    // pivot and drop yellow pixel on left backboard
+                    // park (just stay in front of backboard)
                 })
-                .waitSeconds(2)
-                .lineToLinearHeading(new Pose2d(-58.5001, 38, Math.toRadians(180)))
-                .waitSeconds(1)
-//                .lineTo(new Vector2d(-58.001, 40))
-                .lineTo(new Vector2d(15, 40))
-                .addDisplacementMarker(() -> {
-                    // pivot to depo
-                    robot.arm.setPivotTargetPos(600);
-                    robot.wrist.setPosition(Constants.Wrist.DEPO_POS);
-                })
-                .waitSeconds(2)
-                .lineTo(new Vector2d(45.5, 43))
-                .waitSeconds(1)
-                .addDisplacementMarker(() -> {
-                    // claw drop yellow
-                    robot.claw.setClawState(Claw.ClawSide.BOTH, Claw.ClawState.OPEN);
-                })
-                .lineTo(new Vector2d(46.5001, 41))
-                .waitSeconds(1)
-                .lineTo(new Vector2d(43.9, 40))
-                .waitSeconds(1)
-                .addDisplacementMarker(() -> {
-                    robot.arm.setPivotTargetPos(150);
-                    robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
-                })
-                .waitSeconds(1)
-                .lineTo(new Vector2d(44, 40))
                 .build();
 
 
