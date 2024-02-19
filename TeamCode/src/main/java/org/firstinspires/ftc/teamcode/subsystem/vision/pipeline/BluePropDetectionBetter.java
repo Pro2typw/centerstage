@@ -21,17 +21,17 @@ public class BluePropDetectionBetter implements VisionProcessor {
     private TeamPropLocation output = TeamPropLocation.LEFT;
 
     private static final Rect CENTER_RECTANGLE = new Rect(
-            new Point(960 - 170, 360),
-            new Point(960 - 565, 600)
+            new Point(640 - 170, 360),
+            new Point(640 - 565, 480)
     );
 
-    private static final Rect LEFT_RECTANGLE = new Rect(
-            new Point((960 - 730) / 2, 330),
-            new Point(300, 600)
+    private static final Rect RIGHT_RECTANGLE = new Rect(
+            new Point(640*.6, 200),
+            new Point(640, 300)
     );
 
-    private double tolerance = 60;
-    private final Scalar selectedValue = new Scalar(106, 144, 186);
+    private double tolerance = 1000;
+    private final Scalar selectedValue = new Scalar(2, 217, 196);
     private double[] values = selectedValue.val;
     private Scalar lower = new Scalar(values[0] - tolerance < 0? 0: values[0] - tolerance,values[1] - tolerance < 0? 0: values[1] - tolerance, values[2] - tolerance < 0? 0: values[2] - tolerance);
     private Scalar upper = new Scalar(values[0] + tolerance > 255? 255: values[0] + tolerance,values[1] + tolerance > 255? 255: values[1] + tolerance, values[2] + tolerance > 255? 255: values[2] + tolerance);
@@ -49,10 +49,10 @@ public class BluePropDetectionBetter implements VisionProcessor {
         testMat.release();
 
         double centerBox = Core.sumElems(finalMat.submat(CENTER_RECTANGLE)).val[0];
-        double leftBox = Core.sumElems(finalMat.submat(LEFT_RECTANGLE)).val[0];
+        double leftBox = Core.sumElems(finalMat.submat(RIGHT_RECTANGLE)).val[0];
 
         double averagedCenterBox = centerBox / CENTER_RECTANGLE.area() / 255;
-        double averagedRightBox = leftBox / LEFT_RECTANGLE.area() / 255;
+        double averagedRightBox = leftBox / RIGHT_RECTANGLE.area() / 255;
 
         double max = Math.max(averagedRightBox, averagedCenterBox);
         if(max < .1) output = TeamPropLocation.LEFT;
@@ -60,7 +60,7 @@ public class BluePropDetectionBetter implements VisionProcessor {
         else output = TeamPropLocation.RIGHT;
 
         Imgproc.rectangle(frame, CENTER_RECTANGLE, rectColor);
-        Imgproc.rectangle(frame, LEFT_RECTANGLE, rectColor);
+        Imgproc.rectangle(frame, RIGHT_RECTANGLE, rectColor);
 
 
         return null;

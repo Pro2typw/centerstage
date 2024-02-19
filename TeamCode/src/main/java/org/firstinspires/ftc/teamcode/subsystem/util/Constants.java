@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystem.util;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
+//import com.acmerobotics.roadrunner.control.PIDCoefficients;
 
 
 public class Constants {
@@ -58,9 +59,9 @@ public class Constants {
 
 
         public static double RIGHT_CLAW_OPEN_POSITION = .45;
-        public static double RIGHT_CLAW_CLOSE_POSITION = 0;
-        public static double LEFT_CLAW_OPEN_POSITION = .3;
-        public static double LEFT_CLAW_CLOSE_POSITION = .55;
+        public static double RIGHT_CLAW_CLOSE_POSITION = .7;
+        public static double LEFT_CLAW_OPEN_POSITION = .5;
+        public static double LEFT_CLAW_CLOSE_POSITION = .225;
     }
 
     @Config(value = "[]Arm Constants")

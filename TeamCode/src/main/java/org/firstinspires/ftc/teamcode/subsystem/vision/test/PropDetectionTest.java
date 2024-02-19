@@ -24,33 +24,22 @@ import org.opencv.core.Mat;
 public class PropDetectionTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        VisionProcessor pipeline = new VisionProcessor() {
-            @Override
-            public void init(int width, int height, CameraCalibration calibration) {
-
-            }
-
-            @Override
-            public Object processFrame(Mat frame, long captureTimeNanos) {
-                return null;
-            }
-
-            @Override
-            public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
-
-            }
-        };
+        BluePropDetectionBetter pipeline = new BluePropDetectionBetter();
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         VisionPortal portal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .setCameraResolution(new Size(640, 480))
-                .setCamera(BuiltinCameraDirection.BACK)
+//                .setCamera(BuiltinCameraDirection.BACK)
                 .addProcessor(pipeline)
+
                 .build();
 
         portal.setProcessorEnabled(pipeline, true);
 
         while (opModeInInit()) {
 //            telemetry.addData("Prop Position", pipeline);
+            double[] avg = pipeline.getAveragedBoxes();
+            telemetry.addLine(avg[0] + " " + avg[1]);
             telemetry.update();
         }
         waitForStart();
