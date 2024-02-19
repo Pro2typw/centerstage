@@ -42,9 +42,7 @@ public class BlueLeft {
                 .splineTo(new Vector2d(47,34), Math.toRadians(0))
 
 
-                // if parking...
-                .setTangent(Math.toRadians(90))
-                .lineToY(60)
+
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
