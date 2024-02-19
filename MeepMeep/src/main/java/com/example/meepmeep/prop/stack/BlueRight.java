@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.Arclength;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Pose2dDual;
 import com.acmerobotics.roadrunner.PosePath;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.VelConstraint;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
@@ -26,22 +27,21 @@ public class BlueRight {
 
         myBot.runAction(myBot.getDrive().actionBuilder(startPose)
                 // wrist init -> intake
-                .lineToYSplineHeading(29,  Math.toRadians(180))
+                .lineToYSplineHeading(36,  Math.toRadians(180))
                 // drop purple
+
+
+                //pickup white pixel from stack
+
+                .lineToY(61)   //-39, 61.5
+
                 .setTangent(Math.toRadians(180))
-                .lineToX(45, new VelConstraint() {
-                    @Override
-                    public double maxRobotVel(@NotNull Pose2dDual<Arclength> pose2dDual, @NotNull PosePath posePath, double v) {
-                        if(true) {
-                            return 20;
-                        }// arm isnt at 580
-                        else {
-                            return 40;
-                        }
-                    }})
-                // if parking...
-                .setTangent(Math.toRadians(90))
-                .lineToY(60)
+                .lineToX(22)
+
+                .splineTo(new Vector2d(47,34), Math.toRadians(0))
+
+
+
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
