@@ -23,62 +23,16 @@ public class Hang {
         DcMotorEx rightHang = hardwareMap.get(DcMotorEx.class, Constants.Hang.RIGHT_HANG_MAP_NAME);
 
         hang = new MultiMotor(leftHang, rightHang);
-        leftHang.setDirection(DcMotorSimple.Direction.REVERSE);
+//        leftHang.setDirection(DcMotorSimple.Direction.REVERSE);
 
         hang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         hang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        hang.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        hang.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
 
     public Hang(@NotNull HardwareMap hardwareMap) {
         this(hardwareMap, HangState.INIT);
-    }
-
-    public void setState(@NotNull HangState state) {
-        this.state = state;
-        switch (state) {
-
-            case INIT:
-                setTargetPosition(Constants.Hang.INIT_POSITION, 1);
-                break;
-            case UP:
-                setTargetPosition(Constants.Hang.UP_POSITION, 1);
-                break;
-            case DOWN:
-                setTargetPosition(Constants.Hang.DOWN_POSITION, .5);
-        }
-    }
-
-    public void setTargetPosition(int pos, double pow) {
-        hang.setTargetPosition(pos);
-        hang.setPower(pow);
-        hang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-
-    public int getTargetPosition() {
-        return hang.getTargetPosition();
-    }
-
-    public HangState getState() {
-        return state;
-    }
-
-    public int getCurrentPosition() {
-        return hang.getCurrentPosition();
-    }
-
-    public void cycleNextHangState() {
-        switch (state) {
-            case DOWN:
-            case INIT:
-                setState(HangState.UP);
-                break;
-            case UP:
-                setState(HangState.DOWN);
-                break;
-
-        }
     }
 
     public void setRunMode(DcMotor.RunMode mode){
@@ -87,6 +41,10 @@ public class Hang {
 
     public void setPower(double pow) {
         hang.setPower(pow);
+    }
+
+    public double[] getPowers() {
+        return hang.getPowers();
     }
 
 }

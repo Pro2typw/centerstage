@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.justbetter.sensor;
+package org.firstinspires.ftc.teamcode.util.justbetter.sensor;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;

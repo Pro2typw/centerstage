@@ -38,6 +38,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.RobotHardware;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.rr.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.rr.messages.MecanumCommandMessage;
@@ -48,6 +49,7 @@ import java.lang.Math;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 
 @Config
 public final class MecanumDrive {
@@ -90,6 +92,23 @@ public final class MecanumDrive {
     }
 
     public static Params PARAMS = new Params();
+
+    public void setPowers(double x, double y, double rx, Function<Double, Double> func) {
+        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+        double lf = func.apply((y + x + rx) / denominator);
+        double lb = func.apply((y - x + rx) / denominator);
+        double rb = func.apply((y + x - rx) / denominator);
+        double rf = func.apply((y - x - rx) / denominator);
+
+        setMotorPowers(lf, lb, rb, rf);
+    }
+
+    public void setMotorPowers(double v, double v1, double v2, double v3) {
+        leftFront.setPower(v);
+        leftBack.setPower(v1);
+        rightBack.setPower(v2);
+        rightFront.setPower(v3);
+    }
 
     public final MecanumKinematics kinematics = new MecanumKinematics(
             PARAMS.inPerTick * PARAMS.trackWidthTicks, PARAMS.inPerTick / PARAMS.lateralInPerTick);

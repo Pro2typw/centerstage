@@ -40,7 +40,8 @@ public class BlueCenter {
                         .lineToX(22)
 
                 .splineTo(new Vector2d(47,34), Math.toRadians(0))
-                .build());
+                .build()
+        );
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
                 .setDarkMode(true)

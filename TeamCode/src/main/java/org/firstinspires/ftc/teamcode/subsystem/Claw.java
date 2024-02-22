@@ -67,8 +67,13 @@ public class Claw {
         return new double[] {leftClaw.getPosition(), rightClaw.getPosition()};
     }
 
-    public void toggleClawState() {
-        setClawState(ClawSide.BOTH, getClawState(ClawSide.BOTH) == ClawState.CLOSE ? ClawState.OPEN : ClawState.CLOSE);
+
+
+
+
+
+    public void toggleClawState(ClawSide side) {
+        setClawState(side, getClawState(side) == ClawState.CLOSE ? ClawState.OPEN : ClawState.CLOSE);
     }
 
     public void setFlipped(boolean flipped) {

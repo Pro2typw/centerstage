@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.control.PIDCoefficients;
+
+import org.firstinspires.ftc.teamcode.util.control.PIDCoefficients;
 
 
 public class Constants {
@@ -32,16 +33,20 @@ public class Constants {
     public static class Arm {
         public final static String MOTOR1_MAP_NAME = "arm left";
         public final static String MOTOR2_MAP_NAME = " arm right";
+//        public final static String EXTENSION_ENCODER_MAP_NAME = "fr";
 
-        public static PIDCoefficients AVERAGE_PID_COEFFICIENTS = new PIDCoefficients(0, 0, 0);
+
+        public static double G_PIVOT = 2.05652575;
+        public static double G_PIVOT2 = .23;
+        public static double G_EXTENSION = .01;
+        public static double G_STATIC = 0.000007;
+        public static PIDCoefficients AVERAGE_PID_COEFFICIENTS = new PIDCoefficients(0.01, 2.5e-11, 10000);
         public static PIDCoefficients DIFFERENCE_PID_COEFFICIENTS = new PIDCoefficients(0.0036, 2.5e-12, 170000);
-
-        public static double GRAVITY_FEEDFORWARD_GAIN = 1.4;
 
         public static double VOLTAGE_COMPENSATION_CONSTANT = -1;
 
         public static final int MAX_EXTENSION = 500; // ticks
-        public static final int MAX_PIVOT = 580; // ticks
+        public static final int MAX_PIVOT = 635; // ticks
 
 
     }
@@ -64,23 +69,16 @@ public class Constants {
 
     }
 
-    @Config(value = "[]IMU Constants")
-    public static class IMU {
-        public final static String IMU_MAP_NAME = "imu";
-
-        public static PIDCoefficients HEADING_PID_COEFFICIENTS = new PIDCoefficients(0, 0, 0);
-    }
-
     @Config(value = "[]Wrist Constants")
     public static class Wrist {
         public final static String LEFT_WRIST_MAP_NAME = "left wrist";
         public final static String RIGHT_WRIST_MAP_NAME = "right wrist";
 
 
-        public static double INIT_POS = .824;
-        public static double INTAKE_POS = .361;
-        public static double DEPO_POS = 1;
-
+        public static double INIT_POS = .657;
+        public static double INTAKE_POS = .263;
+        public static double DEPO_POS_580 = .263;
+        public static double DEPO_POS_635 = .363;
     }
 
     @Config

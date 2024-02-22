@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.subsystem;
 
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.roadrunner.control.PIDFController;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -48,7 +47,7 @@ public class Robot {
 
         lynxModules = hardwareMap.getAll(LynxModule.class);
         for(LynxModule module : lynxModules) {
-            module.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+            module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
 
         this.telemetry = telemetry;

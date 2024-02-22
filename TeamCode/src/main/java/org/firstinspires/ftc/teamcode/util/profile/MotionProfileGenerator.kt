@@ -1,5 +1,10 @@
-package com.acmerobotics.roadrunner.profile
+package org.firstinspires.ftc.teamcode.util.profile
 
+import com.acmerobotics.roadrunner.profile.AccelerationConstraint
+import com.acmerobotics.roadrunner.profile.MotionProfile
+import com.acmerobotics.roadrunner.profile.MotionSegment
+import com.acmerobotics.roadrunner.profile.MotionState
+import com.acmerobotics.roadrunner.profile.VelocityConstraint
 import com.acmerobotics.roadrunner.util.DoubleProgression
 import com.acmerobotics.roadrunner.util.MathUtil.solveQuadratic
 import com.acmerobotics.roadrunner.util.epsilonEquals
@@ -37,12 +42,12 @@ object MotionProfileGenerator {
     @JvmStatic
     @JvmOverloads
     fun generateSimpleMotionProfile(
-        start: MotionState,
-        goal: MotionState,
-        maxVel: Double,
-        maxAccel: Double,
-        maxJerk: Double = 0.0,
-        overshoot: Boolean = false
+            start: MotionState,
+            goal: MotionState,
+            maxVel: Double,
+            maxAccel: Double,
+            maxJerk: Double = 0.0,
+            overshoot: Boolean = false
     ): MotionProfile {
         // ensure the goal is always after the start; plan the flipped profile otherwise
         if (goal.x < start.x) {
@@ -223,10 +228,10 @@ object MotionProfileGenerator {
     }
 
     private fun generateAccelProfile(
-        start: MotionState,
-        maxVel: Double,
-        maxAccel: Double,
-        maxJerk: Double = 0.0
+            start: MotionState,
+            maxVel: Double,
+            maxAccel: Double,
+            maxJerk: Double = 0.0
     ): MotionProfile =
         if (maxJerk epsilonEquals 0.0) {
             // acceleration-limited
@@ -344,11 +349,11 @@ object MotionProfileGenerator {
     @JvmStatic
     @JvmOverloads
     fun generateMotionProfile(
-        start: MotionState,
-        goal: MotionState,
-        velocityConstraint: VelocityConstraint,
-        accelerationConstraint: AccelerationConstraint,
-        resolution: Double = 0.25
+            start: MotionState,
+            goal: MotionState,
+            velocityConstraint: VelocityConstraint,
+            accelerationConstraint: AccelerationConstraint,
+            resolution: Double = 0.25
     ): MotionProfile {
         if (goal.x < start.x) {
             return generateMotionProfile(
@@ -504,9 +509,9 @@ object MotionProfileGenerator {
     // execute a forward pass that consists of applying maximum acceleration starting at min(last velocity, max vel)
     // on a segment-by-segment basis
     private fun forwardPass(
-        start: MotionState,
-        displacements: DoubleProgression,
-        constraints: List<EvaluatedConstraint>
+            start: MotionState,
+            displacements: DoubleProgression,
+            constraints: List<EvaluatedConstraint>
     ): List<Pair<MotionState, Double>> {
         val forwardStates = mutableListOf<Pair<MotionState, Double>>()
 

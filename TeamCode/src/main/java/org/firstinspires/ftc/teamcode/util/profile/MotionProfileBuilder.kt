@@ -1,5 +1,8 @@
-package com.acmerobotics.roadrunner.profile
+package org.firstinspires.ftc.teamcode.util.profile
 
+import com.acmerobotics.roadrunner.profile.MotionProfile
+import com.acmerobotics.roadrunner.profile.MotionSegment
+import com.acmerobotics.roadrunner.profile.MotionState
 import com.acmerobotics.roadrunner.util.epsilonEquals
 
 

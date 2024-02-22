@@ -1,5 +1,7 @@
 package com.acmerobotics.roadrunner.profile
 
+import org.firstinspires.ftc.teamcode.util.profile.MotionProfileBuilder
+
 /**
  * Trapezoidal motion profile composed of motion segments.
  *

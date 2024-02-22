@@ -1,22 +1,33 @@
 package org.firstinspires.ftc.teamcode.subsystem;
 
-import com.acmerobotics.roadrunner.control.PIDCoefficients;
+import static org.firstinspires.ftc.teamcode.subsystem.Constants.Arm.G_STATIC;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+import org.firstinspires.ftc.teamcode.util.WPIMathUtil;
+import org.firstinspires.ftc.teamcode.util.control.PIDCoefficients;
+import org.firstinspires.ftc.teamcode.util.justbetter.sensor.Encoder;
+
 public class Arm {
 
     public final DcMotorEx motor1;
     public final DcMotorEx motor2;
+//    public final Encoder extensionEncoder;
+
+//    public double currentExtensionEncoderPosition;
 
     public Arm(HardwareMap hardwareMap) {
         motor1 = hardwareMap.get(DcMotorEx.class, Constants.Arm.MOTOR1_MAP_NAME);
         motor2 = hardwareMap.get(DcMotorEx.class, Constants.Arm.MOTOR2_MAP_NAME);
 
-//        motor2.setDirection(DcMotorSimple.Direction.REVERSE);
+//        extensionEncoder = hardwareMap.get(Encoder.class, Constants.Arm.EXTENSION_ENCODER_MAP_NAME);
+//        extensionEncoder.reset();
+//        currentExtensionEncoderPosition = extensionEncoder.getCurrentPosition();
+
         for(DcMotorEx motor : new DcMotorEx[]{motor1, motor2}) {
             motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -35,8 +46,7 @@ public class Arm {
     }
 
     public void setPivotTargetPos(double pivotTargetPos) {
-        this.pivotTargetPos = pivotTargetPos;
-//        this.pivotTargetPos = pivotTargetPos > Constants.Arm.MAX ?
+        this.pivotTargetPos = WPIMathUtil.clamp(pivotTargetPos, 0, Constants.Arm.MAX_PIVOT);
     }
 
     public double getExtensionTargetPos() {
@@ -44,17 +54,17 @@ public class Arm {
     }
 
     public void setExtensionTargetPos(double extensionTargetPos) {
-        this.extensionTargetPos = extensionTargetPos;
+        this.extensionTargetPos = WPIMathUtil.clamp(extensionTargetPos, 0, Constants.Arm.MAX_EXTENSION);
     }
+
     long startTime;
     long lastTime;
-
     public void init() {
         startTime = System.nanoTime();
         lastTime = startTime;
     }
 
-
+    public static double G_PIVOT = 2.05652575;
     public double getExtensionCurrentPos() {
         return average;
     }
@@ -62,6 +72,10 @@ public class Arm {
     public double getPivotCurrentPos() {
         return difference;
     }
+
+//    public double getCurrentExtensionEncoderPosition() {
+//        return currentExtensionEncoderPosition;
+//    }
 
     public VoltageSensor batterVoltageSensor;
 
@@ -78,7 +92,13 @@ public class Arm {
 
     public double batterComp = 0;
 
-    public static double G = 1.4;
+//    public static double G = 1.4;
+    public static PIDCoefficients AVERAGE_PID_COEFFICIENTS = new PIDCoefficients(0.01, 2.5e-11, 10000);
+    public static PIDCoefficients DIFFERENCE_PID_COEFFICIENTS = new PIDCoefficients(0.0036, 2.5e-12, 170000);
+    public static double G_PIVOT2 = .23;
+    public static double G_EXTENSION = .01;
+    public static double G_STATIC = 0.000007;
+
     double difference = 0;
     double average = 0;
     public void update() {
@@ -91,25 +111,38 @@ public class Arm {
         if (differenceError * lastdifferenceError <= 0 || Math.abs(differenceError - lastdifferenceError) > 5) totaldifferenceError = 0;
         else totaldifferenceError += differenceError;
 
-        double differenceI = (totaldifferenceError * (time - lastTime)) * Constants.Arm.DIFFERENCE_PID_COEFFICIENTS.kI;
-        double differenceD = ((differenceError - lastdifferenceError) / (time - lastTime)) * Constants.Arm.DIFFERENCE_PID_COEFFICIENTS.kD;
-        double differenceP = differenceError * Constants.Arm.DIFFERENCE_PID_COEFFICIENTS.kP;
+        double differenceI = (totaldifferenceError * (time - lastTime)) * DIFFERENCE_PID_COEFFICIENTS.kI;
+        double differenceD = ((differenceError - lastdifferenceError) / (time - lastTime)) * DIFFERENCE_PID_COEFFICIENTS.kD;
+        double differenceP = differenceError * DIFFERENCE_PID_COEFFICIENTS.kP;
 
-        double differencePower = differenceP + differenceI + differenceD;
+        double differencePower = Math.abs(differenceError) < 10 ? 0 : differenceP + differenceI + differenceD;
 
         average = (motor1.getCurrentPosition() + motor2.getCurrentPosition()) / 2.0;
 
         averageError = extensionTargetPos - average;
+        if (Math.abs(averageError) < 10)
+            averageError = 0;
         if (averageError * lastaverageError <= 0 || Math.abs(averageError - lastaverageError) > 5) totalaverageError = 0;
         else totalaverageError += averageError;
-        double averageI = (totalaverageError * (time - lastTime)) * Constants.Arm.AVERAGE_PID_COEFFICIENTS.kI;
-        double averageD = ((averageError - lastaverageError) / (time - lastTime)) * Constants.Arm.AVERAGE_PID_COEFFICIENTS.kD;
-        double averageP = averageError * Constants.Arm.AVERAGE_PID_COEFFICIENTS.kP;
+        double averageI = (totalaverageError * (time - lastTime)) * AVERAGE_PID_COEFFICIENTS.kI;
+        double averageD = ((averageError - lastaverageError) / (time - lastTime)) * AVERAGE_PID_COEFFICIENTS.kD;
+        double averageP = averageError * AVERAGE_PID_COEFFICIENTS.kP;
+
+        G_PIVOT = 1 + (G_STATIC * Math.pow(average, 2));
 
         double averagePower = averageP + averageI + averageD;
-        double gravityPower = difference > 20 ? Math.cos(Math.toRadians(Arm.ticksToDegrees(difference))) * .15 * batterComp * G : 0;
-        double power1 = differencePower + averagePower + gravityPower;
-        double power2 = -differencePower + averagePower - gravityPower;
+        averagePower += G_EXTENSION * Math.sin(Math.toRadians(Arm.ticksToDegrees(difference)));
+
+        double gravityPower = difference > 10 ? Math.cos(Math.toRadians(Arm.ticksToDegrees(difference))) * G_PIVOT2 * batterComp * G_PIVOT: 0;
+
+        double power1, power2;
+//        if (Math.abs(differencePower) < .2) {
+            power1 = differencePower + averagePower + gravityPower;
+            power2 = -differencePower + averagePower- gravityPower;
+//        } else {
+//            power1 = differencePower + gravityPower;
+//            power2 = -differencePower - gravityPower;
+//        }
 
         motor1.setPower(power1);
         motor2.setPower(power2);
@@ -126,9 +159,9 @@ public class Arm {
 
     public static double ticksToMillimeters(double ticks) {
         return ticks / 8.94468118871;
-    }
+    } // todo its wrong
 
-    public static int millimetersToTicks(double millimeters) {
+    public static int millimetersToTicks(double millimeters) { // todo its wrong
         return (int) (8.94468118871 * millimeters);
     }
 
@@ -138,6 +171,10 @@ public class Arm {
 
     public static double degreesToTicks(double degrees) {
         return (int) (degrees * 4.4807486631);
+    }
+
+    public static double encoderTicksToMillimeters(double ticks) {
+        return (Math.PI * 2.0 * (23.333333333 / 2.0) * ticks) / 8192.0; // .008948221 mm per tick
     }
 
 }
