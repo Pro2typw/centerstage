@@ -10,9 +10,9 @@ import org.firstinspires.ftc.teamcode.subsystem.Constants;
 import org.firstinspires.ftc.teamcode.subsystem.Robot;
 import org.firstinspires.ftc.teamcode.util.WPIMathUtil;
 
-public class ArmC {
+public class RobotC {
     Robot robot;
-    public ArmC(Robot robot) {
+    public RobotC(Robot robot) {
         this.robot = robot;
     }
 
@@ -81,12 +81,13 @@ public class ArmC {
 
         public SetPivotPosition(double pivot) {
             this.pos = pivot;
+            robot.arm.setPivotTargetPos(pos);
         }
 
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            robot.wrist.setPosition(pos);
-            return false;
+            telemetryPacket.put("Current Pivot Position", robot.arm.getPivotCurrentPos());
+            return WPIMathUtil.isNear(robot.arm.getPivotTargetPos(), robot.arm.getPivotCurrentPos(), 10);
         }
     }
 
@@ -113,23 +114,6 @@ public class ArmC {
         return new SetExtensionPosition(pos);
     }
 
-    private class WaitSeconds implements Action {
-        double currentTime;
-        double targetTime;
-        public WaitSeconds(double ms) {
-            currentTime = System.currentTimeMillis();
-            targetTime = currentTime + ms;
-        }
-        @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            return currentTime < targetTime;
-        }
-    }
-
-    public Action waitSeconds(double ms) {
-        return new WaitSeconds(ms);
-    }
-
     private class Update implements Action {
 
         @Override
@@ -141,6 +125,30 @@ public class ArmC {
 
     public Action update() {
         return new Update();
+    }
+
+    private class PivotToStack implements Action {
+        double pos;
+        boolean reachedUp = false;
+
+        public PivotToStack(double pivot) {
+            this.pos = pivot;
+            robot.arm.setPivotTargetPos(150);
+        }
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            telemetryPacket.put("Current Pivot Position", robot.arm.getPivotCurrentPos());
+            if(robot.arm.getPivotCurrentPos() > 125) {
+                reachedUp = true;
+                robot.arm.setPivotTargetPos(pos);
+            };
+            return WPIMathUtil.isNear(robot.arm.getPivotTargetPos(), robot.arm.getPivotCurrentPos(), 10) && reachedUp;
+        }
+    }
+
+    public Action setPivotToStack(double pos) {
+        return new SetPivotPosition(pos);
     }
 
 }

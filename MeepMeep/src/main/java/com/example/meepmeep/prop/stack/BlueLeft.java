@@ -28,12 +28,17 @@ public class BlueLeft {
         myBot.runAction(myBot.getDrive().actionBuilder(startPose)
                 // wrist init -> intake
                 .lineToYSplineHeading(36,  Math.toRadians(0))
+                .setTangent(Math.toRadians(180))
+                .lineToX(-33)
                 // drop purple
-                .lineToYSplineHeading(35, Math.toRadians(180))
-                .setTangent(270)
-                .lineToXSplineHeading(-54, Math.toRadians(180))
+                        .lineToX(-45)
+                .setTangent(90)
+                .lineToYSplineHeading(33, Math.toRadians(180))
+                .setTangent(Math.toRadians(180))
+                .lineToXSplineHeading(-56, Math.toRadians(180))
                 //pickup white pixel from stack
                 .setTangent(0)
+                .lineToX(-51)
                 .splineToConstantHeading(new Vector2d(-39, 61.5), Math.toRadians(90))   //-39, 61.5
 
                 .setTangent(Math.toRadians(180))

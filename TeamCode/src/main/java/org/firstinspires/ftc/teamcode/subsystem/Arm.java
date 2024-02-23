@@ -115,7 +115,7 @@ public class Arm {
         double differenceD = ((differenceError - lastdifferenceError) / (time - lastTime)) * DIFFERENCE_PID_COEFFICIENTS.kD;
         double differenceP = differenceError * DIFFERENCE_PID_COEFFICIENTS.kP;
 
-        double differencePower = Math.abs(differenceError) < 10 ? 0 : differenceP + differenceI + differenceD;
+        double differencePower = Math.abs(differenceError) < 0 ? 0 : differenceP + differenceI + differenceD;
 
         average = (motor1.getCurrentPosition() + motor2.getCurrentPosition()) / 2.0;
 
@@ -133,7 +133,7 @@ public class Arm {
         double averagePower = averageP + averageI + averageD;
         averagePower += G_EXTENSION * Math.sin(Math.toRadians(Arm.ticksToDegrees(difference)));
 
-        double gravityPower = difference > 10 ? Math.cos(Math.toRadians(Arm.ticksToDegrees(difference))) * G_PIVOT2 * batterComp * G_PIVOT: 0;
+        double gravityPower = difference > 0 ? Math.cos(Math.toRadians(Arm.ticksToDegrees(difference))) * G_PIVOT2 * batterComp * G_PIVOT: 0;
 
         double power1, power2;
 //        if (Math.abs(differencePower) < .2) {

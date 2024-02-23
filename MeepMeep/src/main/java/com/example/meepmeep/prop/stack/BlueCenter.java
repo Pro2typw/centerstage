@@ -27,11 +27,15 @@ public class BlueCenter {
 
         myBot.runAction(myBot.getDrive().actionBuilder(startPose)
                 // wrist init -> intake
-                .lineToYSplineHeading(36,  Math.toRadians(270))
+                .lineToYSplineHeading(33,  Math.toRadians(270))
+                        .setTangent(Math.toRadians(180))
+                        .lineToX(-35)
+                        .setTangent(Math.toRadians(270))
+                .lineToY(40)
                 // drop purple
-                .lineToYSplineHeading(35, Math.toRadians(180))
-                .setTangent(270)
-                .lineToXSplineHeading(-54, Math.toRadians(180))
+//                .lineToYSplineHeading(33, Math.toRadians(180))
+                .setTangent(Math.toRadians(180))
+                .lineToXSplineHeading(-56, Math.toRadians(180))
                 //pickup white pixel from stack
                 .setTangent(0)
                 .splineToConstantHeading(new Vector2d(-39, 58), Math.toRadians(90))   //-39, 58

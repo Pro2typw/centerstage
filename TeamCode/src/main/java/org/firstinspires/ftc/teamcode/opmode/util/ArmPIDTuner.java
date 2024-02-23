@@ -73,7 +73,7 @@ public class ArmPIDTuner extends LinearOpMode {
             double average = (arm.motor1.getCurrentPosition() + arm.motor2.getCurrentPosition()) / 2.0;
 
             averageError = extensionTargetPos - average;
-            if (Math.abs(averageError) < 10)
+            if (Math.abs(averageError) < 0)
                 averageError = 0;
             if (averageError * lastaverageError <= 0 || Math.abs(averageError - lastaverageError) > 5) totalaverageError = 0;
             else totalaverageError += averageError;

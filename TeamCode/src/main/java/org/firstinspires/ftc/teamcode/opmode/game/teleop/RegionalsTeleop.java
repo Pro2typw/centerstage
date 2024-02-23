@@ -81,7 +81,7 @@ public class RegionalsTeleop extends LinearOpMode {
                     robot.wrist.setPosition(Constants.Wrist.INTAKE_POS);
                     break;
                 case 2:
-                    robot.arm.setPivotTargetPos(580);
+                    robot.arm.setPivotTargetPos(600);
                     robot.arm.setExtensionTargetPos(0);
                     robot.wrist.setPosition(Constants.Wrist.DEPO_POS_580);
                     break;
@@ -89,14 +89,14 @@ public class RegionalsTeleop extends LinearOpMode {
                     robot.arm.setPivotTargetPos(jp2.right_stick_y() * -.5 + robot.arm.getPivotTargetPos());
                     if(jp2.dpad_up() && robot.arm.getExtensionTargetPos() + ticksPerMajor <= maxExtension) robot.arm.setExtensionTargetPos(robot.arm.getExtensionTargetPos() + ticksPerMajor);
                     if(jp2.dpad_down() && robot.arm.getExtensionTargetPos() - ticksPerMajor >= 0) robot.arm.setExtensionTargetPos(robot.arm.getExtensionTargetPos() - ticksPerMajor);
-                    if(jp2.dpad_right()) robot.arm.setPivotTargetPos(580);
+                    if(jp2.dpad_right()) robot.arm.setPivotTargetPos(600);
 //                    if(jp2.dpad_left() && robot.arm.getPivotTargetPos() - ticksPerMinor >= 0) robot.arm.setExtensionTargetPos(robot.arm.getPivotTargetPos() - ticksPerMinor);
                     if(jp2.dpad_left()) robot.arm.setPivotTargetPos(635);
                     break;
             }
 
             if(jp2.y()) state = Math.min(maxStates, state + 1);
-            if(jp2.a()) state = Math.max(-1, state - 1);
+            if(jp2.a()) state = Math.max(0, state - 1);
 
             if(jp1.a()) isSlowMode = !isSlowMode;
             if(!isSlowMode) robot.drive.setPowers(jp1.left_stick_x(), -jp1.left_stick_y(), jp1.right_stick_x(), x -> .75 * Math.cbrt(x));

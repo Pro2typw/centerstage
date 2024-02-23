@@ -11,13 +11,13 @@ public class Drone {
     private boolean launched;
 
     public Drone(@NonNull HardwareMap hardwareMap) {
-        servo = hardwareMap.get(Servo.class, Constants.Plane.DRONE_MAP_NAME);
-        servo.setPosition(Constants.Plane.INIT_POS);
+        servo = hardwareMap.get(Servo.class, Constants.Drone.DRONE_MAP_NAME);
+        servo.setPosition(Constants.Drone.INIT_POS);
         launched = false;
     }
     public void launch() {
-        if(launched) servo.setPosition(Constants.Plane.LAUNCH_POS);
-        else servo.setPosition(Constants.Plane.INIT_POS);
+        if(launched) servo.setPosition(Constants.Drone.LAUNCH_POS);
+        else servo.setPosition(Constants.Drone.INIT_POS);
 
         launched = !launched;
     }
